@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="BeautifulTheme" parent="android:Theme.Material">
+
+        <item name="android:colorPrimary">@color/primary</item>
+        <item name="android:colorPrimaryDark">@color/primaryDark</item>
+        <item name="android:colorAccent">@color/accent</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:navigationBarColor">@color/primaryDark</item>
+
+        <item name="android:editTextBackground">@drawable/beautifultheme_edit_text_holo_dark</item>
+        <item name="android:textColorHighlight">#9929907e</item>
+        <item name="android:textSelectHandleLeft">@mipmap/beautifultheme_text_select_handle_left</item>
+        <item name="android:textSelectHandleRight">@mipmap/beautifultheme_text_select_handle_right</item>
+        <item name="android:textSelectHandle">@mipmap/beautifultheme_text_select_handle_middle</item>
+
+        <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewBeautifulTheme</item>
+
+        <item name="android:listChoiceIndicatorMultiple">@drawable/beautifultheme_btn_check_holo_dark</item>
+
+        <item name="android:listChoiceIndicatorSingle">@drawable/beautifultheme_btn_radio_holo_dark</item>
+
+        <item name="android:buttonStyle">@style/ButtonBeautifulTheme</item>
+
+        <item name="android:imageButtonStyle">@style/ImageButtonBeautifulTheme</item>
+
+        <item name="android:dropDownSpinnerStyle">@style/SpinnerBeautifulTheme</item>
+
+        <item name="android:progressBarStyleHorizontal">@style/ProgressBarBeautifulTheme</item>
+
+        <item name="android:seekBarStyle">@style/SeekBarBeautifulTheme</item>
+
+        <item name="android:ratingBarStyle">@style/RatingBarBeautifulTheme</item>
+
+        <item name="android:ratingBarStyleIndicator">@style/RatingBarBigBeautifulTheme</item>
+
+        <item name="android:ratingBarStyleSmall">@style/RatingBarSmallBeautifulTheme</item>
+
+        <item name="android:buttonStyleToggle">@style/ToggleBeautifulTheme</item>
+
+        <item name="android:listChoiceBackgroundIndicator">@drawable/beautifultheme_list_selector_holo_dark</item>
+
+        <item name="android:activatedBackgroundIndicator">@drawable/beautifultheme_activated_background_holo_dark</item>
+
+        <item name="android:fastScrollThumbDrawable">@drawable/beautifultheme_fastscroll_thumb_holo</item>
+
+    </style>
+
+</resources>
