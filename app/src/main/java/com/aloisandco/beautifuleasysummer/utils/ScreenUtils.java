@@ -1,6 +1,8 @@
 package com.aloisandco.beautifuleasysummer.utils;
 
+import android.content.Context;
 import android.graphics.Rect;
+import android.util.DisplayMetrics;
 import android.view.Window;
 
 /**
