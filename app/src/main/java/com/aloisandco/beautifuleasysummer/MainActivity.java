@@ -4,34 +4,39 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
+import com.aloisandco.beautifuleasysummer.utils.BitmapCacheUtils;
 import com.aloisandco.beautifuleasysummer.utils.ImageViewUtils;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class MainActivity extends Activity {
 
-    private boolean firstLaunch = true;
+    private static final String PACKAGE_NAME = "com.aloisandco.beautifuleasysummer.mainActivityAnim";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
 
-    @Override
-    public void onWindowFocusChanged(boolean focus) {
-        super.onWindowFocusChanged(focus);
-        if (firstLaunch) {
-            createHoleInBackgroundView();
-            animateLogoInCircle();
-            launchNextActivity();
-            firstLaunch = false;
+        final ImageView circleView = (ImageView) findViewById(R.id.circle);
+        if (savedInstanceState == null) {
+
+            if (savedInstanceState == null) {
+                ViewTreeObserver observer = circleView.getViewTreeObserver();
+                observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                    @Override
+                    public boolean onPreDraw() {
+                        circleView.getViewTreeObserver().removeOnPreDrawListener(this);
+                        createHoleInBackgroundView();
+                        animateLogoInCircle();
+
+                        return true;
+                    }
+                });
+            }
         }
     }
 
@@ -42,29 +47,37 @@ public class MainActivity extends Activity {
         Bitmap backgroundBitmap = ImageViewUtils.createCircleInImageViewFromSizeOfOtherImageView(backgroundView, circleView, getWindow());
         // Set the new bitmap with the hole as the new background bitmap
         backgroundView.setImageBitmap(backgroundBitmap);
+        BitmapCacheUtils.setBitmap(R.id.background, backgroundBitmap);
     }
 
     private void animateLogoInCircle() {
         ImageView logoView = (ImageView) findViewById(R.id.logo);
         ImageView circleView = (ImageView) findViewById(R.id.circle);
-        RotateAnimation anim = new RotateAnimation(360f, 0f, logoView.getWidth() / 2, circleView.getHeight());
-        anim.setInterpolator(new AccelerateDecelerateInterpolator());
-        anim.setRepeatCount(0);
-        anim.setStartOffset(1000);
-        anim.setDuration(500);
-        logoView.startAnimation(anim);
-    }
-
-    private void launchNextActivity () {
-        final Activity main = this;
-        new Timer().schedule(new TimerTask() {
+        logoView.setPivotX(logoView.getWidth() / 2);
+        logoView.setPivotY(circleView.getHeight());
+        logoView.animate().setDuration(500).setStartDelay(500).setInterpolator(new AccelerateDecelerateInterpolator()).rotation(-360f).withEndAction(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(main, MenuActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                ImageView logoView = (ImageView) findViewById(R.id.logo);
+                int[] screenLocation = new int[2];
+                logoView.getLocationOnScreen(screenLocation);
+                Intent intent = new Intent(MainActivity.this, MenuActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                intent.
+                        putExtra(PACKAGE_NAME + ".resourceId", R.id.background).
+                        putExtra(PACKAGE_NAME + ".left", screenLocation[0]).
+                        putExtra(PACKAGE_NAME + ".top", screenLocation[1]).
+                        putExtra(PACKAGE_NAME + ".width", logoView.getWidth()).
+                        putExtra(PACKAGE_NAME + ".height", logoView.getHeight());
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
             }
-        }, 2000);
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        finish();
     }
 }
