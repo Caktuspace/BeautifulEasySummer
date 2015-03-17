@@ -19,7 +19,7 @@ import com.aloisandco.beautifuleasysummer.utils.ImageViewUtils;
 public class MenuActivity extends Activity {
 
     private static final TimeInterpolator sAccDecc = new AccelerateDecelerateInterpolator();
-    private static final int ANIM_DURATION = 2000;
+    private static final int ANIM_DURATION = 500;
     private static final String PACKAGE_NAME = "com.aloisandco.beautifuleasysummer.mainActivityAnim";
 
     int mLeftDeltaLogo;
@@ -29,19 +29,16 @@ public class MenuActivity extends Activity {
     private ImageView mLogoImageView;
     private ImageView mBackgroundView;
     private ImageView mFeetView;
-    private ImageView mPictureFrameView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         initFont();
-//        drawLinesOnLogo();
 
         mLogoImageView = (ImageView) findViewById(R.id.logo);
         mBackgroundView = (ImageView) findViewById(R.id.background);
         mFeetView = (ImageView) findViewById(R.id.FeetView);
-        mPictureFrameView = (ImageView) findViewById(R.id.picture_frame);
 
         Bundle bundle = getIntent().getExtras();
         Bitmap bitmap = BitmapCacheUtils.getBitmap(bundle.getInt(PACKAGE_NAME + ".resourceId"));
@@ -128,28 +125,26 @@ public class MenuActivity extends Activity {
         mLogoImageView.setTranslationY(mTopDeltaLogo);
 
         // Animate scale and translation to go from thumbnail to full size
-        mLogoImageView.animate().setDuration(ANIM_DURATION / 2).
+        mLogoImageView.animate().setDuration(ANIM_DURATION).
                 scaleX(1).scaleY(1).
                 translationX(0).translationY(0).
                 setInterpolator(sAccDecc);
 
         int[] screenLocation = new int[2];
         mLogoImageView.getLocationOnScreen(screenLocation);
-//        mBackgroundView.setPivotX(screenLocation[0] + mLeftDeltaLogo + mLogoImageView.getWidth() * mWidthScaleLogo);
-//        mBackgroundView.setPivotY(screenLocation[1] + mTopDeltaLogo + mLogoImageView.getHeight() * mHeightScaleLogo);
-//        mBackgroundView.animate().setDuration(ANIM_DURATION / 2).
-//                scaleX(10-mWidthScaleLogo).scaleY(10-mHeightScaleLogo).
-//                translationX(mBackgroundView.getWidth()/2 - (screenLocation[0] + mLeftDeltaLogo + mLogoImageView.getWidth() * mWidthScaleLogo / 2)).
-//                translationY(mBackgroundView.getHeight()/2 - (screenLocation[1] + mTopDeltaLogo + mLogoImageView.getHeight() * mHeightScaleLogo / 2)).
-//                setInterpolator(sAccDecc).withEndAction(new Runnable() {
-//            @Override
-//            public void run() {
-//                mBackgroundView.setVisibility(View.GONE);
-//                drawLinesOnLogo();
-//            }
-//        });
-
-        ImageViewUtils.drawPoint(mBackgroundView, screenLocation[0] + mLeftDeltaLogo + mLogoImageView.getWidth() * mWidthScaleLogo, screenLocation[1] + mTopDeltaLogo + mLogoImageView.getHeight() * mHeightScaleLogo);
+        mBackgroundView.setPivotX(screenLocation[0] + mLogoImageView.getWidth() / 2 * mWidthScaleLogo);
+        mBackgroundView.setPivotY(screenLocation[1] + mLogoImageView.getHeight() / 2 * mHeightScaleLogo);
+        mBackgroundView.animate().setDuration(ANIM_DURATION).
+                scaleX(5-mWidthScaleLogo).scaleY(5-mHeightScaleLogo).
+                translationX(mBackgroundView.getWidth()/2 - (screenLocation[0] + mLogoImageView.getWidth() * mWidthScaleLogo / 2)).
+                translationY(mBackgroundView.getHeight()/2 - (screenLocation[1] + mLogoImageView.getHeight() * mHeightScaleLogo / 2)).
+                setInterpolator(sAccDecc).withEndAction(new Runnable() {
+            @Override
+            public void run() {
+                mBackgroundView.setVisibility(View.GONE);
+                drawLinesOnLogo();
+            }
+        });
 
         mFeetView.animate().setDuration(ANIM_DURATION / 2).
                 scaleX(2-mWidthScaleLogo).scaleY(2-mHeightScaleLogo).
@@ -160,15 +155,13 @@ public class MenuActivity extends Activity {
                 mFeetView.setVisibility(View.GONE);
             }
         });
-//        mPictureFrameView.animate().setDuration(ANIM_DURATION).
-//                alpha(1).setInterpolator(sAccDecc);
     }
 
     private Boolean exit = false;
     @Override
     public void onBackPressed() {
         if (exit) {
-            finish(); // finish activity
+            moveTaskToBack(true); // exist app
         } else {
             Toast.makeText(this, "Press Back again to Exit.",
                     Toast.LENGTH_SHORT).show();

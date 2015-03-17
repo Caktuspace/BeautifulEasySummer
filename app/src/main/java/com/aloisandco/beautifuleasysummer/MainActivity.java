@@ -23,20 +23,17 @@ public class MainActivity extends Activity {
 
         final ImageView circleView = (ImageView) findViewById(R.id.circle);
         if (savedInstanceState == null) {
-
-            if (savedInstanceState == null) {
-                ViewTreeObserver observer = circleView.getViewTreeObserver();
-                observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            ViewTreeObserver observer = circleView.getViewTreeObserver();
+            observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                     @Override
                     public boolean onPreDraw() {
-                        circleView.getViewTreeObserver().removeOnPreDrawListener(this);
-                        createHoleInBackgroundView();
-                        animateLogoInCircle();
+                    circleView.getViewTreeObserver().removeOnPreDrawListener(this);
+                    createHoleInBackgroundView();
+                    animateLogoInCircle();
 
-                        return true;
-                    }
-                });
-            }
+                    return true;
+                }
+            });
         }
     }
 
@@ -62,22 +59,15 @@ public class MainActivity extends Activity {
                 int[] screenLocation = new int[2];
                 logoView.getLocationOnScreen(screenLocation);
                 Intent intent = new Intent(MainActivity.this, MenuActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 intent.
                         putExtra(PACKAGE_NAME + ".resourceId", R.id.background).
                         putExtra(PACKAGE_NAME + ".left", screenLocation[0]).
                         putExtra(PACKAGE_NAME + ".top", screenLocation[1]).
                         putExtra(PACKAGE_NAME + ".width", logoView.getWidth()).
                         putExtra(PACKAGE_NAME + ".height", logoView.getHeight());
-                startActivityForResult(intent, 0);
+                startActivity(intent);
                 overridePendingTransition(0, 0);
             }
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        finish();
     }
 }

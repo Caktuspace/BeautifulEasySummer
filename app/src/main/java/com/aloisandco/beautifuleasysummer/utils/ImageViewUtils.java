@@ -69,28 +69,11 @@ public class ImageViewUtils {
         // draw it on the canvas
         canvas.drawBitmap(backgroundBitmap, 0, 0, paint);
         paint.setAntiAlias(true);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.ADD));
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
         // clear the circle on the canvas
         canvas.drawCircle(position[0], position[1], radius, paint);
 
         return bitmap;
-    }
-
-    static public void drawPoint(ImageView imageView, float x, float y) {
-        Bitmap imageBitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
-
-        // create a duplicate of the current bitmap
-        Bitmap bitmap = Bitmap.createBitmap(imageView.getWidth(), imageView.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        Paint paint = new Paint();
-        // draw it on the canvas
-        canvas.drawBitmap(imageBitmap, 0, 0, paint);
-        paint.setAntiAlias(true);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        // clear the circle on the canvas
-        canvas.drawPoint(x, y, paint);
-
-        imageView.setImageBitmap(imageBitmap);
     }
 
     static public void animateImageViewToWidth(ImageView imageView, int width, Context context) {
