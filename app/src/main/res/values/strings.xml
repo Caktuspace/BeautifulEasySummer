@@ -12,4 +12,5 @@
     <string name="activite">Activité</string>
     <string name="soleil">Soleil</string>
     <string name="coiffure">Coiffure</string>
+    <string name="encore_pour_quitter">Appuyez encore pour quitter.</string>
 </resources>

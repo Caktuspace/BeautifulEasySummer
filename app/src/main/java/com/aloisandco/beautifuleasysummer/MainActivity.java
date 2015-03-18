@@ -9,6 +9,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 
 import com.aloisandco.beautifuleasysummer.utils.BitmapCacheUtils;
+import com.aloisandco.beautifuleasysummer.utils.FontManager;
 import com.aloisandco.beautifuleasysummer.utils.ImageViewUtils;
 
 
@@ -20,6 +21,8 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FontManager.getInstance(getAssets());
 
         final ImageView circleView = (ImageView) findViewById(R.id.circle);
         if (savedInstanceState == null) {
@@ -52,7 +55,7 @@ public class MainActivity extends Activity {
         ImageView circleView = (ImageView) findViewById(R.id.circle);
         logoView.setPivotX(logoView.getWidth() / 2);
         logoView.setPivotY(circleView.getHeight());
-        logoView.animate().setDuration(500).setStartDelay(500).setInterpolator(new AccelerateDecelerateInterpolator()).rotation(-360f).withEndAction(new Runnable() {
+        logoView.animate().setDuration(400).setStartDelay(400).setInterpolator(new AccelerateDecelerateInterpolator()).rotation(-360f).withEndAction(new Runnable() {
             @Override
             public void run() {
                 ImageView logoView = (ImageView) findViewById(R.id.logo);

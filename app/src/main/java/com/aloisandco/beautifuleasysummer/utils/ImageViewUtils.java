@@ -1,16 +1,12 @@
 package com.aloisandco.beautifuleasysummer.utils;
 
-import android.animation.ObjectAnimator;
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.BitmapDrawable;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 
@@ -74,13 +70,5 @@ public class ImageViewUtils {
         canvas.drawCircle(position[0], position[1], radius, paint);
 
         return bitmap;
-    }
-
-    static public void animateImageViewToWidth(ImageView imageView, int width, Context context) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        int widthDP = (int) (width * scale + 0.5f);
-        ResizeAnimation animation = new ResizeAnimation(imageView, imageView.getWidth(), imageView.getHeight(), widthDP, imageView.getHeight());
-        imageView.startAnimation(animation);
-
     }
 }

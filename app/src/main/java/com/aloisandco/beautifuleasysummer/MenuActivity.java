@@ -3,7 +3,6 @@ package com.aloisandco.beautifuleasysummer;
 import android.animation.TimeInterpolator;
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -14,12 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aloisandco.beautifuleasysummer.utils.BitmapCacheUtils;
-import com.aloisandco.beautifuleasysummer.utils.ImageViewUtils;
+import com.aloisandco.beautifuleasysummer.utils.FontManager;
 
 public class MenuActivity extends Activity {
 
     private static final TimeInterpolator sAccDecc = new AccelerateDecelerateInterpolator();
-    private static final int ANIM_DURATION = 500;
+    private static final int ANIM_DURATION = 400;
     private static final String PACKAGE_NAME = "com.aloisandco.beautifuleasysummer.mainActivityAnim";
 
     int mLeftDeltaLogo;
@@ -29,6 +28,8 @@ public class MenuActivity extends Activity {
     private ImageView mLogoImageView;
     private ImageView mBackgroundView;
     private ImageView mFeetView;
+    private ImageView mLeftLineImageView;
+    private ImageView mRightLineImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,8 @@ public class MenuActivity extends Activity {
         setContentView(R.layout.activity_menu);
         initFont();
 
+        mLeftLineImageView = (ImageView) findViewById(R.id.logo_left_line);
+        mRightLineImageView = (ImageView) findViewById(R.id.logo_right_line);
         mLogoImageView = (ImageView) findViewById(R.id.logo);
         mBackgroundView = (ImageView) findViewById(R.id.background);
         mFeetView = (ImageView) findViewById(R.id.FeetView);
@@ -74,14 +77,12 @@ public class MenuActivity extends Activity {
     }
 
     private void initFont() {
-        Typeface ralewayBoldFont = Typeface.createFromAsset(getAssets(), "fonts/Raleway-Bold.ttf");
-        Typeface ralewayMediumFont = Typeface.createFromAsset(getAssets(), "fonts/Raleway-Medium.ttf");
-        Typeface ralewayLightFont = Typeface.createFromAsset(getAssets(), "fonts/Raleway-Light.ttf");
+        FontManager fontManager = FontManager.getInstance(getAssets());
 
         TextView conseilsText = (TextView) findViewById(R.id.conseils);
         TextView pourLeteText = (TextView) findViewById(R.id.pourLete);
-        conseilsText.setTypeface(ralewayBoldFont);
-        pourLeteText.setTypeface(ralewayLightFont);
+        conseilsText.setTypeface(fontManager.ralewayBoldFont);
+        pourLeteText.setTypeface(fontManager.ralewayLightFont);
 
         TextView beauteText = (TextView) findViewById(R.id.beaute_text);
         TextView gourmandiseText = (TextView) findViewById(R.id.gourmandise_text);
@@ -89,22 +90,12 @@ public class MenuActivity extends Activity {
         TextView activiteText = (TextView) findViewById(R.id.activite_text);
         TextView soleilText = (TextView) findViewById(R.id.soleil_text);
         TextView coiffureText = (TextView) findViewById(R.id.coiffure_text);
-        beauteText.setTypeface(ralewayMediumFont);
-        gourmandiseText.setTypeface(ralewayMediumFont);
-        modeText.setTypeface(ralewayMediumFont);
-        activiteText.setTypeface(ralewayMediumFont);
-        soleilText.setTypeface(ralewayMediumFont);
-        coiffureText.setTypeface(ralewayMediumFont);
-    }
-
-    private void drawLinesOnLogo() {
-        final ImageView leftLineImageView = (ImageView) findViewById(R.id.logo_left_line);
-        final ImageView rightLineImageView = (ImageView) findViewById(R.id.logo_right_line);
-
-        leftLineImageView.setMinimumWidth(1);
-        rightLineImageView.setMinimumWidth(1);
-        ImageViewUtils.animateImageViewToWidth(leftLineImageView, 41, MenuActivity.this);
-        ImageViewUtils.animateImageViewToWidth(rightLineImageView, 41, MenuActivity.this);
+        beauteText.setTypeface(fontManager.ralewayMediumFont);
+        gourmandiseText.setTypeface(fontManager.ralewayMediumFont);
+        modeText.setTypeface(fontManager.ralewayMediumFont);
+        activiteText.setTypeface(fontManager.ralewayMediumFont);
+        soleilText.setTypeface(fontManager.ralewayMediumFont);
+        coiffureText.setTypeface(fontManager.ralewayMediumFont);
     }
 
     /**
@@ -114,22 +105,48 @@ public class MenuActivity extends Activity {
      * drops down.
      */
     public void runEnterAnimation() {
-        // Set starting values for properties we're going to animate. These
-        // values scale and position the full size version down to the thumbnail
-        // size/location, from which we'll animate it back up
+        initLogoPositionToMatchPreviousScreen();
+        animateLogoToDefaultSize();
+        animateAndHideViewFromHome();
+    }
+
+    private void initLogoPositionToMatchPreviousScreen() {
+        mRightLineImageView.setPivotX(0);
+        mRightLineImageView.setScaleX(0);
+        mLeftLineImageView.setPivotX(mLeftLineImageView.getWidth());
+        mLeftLineImageView.setScaleX(0);
+
         mLogoImageView.setPivotX(0);
         mLogoImageView.setPivotY(0);
         mLogoImageView.setScaleX(mWidthScaleLogo);
         mLogoImageView.setScaleY(mHeightScaleLogo);
         mLogoImageView.setTranslationX(mLeftDeltaLogo);
         mLogoImageView.setTranslationY(mTopDeltaLogo);
+    }
 
+    private void animateLogoToDefaultSize() {
         // Animate scale and translation to go from thumbnail to full size
         mLogoImageView.animate().setDuration(ANIM_DURATION).
                 scaleX(1).scaleY(1).
                 translationX(0).translationY(0).
-                setInterpolator(sAccDecc);
+                setInterpolator(sAccDecc).withEndAction(new Runnable() {
+            @Override
+            public void run() {
+                drawLinesUnderLogo();
+            }
+        });
+    }
 
+    private void drawLinesUnderLogo() {
+        mLeftLineImageView.animate().setDuration(ANIM_DURATION).
+                scaleX(1).scaleY(1).
+                setInterpolator(sAccDecc);
+        mRightLineImageView.animate().setDuration(ANIM_DURATION).
+                scaleX(1).scaleY(1).
+                setInterpolator(sAccDecc);
+    }
+
+    private void animateAndHideViewFromHome() {
         int[] screenLocation = new int[2];
         mLogoImageView.getLocationOnScreen(screenLocation);
         mBackgroundView.setPivotX(screenLocation[0] + mLogoImageView.getWidth() / 2 * mWidthScaleLogo);
@@ -142,7 +159,6 @@ public class MenuActivity extends Activity {
             @Override
             public void run() {
                 mBackgroundView.setVisibility(View.GONE);
-                drawLinesOnLogo();
             }
         });
 
@@ -163,7 +179,7 @@ public class MenuActivity extends Activity {
         if (exit) {
             moveTaskToBack(true); // exist app
         } else {
-            Toast.makeText(this, "Press Back again to Exit.",
+            Toast.makeText(this, R.string.encore_pour_quitter,
                     Toast.LENGTH_SHORT).show();
             exit = true;
             new Handler().postDelayed(new Runnable() {

@@ -17,8 +17,8 @@
             android:scaleType="centerCrop"
             android:src="@mipmap/circle" />
         <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="170dp"
+            android:layout_height="131dp"
             android:id="@+id/logo"
             android:scaleType="fitCenter"
             android:layout_centerHorizontal="true"
