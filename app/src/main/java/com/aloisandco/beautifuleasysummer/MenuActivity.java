@@ -142,7 +142,7 @@ public class MenuActivity extends Activity {
                 startActivity(intent);
                 overridePendingTransition(0, 0);
                 mSelectedView = v;
-                mSelectedView.animate().alpha(0).setStartDelay(200).setDuration(1);
+                mSelectedView.animate().alpha(0).setStartDelay(100).setDuration(1);
             }
         });
     }

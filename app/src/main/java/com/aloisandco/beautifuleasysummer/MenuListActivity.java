@@ -110,7 +110,7 @@ public class MenuListActivity extends Activity {
         mIconImageView.setTranslationX(mLeftDeltaIcon);
         mIconImageView.setTranslationY(mTopDeltaIcon);
         // Animate scale and translation to go from thumbnail to full size
-        mIconImageView.animate().setStartDelay(200).setDuration(ANIM_DURATION).
+        mIconImageView.animate().setStartDelay(100).setDuration(ANIM_DURATION).
                 scaleX(1).scaleY(1).
                 translationX(0).translationY(0).
                 setInterpolator(sAccDecc);
@@ -124,7 +124,7 @@ public class MenuListActivity extends Activity {
         mTitleTextView.setTranslationX(mLeftDeltaTitle);
         mTitleTextView.setTranslationY(mTopDeltaTitle);
         // Animate scale and translation to go from thumbnail to full size
-        mTitleTextView.animate().setStartDelay(200).setDuration(ANIM_DURATION).
+        mTitleTextView.animate().setStartDelay(100).setDuration(ANIM_DURATION).
                 scaleX(1).scaleY(1).
                 translationX(0).translationY(0).
                 setInterpolator(sAccDecc);
