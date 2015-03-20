@@ -2,13 +2,20 @@ package com.aloisandco.beautifuleasysummer;
 
 import android.animation.TimeInterpolator;
 import android.app.Activity;
+import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +37,7 @@ public class MenuActivity extends Activity {
     private ImageView mFeetView;
     private ImageView mLeftLineImageView;
     private ImageView mRightLineImageView;
+    private View mSelectedView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +82,82 @@ public class MenuActivity extends Activity {
                 }
             });
         }
+
+        final RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.relativeGridHeight);
+        final GridView gridView = (GridView) findViewById(R.id.gridview);
+
+        ViewTreeObserver observer = relativeLayout.getViewTreeObserver();
+        observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                relativeLayout.getViewTreeObserver().removeOnPreDrawListener(this);
+                TypedArray typedArray = getResources().obtainTypedArray(R.array.menu);
+                final float scale = getResources().getDisplayMetrics().density;
+                int padding = (int) (10 * scale + 0.5f);
+                for (int i = 0; i < typedArray.length(); i++) {
+                    View view = gridView.getChildAt(i);
+                    ViewGroup.LayoutParams lp = view.getLayoutParams();
+                    lp.height = (relativeLayout.getHeight() - (padding * (typedArray.length()/2))) / (typedArray.length()/2);
+                    view.setLayoutParams(lp);
+                }
+
+                return true;
+            }
+        });
+        gridView.setAdapter(new MenuAdapter(this));
+        gridView.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_MOVE){
+                    return true;
+                }
+                return false;
+            }
+        });
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                TypedArray menuArray = getResources().obtainTypedArray(R.array.menu);
+                TypedArray itemArray = getResources().obtainTypedArray(menuArray.getResourceId(position, 0));
+                menuArray.recycle();
+                ImageView imageView = (ImageView) v.findViewById(R.id.icon);
+                TextView textView = (TextView) v.findViewById(R.id.text);
+                int[] iconScreenLocation = new int[2];
+                imageView.getLocationOnScreen(iconScreenLocation);
+                int[] textScreenLocation = new int[2];
+                textView.getLocationOnScreen(textScreenLocation);
+                Intent intent = new Intent(MenuActivity.this, MenuListActivity.class);
+                intent.
+                        putExtra(PACKAGE_NAME + ".iconId", itemArray.getResourceId(0, 0)).
+                        putExtra(PACKAGE_NAME + ".text", textView.getText()).
+                        putExtra(PACKAGE_NAME + ".menuListArray", itemArray.getResourceId(2, 0)).
+                        putExtra(PACKAGE_NAME + ".leftIcon", iconScreenLocation[0]).
+                        putExtra(PACKAGE_NAME + ".topIcon", iconScreenLocation[1]).
+                        putExtra(PACKAGE_NAME + ".widthIcon", imageView.getWidth()).
+                        putExtra(PACKAGE_NAME + ".heightIcon", imageView.getHeight()).
+                        putExtra(PACKAGE_NAME + ".leftText", textScreenLocation[0]).
+                        putExtra(PACKAGE_NAME + ".topText", textScreenLocation[1]).
+                        putExtra(PACKAGE_NAME + ".widthText", textView.getWidth()).
+                        putExtra(PACKAGE_NAME + ".heightText", textView.getHeight());
+                itemArray.recycle();
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+                mSelectedView = v;
+                mSelectedView.animate().alpha(0).setStartDelay(200).setDuration(1);
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+//        mBackgroundView.setVisibility(View.GONE);
+//        mFeetView.setVisibility(View.GONE);
+
+        if (mSelectedView != null) {
+            mSelectedView.setAlpha(1);
+            mSelectedView = null;
+        }
     }
 
     private void initFont() {
@@ -83,19 +167,6 @@ public class MenuActivity extends Activity {
         TextView pourLeteText = (TextView) findViewById(R.id.pourLete);
         conseilsText.setTypeface(fontManager.ralewayBoldFont);
         pourLeteText.setTypeface(fontManager.ralewayLightFont);
-
-        TextView beauteText = (TextView) findViewById(R.id.beaute_text);
-        TextView gourmandiseText = (TextView) findViewById(R.id.gourmandise_text);
-        TextView modeText = (TextView) findViewById(R.id.mode_text);
-        TextView activiteText = (TextView) findViewById(R.id.activite_text);
-        TextView soleilText = (TextView) findViewById(R.id.soleil_text);
-        TextView coiffureText = (TextView) findViewById(R.id.coiffure_text);
-        beauteText.setTypeface(fontManager.ralewayMediumFont);
-        gourmandiseText.setTypeface(fontManager.ralewayMediumFont);
-        modeText.setTypeface(fontManager.ralewayMediumFont);
-        activiteText.setTypeface(fontManager.ralewayMediumFont);
-        soleilText.setTypeface(fontManager.ralewayMediumFont);
-        coiffureText.setTypeface(fontManager.ralewayMediumFont);
     }
 
     /**
@@ -105,12 +176,11 @@ public class MenuActivity extends Activity {
      * drops down.
      */
     public void runEnterAnimation() {
-        initLogoPositionToMatchPreviousScreen();
         animateLogoToDefaultSize();
         animateAndHideViewFromHome();
     }
 
-    private void initLogoPositionToMatchPreviousScreen() {
+    private void animateLogoToDefaultSize() {
         mRightLineImageView.setPivotX(0);
         mRightLineImageView.setScaleX(0);
         mLeftLineImageView.setPivotX(mLeftLineImageView.getWidth());
@@ -122,9 +192,6 @@ public class MenuActivity extends Activity {
         mLogoImageView.setScaleY(mHeightScaleLogo);
         mLogoImageView.setTranslationX(mLeftDeltaLogo);
         mLogoImageView.setTranslationY(mTopDeltaLogo);
-    }
-
-    private void animateLogoToDefaultSize() {
         // Animate scale and translation to go from thumbnail to full size
         mLogoImageView.animate().setDuration(ANIM_DURATION).
                 scaleX(1).scaleY(1).

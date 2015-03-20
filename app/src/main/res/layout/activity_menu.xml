@@ -29,7 +29,7 @@
                 android:layout_width="41pt"
                 android:layout_height="2dp"
                 android:id="@+id/logo_left_line"
-                android:background="@color/white"
+                android:background="@android:color/white"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginRight="174dp"
@@ -38,7 +38,7 @@
                 android:layout_width="41pt"
                 android:layout_height="2dp"
                 android:id="@+id/logo_right_line"
-                android:background="@color/white"
+                android:background="@android:color/white"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginLeft="174dp"
@@ -59,189 +59,38 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/conseils"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textAllCaps="true" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" "
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textAllCaps="true" />
             <TextView
                 android:id="@+id/pourLete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/pour_lete"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textAllCaps="true" />
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/relativeGridHeight"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:gravity="center" >
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="horizontal"
-                android:layout_weight="1"
-                android:layout_margin="10dp">
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1" >
-                    <ImageView
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:id="@+id/beaute_image"
-                        android:src="@mipmap/beaute_logo"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginRight="40dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_weight="1" />
-                    <TextView
-                        android:id="@+id/beaute_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/beaute"
-                        android:textSize="17dp"
-                        android:layout_gravity="center" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:layout_weight="1" >
-                    <ImageView
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:id="@+id/gourmandise_image"
-                        android:src="@mipmap/gourmandise_logo"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginRight="40dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_weight="1" />
-                    <TextView
-                        android:id="@+id/gourmandise_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/gourmandise"
-                        android:layout_gravity="center"
-                        android:textSize="17dp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="horizontal"
-                android:layout_weight="1"
-                android:layout_margin="10dp">
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:layout_weight="1" >
-                    <ImageView
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:id="@+id/mode_image"
-                        android:src="@mipmap/mode_logo"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginRight="40dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_weight="1"/>
-                    <TextView
-                        android:id="@+id/mode_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/mode"
-                        android:layout_gravity="center"
-                        android:textSize="17dp" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:layout_weight="1" >
-                    <ImageView
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:id="@+id/activite_image"
-                        android:src="@mipmap/activite_logo"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginRight="40dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_weight="1"/>
-                    <TextView
-                        android:id="@+id/activite_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/activite"
-                        android:layout_gravity="center"
-                        android:textSize="17dp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="horizontal"
-                android:layout_weight="1"
-                android:layout_margin="10dp">
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:layout_weight="1" >
-                    <ImageView
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:id="@+id/soleil_image"
-                        android:src="@mipmap/soleil_logo"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginRight="40dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_weight="1"/>
-                    <TextView
-                        android:id="@+id/soleil_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/soleil"
-                        android:layout_gravity="center"
-                        android:textSize="17dp" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:layout_weight="1" >
-                    <ImageView
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:id="@+id/coiffure_image"
-                        android:src="@mipmap/coiffure_logo"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginRight="40dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_weight="1"/>
-                    <TextView
-                        android:id="@+id/coiffure_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/coiffure"
-                        android:layout_gravity="center"
-                        android:textSize="17dp" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
+            android:layout_margin="20dp">
+        <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/gridview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:numColumns="2"
+            android:verticalSpacing="10dp"
+            android:stretchMode="columnWidth"
+            android:gravity="center"
+            />
+        </RelativeLayout>
     </LinearLayout>
     <ImageView
         android:layout_height="fill_parent"

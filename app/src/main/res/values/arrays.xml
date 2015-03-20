@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="menu">
+        <item>@array/beaute_cat</item>
+        <item>@array/gourmandise_cat</item>
+        <item>@array/mode_cat</item>
+        <item>@array/activite_cat</item>
+        <item>@array/soleil_cat</item>
+        <item>@array/coiffure_cat</item>
+    </array>
+
+    <array name="beaute_cat">
+        <item>@mipmap/beaute_logo</item>
+        <item>@string/beaute</item>
+        <item>@array/beaute_list</item>
+    </array>
+    <array name="gourmandise_cat">
+        <item>@mipmap/gourmandise_logo</item>
+        <item>@string/gourmandise</item>
+        <item>@array/gourmandise_list</item>
+    </array>
+    <array name="mode_cat">
+        <item>@mipmap/mode_logo</item>
+        <item>@string/mode</item>
+        <item>@array/mode_list</item>
+    </array>
+    <array name="activite_cat">
+        <item>@mipmap/activite_logo</item>
+        <item>@string/activite</item>
+        <item>@array/activite_list</item>
+    </array>
+    <array name="soleil_cat">
+        <item>@mipmap/soleil_logo</item>
+        <item>@string/soleil</item>
+        <item>@array/soleil_list</item>
+    </array>
+    <array name="coiffure_cat">
+        <item>@mipmap/coiffure_logo</item>
+        <item>@string/coiffure</item>
+        <item>@array/coiffure_list</item>
+    </array>
+
+    <array name="beaute_list">
+        <item>@string/title_activity_menu</item>
+    </array>
+    <array name="gourmandise_list">
+        <item>@string/title_activity_menu</item>
+    </array>
+    <array name="mode_list">
+        <item>@string/title_activity_menu</item>
+    </array>
+    <array name="activite_list">
+        <item>@string/title_activity_menu</item>
+    </array>
+    <array name="soleil_list">
+        <item>@string/title_activity_menu</item>
+    </array>
+    <array name="coiffure_list">
+        <item>@string/title_activity_menu</item>
+    </array>
+
+</resources>
