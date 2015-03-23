@@ -6,11 +6,14 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.aloisandco.beautifuleasysummer.utils.ActivityTransitionManager;
 import com.aloisandco.beautifuleasysummer.utils.FontManager;
 
 /**
@@ -18,12 +21,14 @@ import com.aloisandco.beautifuleasysummer.utils.FontManager;
  */
 public class MenuListActivity extends Activity {
     private static final TimeInterpolator sAccDecc = new AccelerateDecelerateInterpolator();
-    private static final int ANIM_DURATION = 400;
+    private static final int ANIM_DURATION = 250;
     private static final String PACKAGE_NAME = "com.aloisandco.beautifuleasysummer.mainActivityAnim";
 
     private ImageView mIconImageView;
     private TextView mTitleTextView;
     private ImageView mBackgroundImageView;
+    private ListView mListView;
+    private View mDivider;
 
     int mLeftDeltaIcon;
     int mTopDeltaIcon;
@@ -42,6 +47,8 @@ public class MenuListActivity extends Activity {
         mIconImageView = (ImageView) findViewById(R.id.icon);
         mTitleTextView = (TextView) findViewById(R.id.title);
         mBackgroundImageView = (ImageView) findViewById(R.id.tropical_background);
+        mListView = (ListView) findViewById(R.id.listView);
+        mDivider = findViewById(R.id.divider);
 
         initFont();
 
@@ -60,6 +67,7 @@ public class MenuListActivity extends Activity {
         final int titleLeft = bundle.getInt(PACKAGE_NAME + ".leftText");
         final int titleWidth = bundle.getInt(PACKAGE_NAME + ".widthText");
         final int titleHeight = bundle.getInt(PACKAGE_NAME + ".heightText");
+        final int menuListArrayResourceId = bundle.getInt(PACKAGE_NAME + ".menuListArray");
 
         if (savedInstanceState == null) {
             ViewTreeObserver observer = mIconImageView.getViewTreeObserver();
@@ -89,6 +97,8 @@ public class MenuListActivity extends Activity {
                 }
             });
         }
+
+        mListView.setAdapter(new MenuListAdapter(this, menuListArrayResourceId));
     }
 
     private void initFont() {
@@ -99,6 +109,9 @@ public class MenuListActivity extends Activity {
     public void runEnterAnimation() {
         animateIconToDefaultSize();
         animateTitleToDefaultSize();
+        if (ActivityTransitionManager.getInstance().getMenuItemView() != null) {
+            ActivityTransitionManager.getInstance().getMenuItemView().setAlpha(0);
+        }
         fadeInBackground();
     }
 
@@ -110,7 +123,7 @@ public class MenuListActivity extends Activity {
         mIconImageView.setTranslationX(mLeftDeltaIcon);
         mIconImageView.setTranslationY(mTopDeltaIcon);
         // Animate scale and translation to go from thumbnail to full size
-        mIconImageView.animate().setStartDelay(100).setDuration(ANIM_DURATION).
+        mIconImageView.animate().setDuration(ANIM_DURATION).
                 scaleX(1).scaleY(1).
                 translationX(0).translationY(0).
                 setInterpolator(sAccDecc);
@@ -124,7 +137,7 @@ public class MenuListActivity extends Activity {
         mTitleTextView.setTranslationX(mLeftDeltaTitle);
         mTitleTextView.setTranslationY(mTopDeltaTitle);
         // Animate scale and translation to go from thumbnail to full size
-        mTitleTextView.animate().setStartDelay(100).setDuration(ANIM_DURATION).
+        mTitleTextView.animate().setDuration(ANIM_DURATION).
                 scaleX(1).scaleY(1).
                 translationX(0).translationY(0).
                 setInterpolator(sAccDecc);
@@ -136,6 +149,15 @@ public class MenuListActivity extends Activity {
         alphaAnimator.setDuration(ANIM_DURATION);
         alphaAnimator.setInterpolator(sAccDecc);
         alphaAnimator.start();
+        mDivider.setAlpha(0);
+        mListView.setPivotY(0);
+        mListView.setScaleY(0);
+        mDivider.animate().setDuration(ANIM_DURATION).setInterpolator(sAccDecc).alpha(1).withEndAction(new Runnable() {
+            @Override
+            public void run() {
+                mListView.animate().scaleY(1).setInterpolator(sAccDecc).setDuration(ANIM_DURATION);
+            }
+        });
     }
 
     /**
@@ -151,20 +173,31 @@ public class MenuListActivity extends Activity {
         // starting size/location that we want to start from. Just animate to the
         // thumbnail size/location that we retrieved earlier
 
-        mIconImageView.animate().setStartDelay(0).setDuration(ANIM_DURATION).
-                scaleX(mWidthScaleIcon).scaleY(mHeightScaleIcon).
-                translationX(mLeftDeltaIcon).translationY(mTopDeltaIcon).
-                setInterpolator(sAccDecc);
+        mListView.animate().scaleY(0).setInterpolator(sAccDecc).setDuration(ANIM_DURATION).withEndAction(new Runnable() {
+            @Override
+            public void run() {
+                mIconImageView.animate().setDuration(ANIM_DURATION).
+                        scaleX(mWidthScaleIcon).scaleY(mHeightScaleIcon).
+                        translationX(mLeftDeltaIcon).translationY(mTopDeltaIcon).
+                        setInterpolator(sAccDecc);
 
-        mTitleTextView.animate().setStartDelay(0).setDuration(ANIM_DURATION).
-                scaleX(mWidthScaleTitle).scaleY(mHeightScaleTitle).
-                translationX(mLeftDeltaTitle).translationY(mTopDeltaTitle).
-                setInterpolator(sAccDecc).withEndAction(endAction);
+                mTitleTextView.animate().setDuration(ANIM_DURATION).
+                        scaleX(mWidthScaleTitle).scaleY(mHeightScaleTitle).
+                        translationX(mLeftDeltaTitle).translationY(mTopDeltaTitle).
+                        setInterpolator(sAccDecc).withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (ActivityTransitionManager.getInstance().getMenuItemView() != null) {
+                            ActivityTransitionManager.getInstance().getMenuItemView().setAlpha(1);
+                        }
+                        endAction.run();
+                    }
+                });
 
-        ObjectAnimator alphaAnimator = ObjectAnimator.ofInt(mBackgroundImageView, "alpha", 255, 0);
-        alphaAnimator.setDuration(ANIM_DURATION);
-        alphaAnimator.setInterpolator(sAccDecc);
-        alphaAnimator.start();
+                mBackgroundImageView.animate().setDuration(ANIM_DURATION).setInterpolator(sAccDecc).alpha(0);
+                mDivider.animate().setDuration(ANIM_DURATION).setInterpolator(sAccDecc).alpha(0);
+            }
+        });
     }
 
     /**

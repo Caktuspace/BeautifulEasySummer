@@ -50,31 +50,12 @@
                 android:src="@mipmap/logo"
                 android:scaleType="fitCenter" />
         </RelativeLayout>
-        <LinearLayout
+        <TextView
+            android:id="@+id/conseils"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:id="@+id/conseils"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/conseils"
-                android:textSize="20sp"
-                android:textAllCaps="true" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" "
-                android:textSize="20sp"
-                android:textAllCaps="true" />
-            <TextView
-                android:id="@+id/pourLete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/pour_lete"
-                android:textSize="20sp"
-                android:textAllCaps="true" />
-        </LinearLayout>
+            android:text="@string/conseils_pour_lete"
+            android:textSize="20sp" />
 
         <RelativeLayout
             android:id="@+id/relativeGridHeight"
@@ -100,6 +81,7 @@
         android:src="@mipmap/picture_frame" />
 
     <ImageView
+        android:visibility="gone"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/background"
@@ -107,6 +89,7 @@
         android:layout_alignParentBottom="true"
         android:src="@mipmap/home_background"/>
     <ImageView
+        android:visibility="gone"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/FeetView"

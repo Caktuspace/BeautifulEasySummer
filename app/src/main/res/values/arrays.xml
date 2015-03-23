@@ -45,7 +45,30 @@
         <item>@string/title_activity_menu</item>
     </array>
     <array name="gourmandise_list">
-        <item>@string/title_activity_menu</item>
+        <item>@array/salade_tropicale</item>
+        <item>@array/cocktails_raffraichissants</item>
+        <item>@array/dessert_du_soleil</item>
+        <item>@array/top_en_maillot</item>
+        <item>@array/apero_reussi</item>
+        <item>@array/fruits_exotiques</item>
+        <item>@array/smoothies_gourmands</item>
+        <item>@array/agrementer_vos_plats</item>
+        <item>@array/salade_tropicale</item>
+        <item>@array/cocktails_raffraichissants</item>
+        <item>@array/dessert_du_soleil</item>
+        <item>@array/top_en_maillot</item>
+        <item>@array/apero_reussi</item>
+        <item>@array/fruits_exotiques</item>
+        <item>@array/smoothies_gourmands</item>
+        <item>@array/agrementer_vos_plats</item>
+        <item>@array/salade_tropicale</item>
+        <item>@array/cocktails_raffraichissants</item>
+        <item>@array/dessert_du_soleil</item>
+        <item>@array/top_en_maillot</item>
+        <item>@array/apero_reussi</item>
+        <item>@array/fruits_exotiques</item>
+        <item>@array/smoothies_gourmands</item>
+        <item>@array/agrementer_vos_plats</item>
     </array>
     <array name="mode_list">
         <item>@string/title_activity_menu</item>
@@ -58,6 +81,39 @@
     </array>
     <array name="coiffure_list">
         <item>@string/title_activity_menu</item>
+    </array>
+
+    <array name="salade_tropicale">
+        <item>@string/salade_tropicale</item>
+        <item>@array/salade_tropicale</item>
+    </array>
+    <array name="cocktails_raffraichissants">
+        <item>@string/cocktails_raffraichissants</item>
+        <item>@array/cocktails_raffraichissants</item>
+    </array>
+    <array name="dessert_du_soleil">
+        <item>@string/dessert_du_soleil</item>
+        <item>@array/dessert_du_soleil</item>
+    </array>
+    <array name="top_en_maillot">
+        <item>@string/top_en_maillot</item>
+        <item>@array/top_en_maillot</item>
+    </array>
+    <array name="apero_reussi">
+        <item>@string/apero_reussi</item>
+        <item>@array/apero_reussi</item>
+    </array>
+    <array name="fruits_exotiques">
+        <item>@string/fruits_exotiques</item>
+        <item>@array/fruits_exotiques</item>
+    </array>
+    <array name="smoothies_gourmands">
+        <item>@string/smoothies_gourmands</item>
+        <item>@array/smoothies_gourmands</item>
+    </array>
+    <array name="agrementer_vos_plats">
+        <item>@string/agrementer_vos_plats</item>
+        <item>@array/agrementer_vos_plats</item>
     </array>
 
 </resources>

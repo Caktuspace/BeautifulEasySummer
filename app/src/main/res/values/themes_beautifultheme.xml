@@ -10,6 +10,7 @@
 
         <item name="android:editTextBackground">@drawable/beautifultheme_edit_text_holo_dark</item>
 
+        <item name="android:textColor">@android:color/white</item>
         <item name="android:textColorHighlight">#9929907e</item>
         <item name="android:textSelectHandleLeft">@mipmap/beautifultheme_text_select_handle_left</item>
         <item name="android:textSelectHandleRight">@mipmap/beautifultheme_text_select_handle_right</item>

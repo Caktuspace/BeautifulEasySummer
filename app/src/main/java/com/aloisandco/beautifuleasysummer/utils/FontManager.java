@@ -33,4 +33,8 @@ public class FontManager {
         }
         return FontManager.mInstance;
     }
+
+    public static synchronized FontManager getInstance() {
+        return FontManager.mInstance;
+    }
 }

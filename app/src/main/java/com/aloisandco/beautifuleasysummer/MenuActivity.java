@@ -5,8 +5,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +21,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aloisandco.beautifuleasysummer.utils.ActivityTransitionManager;
 import com.aloisandco.beautifuleasysummer.utils.BitmapCacheUtils;
 import com.aloisandco.beautifuleasysummer.utils.FontManager;
+import com.aloisandco.beautifuleasysummer.utils.HtmlTagHandler;
+import com.aloisandco.beautifuleasysummer.utils.ScreenUtils;
 
 public class MenuActivity extends Activity {
 
@@ -37,7 +42,7 @@ public class MenuActivity extends Activity {
     private ImageView mFeetView;
     private ImageView mLeftLineImageView;
     private ImageView mRightLineImageView;
-    private View mSelectedView;
+    private GridView mGridView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,8 @@ public class MenuActivity extends Activity {
         mBackgroundView.setImageBitmap(bitmap);
 
         if (savedInstanceState == null) {
+            mBackgroundView.setVisibility(View.VISIBLE);
+            mFeetView.setVisibility(View.VISIBLE);
             ViewTreeObserver observer = mLogoImageView.getViewTreeObserver();
             observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                 @Override
@@ -84,7 +91,7 @@ public class MenuActivity extends Activity {
         }
 
         final RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.relativeGridHeight);
-        final GridView gridView = (GridView) findViewById(R.id.gridview);
+        mGridView = (GridView) findViewById(R.id.gridview);
 
         ViewTreeObserver observer = relativeLayout.getViewTreeObserver();
         observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -92,10 +99,10 @@ public class MenuActivity extends Activity {
             public boolean onPreDraw() {
                 relativeLayout.getViewTreeObserver().removeOnPreDrawListener(this);
                 TypedArray typedArray = getResources().obtainTypedArray(R.array.menu);
-                final float scale = getResources().getDisplayMetrics().density;
-                int padding = (int) (10 * scale + 0.5f);
+                int padding = ScreenUtils.valueToDpi(getResources(), 10);
+
                 for (int i = 0; i < typedArray.length(); i++) {
-                    View view = gridView.getChildAt(i);
+                    View view = mGridView.getChildAt(i);
                     ViewGroup.LayoutParams lp = view.getLayoutParams();
                     lp.height = (relativeLayout.getHeight() - (padding * (typedArray.length()/2))) / (typedArray.length()/2);
                     view.setLayoutParams(lp);
@@ -104,8 +111,8 @@ public class MenuActivity extends Activity {
                 return true;
             }
         });
-        gridView.setAdapter(new MenuAdapter(this));
-        gridView.setOnTouchListener(new View.OnTouchListener(){
+        mGridView.setAdapter(new MenuAdapter(this));
+        mGridView.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_MOVE){
@@ -114,8 +121,11 @@ public class MenuActivity extends Activity {
                 return false;
             }
         });
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                mGridView.setEnabled(false);
+                ActivityTransitionManager.getInstance().setMenuItemView(v);
+
                 TypedArray menuArray = getResources().obtainTypedArray(R.array.menu);
                 TypedArray itemArray = getResources().obtainTypedArray(menuArray.getResourceId(position, 0));
                 menuArray.recycle();
@@ -141,8 +151,6 @@ public class MenuActivity extends Activity {
                 itemArray.recycle();
                 startActivity(intent);
                 overridePendingTransition(0, 0);
-                mSelectedView = v;
-                mSelectedView.animate().alpha(0).setStartDelay(100).setDuration(1);
             }
         });
     }
@@ -150,23 +158,14 @@ public class MenuActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-
-//        mBackgroundView.setVisibility(View.GONE);
-//        mFeetView.setVisibility(View.GONE);
-
-        if (mSelectedView != null) {
-            mSelectedView.setAlpha(1);
-            mSelectedView = null;
-        }
+        mGridView.setEnabled(true);
     }
 
     private void initFont() {
         FontManager fontManager = FontManager.getInstance(getAssets());
-
         TextView conseilsText = (TextView) findViewById(R.id.conseils);
-        TextView pourLeteText = (TextView) findViewById(R.id.pourLete);
-        conseilsText.setTypeface(fontManager.ralewayBoldFont);
-        pourLeteText.setTypeface(fontManager.ralewayLightFont);
+        conseilsText.setTypeface(fontManager.ralewayLightFont);
+        conseilsText.setText(Html.fromHtml(getResources().getString(R.string.conseils_pour_lete), null, new HtmlTagHandler()));
     }
 
     /**

@@ -2,30 +2,30 @@ package com.aloisandco.beautifuleasysummer;
 
 import android.app.Activity;
 import android.content.res.TypedArray;
-import android.graphics.BitmapFactory;
+import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aloisandco.beautifuleasysummer.utils.FontManager;
+import com.aloisandco.beautifuleasysummer.utils.HtmlTagHandler;
 
 /**
- * Created by quentinmetzler on 19/03/15.
+ * Created by quentinmetzler on 22/03/15.
  */
-public class MenuAdapter extends BaseAdapter {
+public class MenuListAdapter extends BaseAdapter {
     private Activity mContext;
-    private TypedArray mMenuArray;
+    private TypedArray mMenuListArray;
 
-    public MenuAdapter(Activity c) {
-        mContext = c;
-        mMenuArray = mContext.getResources().obtainTypedArray(R.array.menu);
+    public MenuListAdapter(Activity context, int resourceId) {
+        mContext = context;
+        mMenuListArray = mContext.getResources().obtainTypedArray(resourceId);
     }
 
     public int getCount() {
-        return mMenuArray.length();
+        return mMenuListArray.length();
     }
 
     public Object getItem(int position) {
@@ -39,24 +39,21 @@ public class MenuAdapter extends BaseAdapter {
     // create a new ImageView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
         LinearLayout linearLayout = null;
-        TypedArray itemArray = mContext.getResources().obtainTypedArray(mMenuArray.getResourceId(position, 0));
+        TypedArray itemArray = mContext.getResources().obtainTypedArray(mMenuListArray.getResourceId(position, 0));
 
-        int resourceId =  itemArray.getResourceId(0, 0);
-        String text =  itemArray.getString(1);
+        String string =  itemArray.getString(0);
         itemArray.recycle();
 
         if (convertView == null) {  // if it's not recycled, initialize some attributes
-            linearLayout = (LinearLayout) mContext.getLayoutInflater().inflate(R.layout.activity_menu_item, parent, false);
+            linearLayout = (LinearLayout) mContext.getLayoutInflater().inflate(R.layout.activity_menu_list_item, parent, false);
         } else {
             linearLayout = (LinearLayout) convertView;
         }
 
-        ImageView imageView = (ImageView) linearLayout.findViewById(R.id.icon);
-        TextView textView = (TextView) linearLayout.findViewById(R.id.text);
-        imageView.setImageBitmap(BitmapFactory.decodeResource(mContext.getResources(), resourceId));
-        textView.setText(text);
         FontManager fontManager = FontManager.getInstance(mContext.getAssets());
-        textView.setTypeface(fontManager.ralewayMediumFont);
+        TextView textView = (TextView) linearLayout.findViewById(R.id.textView);
+        textView.setTypeface(fontManager.ralewayLightFont);
+        textView.setText(Html.fromHtml(string, null, new HtmlTagHandler()));
 
         return linearLayout;
     }

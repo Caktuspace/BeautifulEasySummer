@@ -1,6 +1,7 @@
 package com.aloisandco.beautifuleasysummer.utils;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.Window;
@@ -18,5 +19,10 @@ public class ScreenUtils {
         Rect rectangle= new Rect();
         window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
         return rectangle.top;
+    }
+
+    static  public int valueToDpi(Resources resources, int value) {
+        final float scale = resources.getDisplayMetrics().density;
+        return (int) (value * scale + 0.5f);
     }
 }
