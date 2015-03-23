@@ -1,4 +1,4 @@
-package com.aloisandco.beautifuleasysummer;
+package com.aloisandco.beautifuleasysummer.MenuList;
 
 import android.app.Activity;
 import android.content.res.TypedArray;
@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.aloisandco.beautifuleasysummer.R;
 import com.aloisandco.beautifuleasysummer.utils.FontManager;
 import com.aloisandco.beautifuleasysummer.utils.HtmlTagHandler;
 

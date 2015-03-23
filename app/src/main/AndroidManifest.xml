@@ -18,13 +18,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MenuActivity"
+            android:name=".Menu.MenuActivity"
             android:label="@string/title_activity_menu"
             android:screenOrientation="portrait"
             android:theme="@style/Transparent" >
         </activity>
         <activity
-            android:name=".MenuListActivity"
+            android:name=".MenuList.MenuListActivity"
             android:label="@string/title_activity_menu"
             android:screenOrientation="portrait"
             android:theme="@style/Transparent" >

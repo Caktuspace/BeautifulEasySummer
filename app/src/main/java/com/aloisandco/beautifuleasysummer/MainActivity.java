@@ -8,6 +8,7 @@ import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 
+import com.aloisandco.beautifuleasysummer.Menu.MenuActivity;
 import com.aloisandco.beautifuleasysummer.utils.BitmapCacheUtils;
 import com.aloisandco.beautifuleasysummer.utils.FontManager;
 import com.aloisandco.beautifuleasysummer.utils.ImageViewUtils;

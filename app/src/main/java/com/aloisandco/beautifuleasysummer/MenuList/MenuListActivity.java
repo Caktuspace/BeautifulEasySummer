@@ -1,4 +1,4 @@
-package com.aloisandco.beautifuleasysummer;
+package com.aloisandco.beautifuleasysummer.MenuList;
 
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.aloisandco.beautifuleasysummer.R;
 import com.aloisandco.beautifuleasysummer.utils.ActivityTransitionManager;
 import com.aloisandco.beautifuleasysummer.utils.FontManager;
 

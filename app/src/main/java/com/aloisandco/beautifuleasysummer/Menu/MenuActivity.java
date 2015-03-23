@@ -1,11 +1,10 @@
-package com.aloisandco.beautifuleasysummer;
+package com.aloisandco.beautifuleasysummer.Menu;
 
 import android.animation.TimeInterpolator;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
@@ -21,6 +20,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aloisandco.beautifuleasysummer.MenuList.MenuListActivity;
+import com.aloisandco.beautifuleasysummer.R;
 import com.aloisandco.beautifuleasysummer.utils.ActivityTransitionManager;
 import com.aloisandco.beautifuleasysummer.utils.BitmapCacheUtils;
 import com.aloisandco.beautifuleasysummer.utils.FontManager;
