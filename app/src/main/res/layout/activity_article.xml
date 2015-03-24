@@ -26,7 +26,7 @@
             android:id="@+id/title"
             android:text="@string/cocktails_raffraichissants"
             android:gravity="center"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="30dp"
             android:layout_marginLeft="20dp"
