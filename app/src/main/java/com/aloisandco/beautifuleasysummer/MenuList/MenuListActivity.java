@@ -3,19 +3,24 @@ package com.aloisandco.beautifuleasysummer.MenuList;
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.app.Activity;
+import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.aloisandco.beautifuleasysummer.Article.ArticleActivity;
 import com.aloisandco.beautifuleasysummer.R;
 import com.aloisandco.beautifuleasysummer.utils.ActivityTransitionManager;
 import com.aloisandco.beautifuleasysummer.utils.FontManager;
+import com.aloisandco.beautifuleasysummer.utils.ScreenUtils;
 
 /**
  * Created by quentinmetzler on 18/03/15.
@@ -100,6 +105,43 @@ public class MenuListActivity extends Activity {
         }
 
         mListView.setAdapter(new MenuListAdapter(this, menuListArrayResourceId));
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mListView.setEnabled(false);
+                ActivityTransitionManager.getInstance().setMenuListItemView(view);
+
+                TypedArray menuListArray = getResources().obtainTypedArray(menuListArrayResourceId);
+                TypedArray itemArray = getResources().obtainTypedArray(menuListArray.getResourceId(position, 0));
+                menuListArray.recycle();
+                TextView textView = (TextView) view.findViewById(R.id.textView);
+                int[] viewScreenLocation = new int[2];
+                view.getLocationOnScreen(viewScreenLocation);
+                int[] textScreenLocation = new int[2];
+                textView.getLocationOnScreen(textScreenLocation);
+                Intent intent = new Intent(MenuListActivity.this, ArticleActivity.class);
+                intent.
+                        putExtra(PACKAGE_NAME + ".title", itemArray.getString(0)).
+                        putExtra(PACKAGE_NAME + ".article", itemArray.getString(1)).
+                        putExtra(PACKAGE_NAME + ".leftDivider", viewScreenLocation[0] + ScreenUtils.valueToDpi(getResources(), 20)).
+                        putExtra(PACKAGE_NAME + ".topDivider", viewScreenLocation[1] + view.getHeight()).
+                        putExtra(PACKAGE_NAME + ".widthDivider", view.getWidth() - ScreenUtils.valueToDpi(getResources(), 40)).
+                        putExtra(PACKAGE_NAME + ".heightDivider", ScreenUtils.valueToDpi(getResources(), 1)).
+                        putExtra(PACKAGE_NAME + ".leftText", textScreenLocation[0]).
+                        putExtra(PACKAGE_NAME + ".topText", textScreenLocation[1]).
+                        putExtra(PACKAGE_NAME + ".widthText", textView.getWidth()).
+                        putExtra(PACKAGE_NAME + ".heightText", textView.getHeight());
+                itemArray.recycle();
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mListView.setEnabled(true);
     }
 
     private void initFont() {

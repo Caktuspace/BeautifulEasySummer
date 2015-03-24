@@ -14,6 +14,16 @@ public class ActivityTransitionManager {
 
     private View menuItemView;
 
+    public View getMenuListItemView() {
+        return menuListItemView;
+    }
+
+    public void setMenuListItemView(View menuListItemView) {
+        this.menuListItemView = menuListItemView;
+    }
+
+    private View menuListItemView;
+
     private ActivityTransitionManager() {
     }
 

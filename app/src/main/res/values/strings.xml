@@ -4,7 +4,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_menu">MenuActivity</string>
-    <string name="conseils_pour_lete"><![CDATA[CONSEILS <bold>POUR L\'ÉTÉ</bold>]]></string>
+    <string name="conseils_pour_lete"><![CDATA[Conseils <bold>pour l\'été</bold>]]></string>
     <string name="beaute">Beauté</string>
     <string name="gourmandise">Gourmandise</string>
     <string name="mode">Mode</string>

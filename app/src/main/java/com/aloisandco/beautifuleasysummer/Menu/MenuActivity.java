@@ -104,9 +104,11 @@ public class MenuActivity extends Activity {
 
                 for (int i = 0; i < typedArray.length(); i++) {
                     View view = mGridView.getChildAt(i);
-                    ViewGroup.LayoutParams lp = view.getLayoutParams();
-                    lp.height = (relativeLayout.getHeight() - (padding * (typedArray.length()/2))) / (typedArray.length()/2);
-                    view.setLayoutParams(lp);
+                    if (view != null) {
+                        ViewGroup.LayoutParams lp = view.getLayoutParams();
+                        lp.height = (relativeLayout.getHeight() - (padding * (typedArray.length() / 2))) / (typedArray.length() / 2);
+                        view.setLayoutParams(lp);
+                    }
                 }
 
                 return true;
@@ -166,7 +168,7 @@ public class MenuActivity extends Activity {
         FontManager fontManager = FontManager.getInstance(getAssets());
         TextView conseilsText = (TextView) findViewById(R.id.conseils);
         conseilsText.setTypeface(fontManager.ralewayLightFont);
-        conseilsText.setText(Html.fromHtml(getResources().getString(R.string.conseils_pour_lete), null, new HtmlTagHandler()));
+        conseilsText.setText(Html.fromHtml(getResources().getString(R.string.conseils_pour_lete).toUpperCase(), null, new HtmlTagHandler()));
     }
 
     /**

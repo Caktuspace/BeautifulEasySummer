@@ -85,7 +85,7 @@
 
     <array name="salade_tropicale">
         <item>@string/salade_tropicale</item>
-        <item>@array/salade_tropicale</item>
+        <item>@string/salade_tropicale</item>
     </array>
     <array name="cocktails_raffraichissants">
         <item>@string/cocktails_raffraichissants</item>

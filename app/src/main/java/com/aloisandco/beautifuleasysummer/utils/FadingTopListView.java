@@ -32,7 +32,7 @@ public class FadingTopListView extends ListView {
                 float margin = (float) ScreenUtils.valueToDpi(getResources(), 25);
                 if (v.getTop() < -margin) {
                     v.setAlpha(0);
-                    v.setEnabled(false);
+                    v.setEnabled(true);
                 } else {
                     v.setAlpha((margin + (float) v.getTop()) / margin);
                     v.setEnabled(true);
