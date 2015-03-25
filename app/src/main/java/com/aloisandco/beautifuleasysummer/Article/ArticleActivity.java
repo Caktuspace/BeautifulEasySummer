@@ -3,11 +3,14 @@ package com.aloisandco.beautifuleasysummer.Article;
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,7 +29,7 @@ public class ArticleActivity extends Activity {
 
     private TextView mTitleTextView;
     private ImageView mBackgroundImageView;
-    private TextView mArticleView;
+    private WebView mArticleView;
     private View mDivider;
 
     int mLeftDeltaDivider;
@@ -45,18 +48,28 @@ public class ArticleActivity extends Activity {
 
         mTitleTextView = (TextView) findViewById(R.id.title);
         mBackgroundImageView = (ImageView) findViewById(R.id.tropical_background);
-        mArticleView = (TextView) findViewById(R.id.articleView);
+        mArticleView = (WebView) findViewById(R.id.articleView);
         mDivider = findViewById(R.id.divider);
 
         Bundle bundle = getIntent().getExtras();
         final String title = bundle.getString(PACKAGE_NAME + ".title");
-        final String articleString = bundle.getString(PACKAGE_NAME + ".article");
+        final String articleUrl = bundle.getString(PACKAGE_NAME + ".article");
 
         FontManager fontManager = FontManager.getInstance(getAssets());
         mTitleTextView.setTypeface(fontManager.ralewayLightFont);
         mTitleTextView.setText(Html.fromHtml(title.toUpperCase(), null, new HtmlTagHandler()));
-        mArticleView.setTypeface(fontManager.ralewayMediumFont);
-        mArticleView.setText(Html.fromHtml(articleString, null, new HtmlTagHandler()));
+
+        mArticleView.loadUrl(articleUrl);
+        mArticleView.setBackgroundColor(Color.TRANSPARENT);
+        mArticleView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        final WebSettings webSettings = mArticleView.getSettings();
+        webSettings.setDefaultFontSize(18);
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webSettings.setAppCacheEnabled(false);
+        webSettings.setLoadsImagesAutomatically(true);
+        webSettings.setGeolocationEnabled(false);
+        webSettings.setNeedInitialFocus(false);
+        webSettings.setSaveFormData(false);
 
         final int dividerTop = bundle.getInt(PACKAGE_NAME + ".topDivider");
         final int dividerLeft = bundle.getInt(PACKAGE_NAME + ".leftDivider");

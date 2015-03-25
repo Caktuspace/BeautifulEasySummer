@@ -25,19 +25,33 @@ public class MenuListAdapter extends BaseAdapter {
         mMenuListArray = mContext.getResources().obtainTypedArray(resourceId);
     }
 
+    @Override
+    public boolean areAllItemsEnabled() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+        return super.isEnabled(position);
+    }
+
+    @Override
     public int getCount() {
         return mMenuListArray.length();
     }
 
+    @Override
     public Object getItem(int position) {
         return null;
     }
 
+    @Override
     public long getItemId(int position) {
         return 0;
     }
 
     // create a new ImageView for each item referenced by the Adapter
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LinearLayout linearLayout = null;
         TypedArray itemArray = mContext.getResources().obtainTypedArray(mMenuListArray.getResourceId(position, 0));

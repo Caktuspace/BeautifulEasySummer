@@ -9,7 +9,7 @@
         android:id="@+id/textView"
         android:text="@string/agrementer_vos_plats"
         android:gravity="center"
-        android:textSize="16sp"
+        android:textSize="17sp"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="60dp"

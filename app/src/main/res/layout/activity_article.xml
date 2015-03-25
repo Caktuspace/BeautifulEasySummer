@@ -26,11 +26,11 @@
             android:id="@+id/title"
             android:text="@string/cocktails_raffraichissants"
             android:gravity="center"
-            android:textSize="18sp"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="30dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp" />
+            android:textSize="21sp"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
 
         <View
             android:id="@+id/divider"
@@ -40,18 +40,12 @@
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp" />
 
-        <ScrollView
-            android:id="@+id/scrollView"
+        <WebView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical"
-            android:layout_marginTop="30dp"
-            android:fillViewport="true">
-            <TextView
-                android:id="@+id/articleView"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-        </ScrollView>
+            android:layout_height="fill_parent"
+            android:id="@+id/articleView"
+            android:requiresFadingEdge="vertical"
+            android:fadingEdgeLength="20dp"/>
     </LinearLayout>
     <ImageView
         android:layout_height="fill_parent"

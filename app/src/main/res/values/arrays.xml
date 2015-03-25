@@ -89,7 +89,7 @@
     </array>
     <array name="cocktails_raffraichissants">
         <item>@string/cocktails_raffraichissants</item>
-        <item>@array/cocktails_raffraichissants</item>
+        <item>"file:///android_asset/html/cocktails_raffraichissants_article.html"</item>
     </array>
     <array name="dessert_du_soleil">
         <item>@string/dessert_du_soleil</item>

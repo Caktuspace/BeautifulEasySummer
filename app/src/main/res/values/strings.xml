@@ -21,4 +21,6 @@
     <string name="fruits_exotiques"><![CDATA[Découverte de <bold>nouveaux fruits exotiques</bold> à tester]]></string>
     <string name="smoothies_gourmands"><![CDATA[Recettes de <bold>smoothies gourmands</bold>]]></string>
     <string name="agrementer_vos_plats"><![CDATA[Pensez aux <bold>agrumes pour agrémenter vos plats</bold>]]></string>
-</resources>
+
+    <string name="cocktails_raffraichissants_article"><![CDATA[<p align=center><bold>Cooler à l\'orange et au citron</bold></p><br/>image<br/><br/>INGRÉDIENTS<br/><br/><ul><li>&#189; orange brossée et coupée en tranches fines</li><li>&#189; citron brossé et coupé en tranches fines</li><li>&#189; lime brossée et coupée en tranches fines</li><li>&#189; t (125 ml) de vodka au citron ou nature</li><li>1 c. à tab (15 ml) de vermouth blanc sec</li><li>2 c. à tab (30 ml) de sirop citron-orange</li><li>&#189; t (125 ml) de soda tonique (de type Tonic Water)</li><li>&#189; t (125 ml) de soda à la lime (de type Lime cordial)</li><li>&#189; t (125 ml) d\'eau gazéifiée à la lime (de type Perrier)</li><li>glaçons</li></ul><br/><br/>PRÉPARATION<br/><br/>Préparation pour le cooler<br/><ol><li>Dans un grand pichet, mettre les tranches d\'orange, de citron et de lime. Ajouter la vodka, le vermouth et le sirop citron-orange et mélanger. Laisser reposer pendant 15 minutes. Ajouter le soda tonique, le soda à la lime, l\'eau gazéifiée et suffisamment de glaçons pour remplir le pichet.</li></ol>]]></string>
+    </resources>
