@@ -6,17 +6,17 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.webkit.WebView;
 import android.widget.ImageView;
 
 import com.aloisandco.beautifuleasysummer.Menu.MenuActivity;
 import com.aloisandco.beautifuleasysummer.utils.BitmapCacheUtils;
+import com.aloisandco.beautifuleasysummer.utils.Constants;
 import com.aloisandco.beautifuleasysummer.utils.FontManager;
 import com.aloisandco.beautifuleasysummer.utils.ImageViewUtils;
 
 
 public class MainActivity extends Activity {
-
-    private static final String PACKAGE_NAME = "com.aloisandco.beautifuleasysummer.mainActivityAnim";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +24,9 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         FontManager.getInstance(getAssets());
+        // load a webview because the first one is always slow
+        WebView webView = new WebView(this);
+        webView.loadUrl(getString(R.string.salade_tropicale_html));
 
         final ImageView circleView = (ImageView) findViewById(R.id.circle);
         if (savedInstanceState == null) {
@@ -64,11 +67,11 @@ public class MainActivity extends Activity {
                 logoView.getLocationOnScreen(screenLocation);
                 Intent intent = new Intent(MainActivity.this, MenuActivity.class);
                 intent.
-                        putExtra(PACKAGE_NAME + ".resourceId", R.id.background).
-                        putExtra(PACKAGE_NAME + ".left", screenLocation[0]).
-                        putExtra(PACKAGE_NAME + ".top", screenLocation[1]).
-                        putExtra(PACKAGE_NAME + ".width", logoView.getWidth()).
-                        putExtra(PACKAGE_NAME + ".height", logoView.getHeight());
+                        putExtra(Constants.PACKAGE_NAME + ".resourceId", R.id.background).
+                        putExtra(Constants.PACKAGE_NAME + ".left", screenLocation[0]).
+                        putExtra(Constants.PACKAGE_NAME + ".top", screenLocation[1]).
+                        putExtra(Constants.PACKAGE_NAME + ".width", logoView.getWidth()).
+                        putExtra(Constants.PACKAGE_NAME + ".height", logoView.getHeight());
                 startActivity(intent);
                 overridePendingTransition(0, 0);
             }

@@ -24,6 +24,7 @@ import com.aloisandco.beautifuleasysummer.MenuList.MenuListActivity;
 import com.aloisandco.beautifuleasysummer.R;
 import com.aloisandco.beautifuleasysummer.utils.ActivityTransitionManager;
 import com.aloisandco.beautifuleasysummer.utils.BitmapCacheUtils;
+import com.aloisandco.beautifuleasysummer.utils.Constants;
 import com.aloisandco.beautifuleasysummer.utils.FontManager;
 import com.aloisandco.beautifuleasysummer.utils.HtmlTagHandler;
 import com.aloisandco.beautifuleasysummer.utils.ScreenUtils;
@@ -32,7 +33,6 @@ public class MenuActivity extends Activity {
 
     private static final TimeInterpolator sAccDecc = new AccelerateDecelerateInterpolator();
     private static final int ANIM_DURATION = 400;
-    private static final String PACKAGE_NAME = "com.aloisandco.beautifuleasysummer.mainActivityAnim";
 
     int mLeftDeltaLogo;
     int mTopDeltaLogo;
@@ -58,62 +58,50 @@ public class MenuActivity extends Activity {
         mFeetView = (ImageView) findViewById(R.id.FeetView);
 
         Bundle bundle = getIntent().getExtras();
-        Bitmap bitmap = BitmapCacheUtils.getBitmap(bundle.getInt(PACKAGE_NAME + ".resourceId"));
-        final int logoTop = bundle.getInt(PACKAGE_NAME + ".top");
-        final int logoLeft = bundle.getInt(PACKAGE_NAME + ".left");
-        final int logoWidth = bundle.getInt(PACKAGE_NAME + ".width");
-        final int logoHeight = bundle.getInt(PACKAGE_NAME + ".height");
-        mBackgroundView.setImageBitmap(bitmap);
 
         if (savedInstanceState == null) {
-            mBackgroundView.setVisibility(View.VISIBLE);
-            mFeetView.setVisibility(View.VISIBLE);
-            ViewTreeObserver observer = mLogoImageView.getViewTreeObserver();
-            observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-                @Override
-                public boolean onPreDraw() {
-                    mLogoImageView.getViewTreeObserver().removeOnPreDrawListener(this);
-
-                    // Figure out where the thumbnail and full size versions are, relative
-                    // to the screen and each other
-                    int[] screenLocation = new int[2];
-                    mLogoImageView.getLocationOnScreen(screenLocation);
-                    mLeftDeltaLogo = logoLeft - screenLocation[0];
-                    mTopDeltaLogo = logoTop - screenLocation[1];
-
-                    // Scale factors to make the large version the same size as the thumbnail
-                    mWidthScaleLogo = (float) logoWidth / mLogoImageView.getWidth();
-                    mHeightScaleLogo = (float) logoHeight / mLogoImageView.getHeight();
-
-                    runEnterAnimation();
-                    return true;
-                }
-            });
+            calculateAnimationOffset(bundle);
         }
 
-        final RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.relativeGridHeight);
-        mGridView = (GridView) findViewById(R.id.gridview);
+        initGridView();
+    }
 
-        ViewTreeObserver observer = relativeLayout.getViewTreeObserver();
+    private void calculateAnimationOffset(Bundle bundle) {
+        Bitmap bitmap = BitmapCacheUtils.getBitmap(bundle.getInt(Constants.PACKAGE_NAME + ".resourceId"));
+        final int logoTop = bundle.getInt(Constants.PACKAGE_NAME + ".top");
+        final int logoLeft = bundle.getInt(Constants.PACKAGE_NAME + ".left");
+        final int logoWidth = bundle.getInt(Constants.PACKAGE_NAME + ".width");
+        final int logoHeight = bundle.getInt(Constants.PACKAGE_NAME + ".height");
+        mBackgroundView.setImageBitmap(bitmap);
+        mBackgroundView.setVisibility(View.VISIBLE);
+        mFeetView.setVisibility(View.VISIBLE);
+        ViewTreeObserver observer = mLogoImageView.getViewTreeObserver();
         observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
-                relativeLayout.getViewTreeObserver().removeOnPreDrawListener(this);
-                TypedArray typedArray = getResources().obtainTypedArray(R.array.menu);
-                int padding = ScreenUtils.valueToDpi(getResources(), 10);
+                mLogoImageView.getViewTreeObserver().removeOnPreDrawListener(this);
 
-                for (int i = 0; i < typedArray.length(); i++) {
-                    View view = mGridView.getChildAt(i);
-                    if (view != null) {
-                        ViewGroup.LayoutParams lp = view.getLayoutParams();
-                        lp.height = (relativeLayout.getHeight() - (padding * (typedArray.length() / 2))) / (typedArray.length() / 2);
-                        view.setLayoutParams(lp);
-                    }
-                }
+                // Figure out where the thumbnail and full size versions are, relative
+                // to the screen and each other
+                int[] screenLocation = new int[2];
+                mLogoImageView.getLocationOnScreen(screenLocation);
+                mLeftDeltaLogo = logoLeft - screenLocation[0];
+                mTopDeltaLogo = logoTop - screenLocation[1];
 
+                // Scale factors to make the large version the same size as the thumbnail
+                mWidthScaleLogo = (float) logoWidth / mLogoImageView.getWidth();
+                mHeightScaleLogo = (float) logoHeight / mLogoImageView.getHeight();
+
+                runEnterAnimation();
                 return true;
             }
         });
+    }
+
+    private  void initGridView() {
+        mGridView = (GridView) findViewById(R.id.gridview);
+        redrawGridView();
+
         mGridView.setAdapter(new MenuAdapter(this));
         mGridView.setOnTouchListener(new View.OnTouchListener(){
             @Override
@@ -140,20 +128,44 @@ public class MenuActivity extends Activity {
                 textView.getLocationOnScreen(textScreenLocation);
                 Intent intent = new Intent(MenuActivity.this, MenuListActivity.class);
                 intent.
-                        putExtra(PACKAGE_NAME + ".iconId", itemArray.getResourceId(0, 0)).
-                        putExtra(PACKAGE_NAME + ".text", textView.getText()).
-                        putExtra(PACKAGE_NAME + ".menuListArray", itemArray.getResourceId(2, 0)).
-                        putExtra(PACKAGE_NAME + ".leftIcon", iconScreenLocation[0]).
-                        putExtra(PACKAGE_NAME + ".topIcon", iconScreenLocation[1]).
-                        putExtra(PACKAGE_NAME + ".widthIcon", imageView.getWidth()).
-                        putExtra(PACKAGE_NAME + ".heightIcon", imageView.getHeight()).
-                        putExtra(PACKAGE_NAME + ".leftText", textScreenLocation[0]).
-                        putExtra(PACKAGE_NAME + ".topText", textScreenLocation[1]).
-                        putExtra(PACKAGE_NAME + ".widthText", textView.getWidth()).
-                        putExtra(PACKAGE_NAME + ".heightText", textView.getHeight());
+                        putExtra(Constants.PACKAGE_NAME + ".iconId", itemArray.getResourceId(0, 0)).
+                        putExtra(Constants.PACKAGE_NAME + ".text", textView.getText()).
+                        putExtra(Constants.PACKAGE_NAME + ".menuListArray", itemArray.length() > 2?itemArray.getResourceId(2, 0):0).
+                        putExtra(Constants.PACKAGE_NAME + ".leftIcon", iconScreenLocation[0]).
+                        putExtra(Constants.PACKAGE_NAME + ".topIcon", iconScreenLocation[1]).
+                        putExtra(Constants.PACKAGE_NAME + ".widthIcon", imageView.getWidth()).
+                        putExtra(Constants.PACKAGE_NAME + ".heightIcon", imageView.getHeight()).
+                        putExtra(Constants.PACKAGE_NAME + ".leftText", textScreenLocation[0]).
+                        putExtra(Constants.PACKAGE_NAME + ".topText", textScreenLocation[1]).
+                        putExtra(Constants.PACKAGE_NAME + ".widthText", textView.getWidth()).
+                        putExtra(Constants.PACKAGE_NAME + ".heightText", textView.getHeight());
                 itemArray.recycle();
                 startActivity(intent);
                 overridePendingTransition(0, 0);
+            }
+        });
+    }
+
+    private void redrawGridView() {
+        final RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.relativeGridHeight);
+        ViewTreeObserver observer = relativeLayout.getViewTreeObserver();
+        observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                relativeLayout.getViewTreeObserver().removeOnPreDrawListener(this);
+                TypedArray typedArray = getResources().obtainTypedArray(R.array.menu);
+                int padding = ScreenUtils.valueToDpi(getResources(), 10);
+
+                for (int i = 0; i < typedArray.length(); i++) {
+                    View view = mGridView.getChildAt(i);
+                    if (view != null) {
+                        ViewGroup.LayoutParams lp = view.getLayoutParams();
+                        lp.height = (relativeLayout.getHeight() - (padding * (typedArray.length() / 2))) / (typedArray.length() / 2);
+                        view.setLayoutParams(lp);
+                    }
+                }
+
+                return true;
             }
         });
     }
@@ -162,6 +174,7 @@ public class MenuActivity extends Activity {
     protected void onResume() {
         super.onResume();
         mGridView.setEnabled(true);
+        redrawGridView();
     }
 
     private void initFont() {

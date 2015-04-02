@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="fill_parent"
+    android:orientation="horizontal" android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:gravity="center">
-    <TextView
+    android:gravity="center" >
+    <CheckBox
+        android:id="@+id/favorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:text="@string/agrementer_vos_plats"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="40dp"
+        android:checked="false"
         android:gravity="center"
+        android:focusable="false"
+        android:clickable="true" />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:text="@string/detox_water"
         android:textSize="17sp"
+        android:layout_weight="1"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp" />
 
 </LinearLayout>

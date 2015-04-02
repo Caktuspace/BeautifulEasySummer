@@ -6,8 +6,8 @@
         <item>@array/gourmandise_cat</item>
         <item>@array/mode_cat</item>
         <item>@array/activite_cat</item>
-        <item>@array/soleil_cat</item>
         <item>@array/coiffure_cat</item>
+        <item>@array/favorie_cat</item>
     </array>
 
     <array name="beaute_cat">
@@ -30,10 +30,9 @@
         <item>@string/activite</item>
         <item>@array/activite_list</item>
     </array>
-    <array name="soleil_cat">
+    <array name="favorie_cat">
         <item>@mipmap/soleil_logo</item>
-        <item>@string/soleil</item>
-        <item>@array/soleil_list</item>
+        <item>@string/favorie</item>
     </array>
     <array name="coiffure_cat">
         <item>@mipmap/coiffure_logo</item>
@@ -52,31 +51,12 @@
         <item>@array/apero_reussi</item>
         <item>@array/fruits_exotiques</item>
         <item>@array/smoothies_gourmands</item>
-        <item>@array/agrementer_vos_plats</item>
-        <item>@array/salade_tropicale</item>
-        <item>@array/cocktails_raffraichissants</item>
-        <item>@array/dessert_du_soleil</item>
-        <item>@array/top_en_maillot</item>
-        <item>@array/apero_reussi</item>
-        <item>@array/fruits_exotiques</item>
-        <item>@array/smoothies_gourmands</item>
-        <item>@array/agrementer_vos_plats</item>
-        <item>@array/salade_tropicale</item>
-        <item>@array/cocktails_raffraichissants</item>
-        <item>@array/dessert_du_soleil</item>
-        <item>@array/top_en_maillot</item>
-        <item>@array/apero_reussi</item>
-        <item>@array/fruits_exotiques</item>
-        <item>@array/smoothies_gourmands</item>
-        <item>@array/agrementer_vos_plats</item>
+        <item>@array/detox_water</item>
     </array>
     <array name="mode_list">
         <item>@string/title_activity_menu</item>
     </array>
     <array name="activite_list">
-        <item>@string/title_activity_menu</item>
-    </array>
-    <array name="soleil_list">
         <item>@string/title_activity_menu</item>
     </array>
     <array name="coiffure_list">
@@ -85,35 +65,35 @@
 
     <array name="salade_tropicale">
         <item>@string/salade_tropicale</item>
-        <item>@string/salade_tropicale</item>
+        <item>@string/salade_tropicale_html</item>
     </array>
     <array name="cocktails_raffraichissants">
         <item>@string/cocktails_raffraichissants</item>
-        <item>"file:///android_asset/html/cocktails_raffraichissants_article.html"</item>
+        <item>@string/cocktails_raffraichissants_html</item>
     </array>
     <array name="dessert_du_soleil">
         <item>@string/dessert_du_soleil</item>
-        <item>@array/dessert_du_soleil</item>
+        <item>@string/dessert_du_soleil_html</item>
     </array>
     <array name="top_en_maillot">
         <item>@string/top_en_maillot</item>
-        <item>@array/top_en_maillot</item>
+        <item>@string/top_en_maillot_html</item>
     </array>
     <array name="apero_reussi">
         <item>@string/apero_reussi</item>
-        <item>@array/apero_reussi</item>
+        <item>@string/apero_reussi_html</item>
     </array>
     <array name="fruits_exotiques">
         <item>@string/fruits_exotiques</item>
-        <item>@array/fruits_exotiques</item>
+        <item>@string/fruits_exotiques_html</item>
     </array>
     <array name="smoothies_gourmands">
         <item>@string/smoothies_gourmands</item>
-        <item>@array/smoothies_gourmands</item>
+        <item>@string/smoothies_gourmands_html</item>
     </array>
-    <array name="agrementer_vos_plats">
-        <item>@string/agrementer_vos_plats</item>
-        <item>@array/agrementer_vos_plats</item>
+    <array name="detox_water">
+        <item>@string/detox_water</item>
+        <item>@string/detox_water_html</item>
     </array>
 
 </resources>
