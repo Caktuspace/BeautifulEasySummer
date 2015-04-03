@@ -41,7 +41,10 @@
     </array>
 
     <array name="beaute_list">
-        <item>@string/title_activity_menu</item>
+        <item>@array/teint_de_peche</item>
+        <item>@array/regard_de_lete</item>
+        <item>@array/bouche_a_croquer</item>
+        <item>@array/vernis_de_lete</item>
     </array>
     <array name="gourmandise_list">
         <item>@array/salade_tropicale</item>
@@ -96,4 +99,20 @@
         <item>@string/detox_water_html</item>
     </array>
 
+    <array name="teint_de_peche">
+        <item>@string/teint_de_peche</item>
+        <item>@string/teint_de_peche_html</item>
+    </array>
+    <array name="regard_de_lete">
+        <item>@string/regard_de_lete</item>
+        <item>@string/regard_de_lete_html</item>
+    </array>
+    <array name="bouche_a_croquer">
+        <item>@string/bouche_a_croquer</item>
+        <item>@string/bouche_a_croquer_html</item>
+    </array>
+    <array name="vernis_de_lete">
+        <item>@string/vernis_de_lete</item>
+        <item>@string/vernis_de_lete_html</item>
+    </array>
 </resources>

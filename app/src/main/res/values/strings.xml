@@ -32,4 +32,14 @@
     <string name="fruits_exotiques_html">file:///android_asset/html/fr/fruits_exotiques.html</string>
     <string name="smoothies_gourmands_html">file:///android_asset/html/fr/smoothies_gourmands.html</string>
     <string name="detox_water_html">file:///android_asset/html/fr/detox_water.html</string>
+
+    <string name="teint_de_peche"><![CDATA[Teint de <bold>pêche</bold>]]></string>
+    <string name="regard_de_lete"><![CDATA[Le <bold>regard</bold> de l\'été 2015]]></string>
+    <string name="bouche_a_croquer"><![CDATA[Une <bold>bouche</bold> à croquer]]></string>
+    <string name="vernis_de_lete"><![CDATA[Les couleurs tendances des <bold>vernis</bold> de l\'été]]></string>
+
+    <string name="teint_de_peche_html">file:///android_asset/html/fr/teint_de_peche.html</string>
+    <string name="regard_de_lete_html">file:///android_asset/html/fr/regard_de_lete.html</string>
+    <string name="bouche_a_croquer_html">file:///android_asset/html/fr/bouche_a_croquer.html</string>
+    <string name="vernis_de_lete_html">file:///android_asset/html/fr/vernis_de_lete.html</string>
 </resources>
