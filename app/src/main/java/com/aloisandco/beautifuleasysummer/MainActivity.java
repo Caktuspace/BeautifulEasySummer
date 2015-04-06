@@ -9,11 +9,15 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.webkit.WebView;
 import android.widget.ImageView;
 
+import com.aloisandco.beautifuleasysummer.Article.ArticleActivity;
 import com.aloisandco.beautifuleasysummer.Menu.MenuActivity;
 import com.aloisandco.beautifuleasysummer.utils.BitmapCacheUtils;
 import com.aloisandco.beautifuleasysummer.utils.Constants;
 import com.aloisandco.beautifuleasysummer.utils.FontManager;
 import com.aloisandco.beautifuleasysummer.utils.ImageViewUtils;
+import com.aloisandco.beautifuleasysummer.utils.ScreenUtils;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends Activity {
@@ -59,19 +63,26 @@ public class MainActivity extends Activity {
         ImageView circleView = (ImageView) findViewById(R.id.circle);
         logoView.setPivotX(logoView.getWidth() / 2);
         logoView.setPivotY(circleView.getHeight());
-        logoView.animate().setDuration(400).setStartDelay(400).setInterpolator(new AccelerateDecelerateInterpolator()).rotation(-360f).withEndAction(new Runnable() {
+        logoView.animate().setDuration(Constants.ANIMATION_DURATION).setStartDelay(Constants.ANIMATION_DURATION).setInterpolator(new AccelerateDecelerateInterpolator()).rotation(-360f).withEndAction(new Runnable() {
             @Override
             public void run() {
                 ImageView logoView = (ImageView) findViewById(R.id.logo);
                 int[] screenLocation = new int[2];
                 logoView.getLocationOnScreen(screenLocation);
                 Intent intent = new Intent(MainActivity.this, MenuActivity.class);
+
+                ArrayList<AnimatedView> dataList = new ArrayList<>();
+                AnimatedView logoAnimatedView = new AnimatedView(screenLocation[1],
+                        screenLocation[0],
+                        logoView.getWidth(),
+                        logoView.getHeight(),
+                        R.id.logo, 1);
+                dataList.add(logoAnimatedView);
                 intent.
                         putExtra(Constants.PACKAGE_NAME + ".resourceId", R.id.background).
-                        putExtra(Constants.PACKAGE_NAME + ".left", screenLocation[0]).
-                        putExtra(Constants.PACKAGE_NAME + ".top", screenLocation[1]).
-                        putExtra(Constants.PACKAGE_NAME + ".width", logoView.getWidth()).
-                        putExtra(Constants.PACKAGE_NAME + ".height", logoView.getHeight());
+                        putExtra(Constants.PACKAGE_NAME + ".logoWidth", logoView.getWidth()).
+                        putExtra(Constants.PACKAGE_NAME + ".logoHeight", logoView.getHeight()).
+                        putParcelableArrayListExtra(Constants.PACKAGE_NAME + ".animatedViews", dataList);
                 startActivity(intent);
                 overridePendingTransition(0, 0);
             }

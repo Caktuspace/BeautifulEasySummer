@@ -1,7 +1,5 @@
 package com.aloisandco.beautifuleasysummer.Menu;
 
-import android.animation.TimeInterpolator;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -12,7 +10,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -20,6 +17,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aloisandco.beautifuleasysummer.AnimType;
+import com.aloisandco.beautifuleasysummer.AnimatedActivity;
+import com.aloisandco.beautifuleasysummer.AnimatedView;
 import com.aloisandco.beautifuleasysummer.MenuList.MenuListActivity;
 import com.aloisandco.beautifuleasysummer.R;
 import com.aloisandco.beautifuleasysummer.utils.ActivityTransitionManager;
@@ -29,73 +29,17 @@ import com.aloisandco.beautifuleasysummer.utils.FontManager;
 import com.aloisandco.beautifuleasysummer.utils.HtmlTagHandler;
 import com.aloisandco.beautifuleasysummer.utils.ScreenUtils;
 
-public class MenuActivity extends Activity {
+import java.util.ArrayList;
 
-    private static final TimeInterpolator sAccDecc = new AccelerateDecelerateInterpolator();
-    private static final int ANIM_DURATION = 400;
-
-    int mLeftDeltaLogo;
-    int mTopDeltaLogo;
-    float mWidthScaleLogo;
-    float mHeightScaleLogo;
-    private ImageView mLogoImageView;
-    private ImageView mBackgroundView;
-    private ImageView mFeetView;
-    private ImageView mLeftLineImageView;
-    private ImageView mRightLineImageView;
+public class MenuActivity extends AnimatedActivity {
     private GridView mGridView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
+        super.onCreate(savedInstanceState, R.layout.activity_menu, 2);
+
         initFont();
-
-        mLeftLineImageView = (ImageView) findViewById(R.id.logo_left_line);
-        mRightLineImageView = (ImageView) findViewById(R.id.logo_right_line);
-        mLogoImageView = (ImageView) findViewById(R.id.logo);
-        mBackgroundView = (ImageView) findViewById(R.id.background);
-        mFeetView = (ImageView) findViewById(R.id.FeetView);
-
-        Bundle bundle = getIntent().getExtras();
-
-        if (savedInstanceState == null) {
-            calculateAnimationOffset(bundle);
-        }
-
         initGridView();
-    }
-
-    private void calculateAnimationOffset(Bundle bundle) {
-        Bitmap bitmap = BitmapCacheUtils.getBitmap(bundle.getInt(Constants.PACKAGE_NAME + ".resourceId"));
-        final int logoTop = bundle.getInt(Constants.PACKAGE_NAME + ".top");
-        final int logoLeft = bundle.getInt(Constants.PACKAGE_NAME + ".left");
-        final int logoWidth = bundle.getInt(Constants.PACKAGE_NAME + ".width");
-        final int logoHeight = bundle.getInt(Constants.PACKAGE_NAME + ".height");
-        mBackgroundView.setImageBitmap(bitmap);
-        mBackgroundView.setVisibility(View.VISIBLE);
-        mFeetView.setVisibility(View.VISIBLE);
-        ViewTreeObserver observer = mLogoImageView.getViewTreeObserver();
-        observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                mLogoImageView.getViewTreeObserver().removeOnPreDrawListener(this);
-
-                // Figure out where the thumbnail and full size versions are, relative
-                // to the screen and each other
-                int[] screenLocation = new int[2];
-                mLogoImageView.getLocationOnScreen(screenLocation);
-                mLeftDeltaLogo = logoLeft - screenLocation[0];
-                mTopDeltaLogo = logoTop - screenLocation[1];
-
-                // Scale factors to make the large version the same size as the thumbnail
-                mWidthScaleLogo = (float) logoWidth / mLogoImageView.getWidth();
-                mHeightScaleLogo = (float) logoHeight / mLogoImageView.getHeight();
-
-                runEnterAnimation();
-                return true;
-            }
-        });
     }
 
     private  void initGridView() {
@@ -127,18 +71,28 @@ public class MenuActivity extends Activity {
                 int[] textScreenLocation = new int[2];
                 textView.getLocationOnScreen(textScreenLocation);
                 Intent intent = new Intent(MenuActivity.this, MenuListActivity.class);
+
+
+                ArrayList<AnimatedView> dataList = new ArrayList<>();
+                AnimatedView iconAnimatedView = new AnimatedView(iconScreenLocation[1],
+                        iconScreenLocation[0],
+                        imageView.getWidth(),
+                        imageView.getHeight(),
+                        R.id.icon, 2);
+                AnimatedView textAnimatedView = new AnimatedView(textScreenLocation[1],
+                        textScreenLocation[0],
+                        textView.getWidth(),
+                        textView.getHeight(),
+                        R.id.title, 2);
+                dataList.add(iconAnimatedView);
+                dataList.add(textAnimatedView);
+
                 intent.
                         putExtra(Constants.PACKAGE_NAME + ".iconId", itemArray.getResourceId(0, 0)).
                         putExtra(Constants.PACKAGE_NAME + ".text", textView.getText()).
-                        putExtra(Constants.PACKAGE_NAME + ".menuListArray", itemArray.length() > 2?itemArray.getResourceId(2, 0):0).
-                        putExtra(Constants.PACKAGE_NAME + ".leftIcon", iconScreenLocation[0]).
-                        putExtra(Constants.PACKAGE_NAME + ".topIcon", iconScreenLocation[1]).
-                        putExtra(Constants.PACKAGE_NAME + ".widthIcon", imageView.getWidth()).
-                        putExtra(Constants.PACKAGE_NAME + ".heightIcon", imageView.getHeight()).
-                        putExtra(Constants.PACKAGE_NAME + ".leftText", textScreenLocation[0]).
-                        putExtra(Constants.PACKAGE_NAME + ".topText", textScreenLocation[1]).
-                        putExtra(Constants.PACKAGE_NAME + ".widthText", textView.getWidth()).
-                        putExtra(Constants.PACKAGE_NAME + ".heightText", textView.getHeight());
+                        putExtra(Constants.PACKAGE_NAME + ".menuListArray", itemArray.length() > 2 ? itemArray.getResourceId(2, 0) : 0).
+                        putParcelableArrayListExtra(Constants.PACKAGE_NAME + ".animatedViews", dataList);
+
                 itemArray.recycle();
                 startActivity(intent);
                 overridePendingTransition(0, 0);
@@ -184,75 +138,71 @@ public class MenuActivity extends Activity {
         conseilsText.setText(Html.fromHtml(getResources().getString(R.string.conseils_pour_lete).toUpperCase(), null, new HtmlTagHandler()));
     }
 
-    /**
-     * The enter animation scales the picture in from its previous thumbnail
-     * size/location, colorizing it in parallel. In parallel, the background of the
-     * activity is fading in. When the pictue is in place, the text description
-     * drops down.
-     */
-    public void runEnterAnimation() {
-        animateLogoToDefaultSize();
-        animateAndHideViewFromHome();
+    @Override
+    protected void addAnimatedViews() {
+        View leftLineView = findViewById(R.id.logo_left_line);
+        AnimatedView leftLineAnimatedView = new AnimatedView(leftLineView, leftLineView.getWidth(), 0, AnimType.RESIZE_WIDTH, 2);
+        leftLineAnimatedView.setStartDelay(Constants.ANIMATION_DURATION);
+        leftLineAnimatedView.setEndDelay(0);
+        AnimatedView rightLineAnimatedView = new AnimatedView(findViewById(R.id.logo_right_line), 0, 0, AnimType.RESIZE_WIDTH, 2);
+        rightLineAnimatedView.setStartDelay(Constants.ANIMATION_DURATION);
+        rightLineAnimatedView.setEndDelay(0);
+
+        animatedViews.add(leftLineAnimatedView);
+        animatedViews.add(rightLineAnimatedView);
     }
 
-    private void animateLogoToDefaultSize() {
-        mRightLineImageView.setPivotX(0);
-        mRightLineImageView.setScaleX(0);
-        mLeftLineImageView.setPivotX(mLeftLineImageView.getWidth());
-        mLeftLineImageView.setScaleX(0);
+    @Override
+    protected void processSpecialCaseBeforeAnimation() {
+        final Bundle bundle = getIntent().getExtras();
+        final ImageView backgroundView = (ImageView) findViewById(R.id.background);
+        final ImageView feetView = (ImageView) findViewById(R.id.FeetView);
 
-        mLogoImageView.setPivotX(0);
-        mLogoImageView.setPivotY(0);
-        mLogoImageView.setScaleX(mWidthScaleLogo);
-        mLogoImageView.setScaleY(mHeightScaleLogo);
-        mLogoImageView.setTranslationX(mLeftDeltaLogo);
-        mLogoImageView.setTranslationY(mTopDeltaLogo);
-        // Animate scale and translation to go from thumbnail to full size
-        mLogoImageView.animate().setDuration(ANIM_DURATION).
-                scaleX(1).scaleY(1).
-                translationX(0).translationY(0).
-                setInterpolator(sAccDecc).withEndAction(new Runnable() {
+        Bitmap bitmap = BitmapCacheUtils.getBitmap(bundle.getInt(Constants.PACKAGE_NAME + ".resourceId"));
+        backgroundView.setImageBitmap(bitmap);
+        backgroundView.setVisibility(View.VISIBLE);
+        feetView.setVisibility(View.VISIBLE);
+        ViewTreeObserver viewTreeObserver = backgroundView.getViewTreeObserver();
+        viewTreeObserver.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
-            public void run() {
-                drawLinesUnderLogo();
+            public boolean onPreDraw() {
+                backgroundView.getViewTreeObserver().removeOnPreDrawListener(this);
+
+                ImageView logoImageView = (ImageView) findViewById(R.id.logo);
+                int[] screenLocation = new int[2];
+                logoImageView.getLocationOnScreen(screenLocation);
+                int prevLogoWidth = bundle.getInt(Constants.PACKAGE_NAME + ".logoWidth");
+                int prevLogoHeight = bundle.getInt(Constants.PACKAGE_NAME + ".logoHeight");
+                backgroundView.setPivotX(screenLocation[0] + logoImageView.getWidth() / 2 * (logoImageView.getWidth() / prevLogoWidth));
+                backgroundView.setPivotY(screenLocation[1] + logoImageView.getHeight() / 2 * (logoImageView.getHeight() / prevLogoHeight));
+                backgroundView.animate().setDuration(Constants.ANIMATION_DURATION).
+                        scaleX(7 - (logoImageView.getWidth() / prevLogoWidth)).scaleY(7 - (logoImageView.getHeight() / prevLogoHeight)).
+                        translationX(backgroundView.getWidth() / 2 - (screenLocation[0] + logoImageView.getWidth() * (logoImageView.getWidth() / prevLogoWidth) / 2)).
+                        translationY(backgroundView.getHeight() / 2 - (screenLocation[1] + logoImageView.getHeight() * (logoImageView.getHeight() / prevLogoHeight) / 2)).
+                        setInterpolator(Constants.ACC_DEC_INTERPOLATOR).withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        backgroundView.setVisibility(View.GONE);
+                    }
+                });
+
+                feetView.animate().setDuration(Constants.ANIMATION_DURATION / 2).
+                        scaleX(2 - (logoImageView.getWidth() / prevLogoWidth)).scaleY(2 - (logoImageView.getHeight() / prevLogoHeight)).
+                        translationX(0).translationY(feetView.getHeight()).
+                        setInterpolator(Constants.ACC_DEC_INTERPOLATOR).withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        feetView.setVisibility(View.GONE);
+                    }
+                });
+
+                return true;
             }
         });
     }
 
-    private void drawLinesUnderLogo() {
-        mLeftLineImageView.animate().setDuration(ANIM_DURATION).
-                scaleX(1).scaleY(1).
-                setInterpolator(sAccDecc);
-        mRightLineImageView.animate().setDuration(ANIM_DURATION).
-                scaleX(1).scaleY(1).
-                setInterpolator(sAccDecc);
-    }
-
-    private void animateAndHideViewFromHome() {
-        int[] screenLocation = new int[2];
-        mLogoImageView.getLocationOnScreen(screenLocation);
-        mBackgroundView.setPivotX(screenLocation[0] + mLogoImageView.getWidth() / 2 * mWidthScaleLogo);
-        mBackgroundView.setPivotY(screenLocation[1] + mLogoImageView.getHeight() / 2 * mHeightScaleLogo);
-        mBackgroundView.animate().setDuration(ANIM_DURATION).
-                scaleX(5-mWidthScaleLogo).scaleY(5-mHeightScaleLogo).
-                translationX(mBackgroundView.getWidth()/2 - (screenLocation[0] + mLogoImageView.getWidth() * mWidthScaleLogo / 2)).
-                translationY(mBackgroundView.getHeight()/2 - (screenLocation[1] + mLogoImageView.getHeight() * mHeightScaleLogo / 2)).
-                setInterpolator(sAccDecc).withEndAction(new Runnable() {
-            @Override
-            public void run() {
-                mBackgroundView.setVisibility(View.GONE);
-            }
-        });
-
-        mFeetView.animate().setDuration(ANIM_DURATION / 2).
-                scaleX(2-mWidthScaleLogo).scaleY(2-mHeightScaleLogo).
-                translationX(0).translationY(mFeetView.getHeight()).
-                setInterpolator(sAccDecc).withEndAction(new Runnable() {
-            @Override
-            public void run() {
-                mFeetView.setVisibility(View.GONE);
-            }
-        });
+    @Override
+    protected void processSpecialCaseAfterAnimation() {
     }
 
     private Boolean exit = false;
