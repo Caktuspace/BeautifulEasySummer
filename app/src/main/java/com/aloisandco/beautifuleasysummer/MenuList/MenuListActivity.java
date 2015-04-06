@@ -1,10 +1,15 @@
 package com.aloisandco.beautifuleasysummer.MenuList;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -18,7 +23,6 @@ import com.aloisandco.beautifuleasysummer.AnimatedView;
 import com.aloisandco.beautifuleasysummer.Article.ArticleActivity;
 import com.aloisandco.beautifuleasysummer.R;
 import com.aloisandco.beautifuleasysummer.utils.ActivityTransitionManager;
-import com.aloisandco.beautifuleasysummer.utils.BitmapCacheUtils;
 import com.aloisandco.beautifuleasysummer.utils.Constants;
 import com.aloisandco.beautifuleasysummer.utils.FavoriteManager;
 import com.aloisandco.beautifuleasysummer.utils.FontManager;
@@ -63,7 +67,9 @@ public class MenuListActivity extends AnimatedActivity {
             }
             mLastClickedView = null;
         } else {
-            mAdapter.notifyDataSetChanged();
+            if (mAdapter != null) {
+                mAdapter.notifyDataSetChanged();
+            }
         }
     }
 
@@ -81,69 +87,92 @@ public class MenuListActivity extends AnimatedActivity {
         mTitleTextView.setText(title);
     }
 
+    private void animateAddFavoriteApparition() {
+        mListView.setVisibility(View.GONE);
+        TextView addFavoriteTextView = (TextView) findViewById(R.id.add_favorite);
+        addFavoriteTextView.setVisibility(View.VISIBLE);
+    }
+
     private void initListView() {
         Bundle bundle = getIntent().getExtras();
         final int menuListArrayResourceId = bundle.getInt(Constants.PACKAGE_NAME + ".menuListArray");
 
-        mAdapter = new MenuListAdapter(this, menuListArrayResourceId);
-        mListView.setAdapter(mAdapter);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mListView.setEnabled(false);
-
-                ActivityTransitionManager.getInstance().setMenuListItemView(view);
-
-                int resourceId;
-                if(menuListArrayResourceId == 0) {
-                    resourceId = FavoriteManager.getArticleAtPosition(position, MenuListActivity.this);
-                    mLastClickedView = view;
-                    mLastClickedResourceId = resourceId;
-                    mLastClickedIndex = position;
-                } else {
-                    TypedArray menuListArray = getResources().obtainTypedArray(menuListArrayResourceId);
-                    resourceId = menuListArray.getResourceId(position, 0);
-                    menuListArray.recycle();
-                }
-
-                TextView textView = (TextView) view.findViewById(R.id.textView);
-                CheckBox checkBox = (CheckBox) view.findViewById(R.id.favorite);
-                int[] viewScreenLocation = new int[2];
-                view.getLocationOnScreen(viewScreenLocation);
-                int[] textScreenLocation = new int[2];
-                textView.getLocationOnScreen(textScreenLocation);
-                int[] checkboxScreenLocation = new int[2];
-                checkBox.getLocationOnScreen(checkboxScreenLocation);
-                Intent intent = new Intent(MenuListActivity.this, ArticleActivity.class);
-
-                ArrayList<AnimatedView> dataList = new ArrayList<>();
-                AnimatedView dividerAnimatedView = new AnimatedView(viewScreenLocation[1] + view.getHeight(),
-                        viewScreenLocation[0] + ScreenUtils.valueToDpi(getResources(), 20),
-                        view.getWidth() - ScreenUtils.valueToDpi(getResources(), 40),
-                        ScreenUtils.valueToDpi(getResources(), 1),
-                        R.id.divider, 2);
-                AnimatedView textAnimatedView = new AnimatedView(textScreenLocation[1],
-                        textScreenLocation[0],
-                        textView.getWidth(),
-                        textView.getHeight(),
-                        R.id.title, 2);
-                AnimatedView checkboxAnimatedView = new AnimatedView(checkboxScreenLocation[1],
-                        checkboxScreenLocation[0],
-                        checkBox.getWidth(),
-                        checkBox.getHeight(),
-                        R.id.favorite, 2);
-                dataList.add(dividerAnimatedView);
-                dataList.add(textAnimatedView);
-                dataList.add(checkboxAnimatedView);
-
-                intent.
-                        putExtra(Constants.PACKAGE_NAME + ".itemResourceId", resourceId).
-                        putParcelableArrayListExtra(Constants.PACKAGE_NAME + ".animatedViews", dataList);
-                startActivity(intent);
-                overridePendingTransition(0, 0);
+        if (menuListArrayResourceId == 0 && FavoriteManager.getNumberOfFavoriteArticle(this) == 0) {
+            animateAddFavoriteApparition();
+        } else {
+            if (menuListArrayResourceId == 0) {
+                LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                        new IntentFilter(Constants.NO_MORE_FAVORITES));
             }
-        });
+            mAdapter = new MenuListAdapter(this, menuListArrayResourceId);
+            mListView.setAdapter(mAdapter);
+            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    mListView.setEnabled(false);
+
+                    ActivityTransitionManager.getInstance().setMenuListItemView(view);
+
+                    int resourceId;
+                    if (menuListArrayResourceId == 0) {
+                        resourceId = FavoriteManager.getArticleAtPosition(position, MenuListActivity.this);
+                        mLastClickedView = view;
+                        mLastClickedResourceId = resourceId;
+                        mLastClickedIndex = position;
+                    } else {
+                        TypedArray menuListArray = getResources().obtainTypedArray(menuListArrayResourceId);
+                        resourceId = menuListArray.getResourceId(position, 0);
+                        menuListArray.recycle();
+                    }
+
+                    TextView textView = (TextView) view.findViewById(R.id.textView);
+                    CheckBox checkBox = (CheckBox) view.findViewById(R.id.favorite);
+                    int[] viewScreenLocation = new int[2];
+                    view.getLocationOnScreen(viewScreenLocation);
+                    int[] textScreenLocation = new int[2];
+                    textView.getLocationOnScreen(textScreenLocation);
+                    int[] checkboxScreenLocation = new int[2];
+                    checkBox.getLocationOnScreen(checkboxScreenLocation);
+                    Intent intent = new Intent(MenuListActivity.this, ArticleActivity.class);
+
+                    ArrayList<AnimatedView> dataList = new ArrayList<>();
+                    AnimatedView dividerAnimatedView = new AnimatedView(viewScreenLocation[1] + view.getHeight(),
+                            viewScreenLocation[0] + ScreenUtils.valueToDpi(getResources(), 20),
+                            view.getWidth() - ScreenUtils.valueToDpi(getResources(), 40),
+                            ScreenUtils.valueToDpi(getResources(), 1),
+                            R.id.divider, 2);
+                    AnimatedView textAnimatedView = new AnimatedView(textScreenLocation[1],
+                            textScreenLocation[0],
+                            textView.getWidth(),
+                            textView.getHeight(),
+                            R.id.title, 2);
+                    AnimatedView checkboxAnimatedView = new AnimatedView(checkboxScreenLocation[1],
+                            checkboxScreenLocation[0],
+                            checkBox.getWidth(),
+                            checkBox.getHeight(),
+                            R.id.favorite, 2);
+                    dataList.add(dividerAnimatedView);
+                    dataList.add(textAnimatedView);
+                    dataList.add(checkboxAnimatedView);
+
+                    intent.
+                            putExtra(Constants.PACKAGE_NAME + ".itemResourceId", resourceId).
+                            putParcelableArrayListExtra(Constants.PACKAGE_NAME + ".animatedViews", dataList);
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                }
+            });
+        }
     }
+
+    // Our handler for received Intents. This will be called whenever an Intent
+    // with an action named "custom-event-name" is broadcasted.
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            animateAddFavoriteApparition();
+        }
+    };
 
     @Override
     public void addAnimatedViews() {
@@ -158,10 +187,14 @@ public class MenuListActivity extends AnimatedActivity {
         AnimatedView dividerAnimatedView = new AnimatedView(findViewById(R.id.divider), 0, 0, AnimType.ALPHA, 2);
         dividerAnimatedView.setStartDelay(0);
         dividerAnimatedView.setEndDelay(Constants.ANIMATION_DURATION / 2);
+        AnimatedView addFavoriteAnimatedView = new AnimatedView(findViewById(R.id.add_favorite), 0, 0, AnimType.ALPHA, 2);
+        dividerAnimatedView.setStartDelay(0);
+        dividerAnimatedView.setEndDelay(Constants.ANIMATION_DURATION / 2);
 
         animatedViews.add(backgroundAnimatedView);
         animatedViews.add(listAnimatedView);
         animatedViews.add(dividerAnimatedView);
+        animatedViews.add(addFavoriteAnimatedView);
     }
 
     @Override
@@ -178,5 +211,13 @@ public class MenuListActivity extends AnimatedActivity {
         if (view != null) {
             view.setAlpha(1);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        // Unregister since the activity is about to be closed.
+        // This is somewhat like [[NSNotificationCenter defaultCenter] removeObserver:name:object:]
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
+        super.onDestroy();
     }
 }

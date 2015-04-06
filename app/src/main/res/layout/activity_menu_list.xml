@@ -54,6 +54,19 @@
             android:background="@android:color/white"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/add_favorite"
+                android:text="@string/ajoute_des_favoris"
+                android:textSize="17sp"
+                android:visibility="gone"
+                android:layout_margin="20dp"
+                android:gravity="center"/>
         <com.aloisandco.beautifuleasysummer.utils.FadingTopListView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -63,6 +76,7 @@
             android:dividerHeight="1dp"
             android:overScrollMode="never"
             android:id="@+id/listView" />
+        </RelativeLayout>
     </LinearLayout>
     <ImageView
         android:layout_height="fill_parent"

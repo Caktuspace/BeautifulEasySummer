@@ -1,8 +1,11 @@
 package com.aloisandco.beautifuleasysummer.MenuList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.TypedArray;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -14,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aloisandco.beautifuleasysummer.R;
+import com.aloisandco.beautifuleasysummer.utils.Constants;
 import com.aloisandco.beautifuleasysummer.utils.FavoriteManager;
 import com.aloisandco.beautifuleasysummer.utils.FontManager;
 import com.aloisandco.beautifuleasysummer.utils.HtmlTagHandler;
@@ -115,12 +119,23 @@ public class MenuListAdapter extends BaseAdapter {
 
                 MenuListAdapter.this.notifyDataSetChanged();
                 v.setHasTransientState(false);
+                if (FavoriteManager.getNumberOfFavoriteArticle(mContext) == 0) {
+                    sendMessage();
+                }
             }
             @Override public void onAnimationRepeat(Animation animation) {}
             @Override public void onAnimationStart(Animation animation) {}
         };
 
         collapse(v, al);
+    }
+
+    // Send an Intent with an action named "custom-event-name". The Intent sent should
+    // be received by the ReceiverActivity.
+    private void sendMessage() {
+        Log.d("sender", "Broadcasting message");
+        Intent intent = new Intent(Constants.NO_MORE_FAVORITES);
+        LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
     }
 
     private void collapse(final View v, Animation.AnimationListener al) {

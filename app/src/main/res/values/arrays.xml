@@ -57,13 +57,10 @@
         <item>@array/detox_water</item>
     </array>
     <array name="mode_list">
-        <item>@string/title_activity_menu</item>
     </array>
     <array name="activite_list">
-        <item>@string/title_activity_menu</item>
     </array>
     <array name="coiffure_list">
-        <item>@string/title_activity_menu</item>
     </array>
 
     <array name="salade_tropicale">
