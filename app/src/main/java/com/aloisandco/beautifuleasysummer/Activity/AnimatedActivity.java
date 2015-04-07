@@ -1,11 +1,13 @@
-package com.aloisandco.beautifuleasysummer;
+package com.aloisandco.beautifuleasysummer.Activity;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
-import com.aloisandco.beautifuleasysummer.utils.Constants;
+import com.aloisandco.beautifuleasysummer.Enum.AnimType;
+import com.aloisandco.beautifuleasysummer.View.AnimatedView;
+import com.aloisandco.beautifuleasysummer.Utils.Constants;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -21,12 +23,19 @@ public abstract class AnimatedActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState, int layoutId, int animationStep) {
         super.onCreate(savedInstanceState);
         setContentView(layoutId);
+        // We are not in the closing animation
         mCloseInProgress = false;
         if (savedInstanceState == null) {
             initAnimatedViews(getIntent().getExtras(), animationStep);
         }
     }
 
+    /**
+     * Complete the previously initialized animated views with the new value so we can animate the
+     * opening of the activity
+     * @param bundle bundle containing the previously initialized animated views
+     * @param animationStep number of steps it takes to finish the animation
+     */
     private void initAnimatedViews(Bundle bundle, final int animationStep) {
         final ArrayList<AnimatedView> animatedViews1 = bundle.getParcelableArrayList(Constants.PACKAGE_NAME + ".animatedViews");
         if (animatedViews1.size() > 0) {
@@ -36,16 +45,18 @@ public abstract class AnimatedActivity extends Activity {
                 @Override
                 public boolean onPreDraw() {
                     view.getViewTreeObserver().removeOnPreDrawListener(this);
-                    processSpecialCaseBeforeAnimation();
+                    processSpecialCaseEnterAnimation();
 
+                    // Set the new position, scale and the view for each animated view
                     for (AnimatedView animatedView : animatedViews1) {
                         View newView = findViewById(animatedView.getNextResourceId());
                         animatedView.setView(newView);
                         int[] screenLocation = new int[2];
                         newView.getLocationOnScreen(screenLocation);
+                        // Calculate difference between previous position and current one
                         animatedView.setDeltaLeft(animatedView.getPrevLeft() - screenLocation[0]);
                         animatedView.setDeltaTop(animatedView.getPrevTop() - screenLocation[1]);
-                        // Scale factors to make the large version the same size as the thumbnail
+                        // Calculate difference between previous size and current one
                         animatedView.setScaleWidth((float) animatedView.getPrevWidth() / newView.getWidth());
                         animatedView.setScaleHeight((float) animatedView.getPrevHeight() / newView.getHeight());
                         animatedView.setPivotX(0);
@@ -68,10 +79,24 @@ public abstract class AnimatedActivity extends Activity {
 
     }
 
+    /**
+     *  subclasses should add the other animation it wants to perform here
+     */
     abstract protected void addAnimatedViews();
-    abstract protected void processSpecialCaseBeforeAnimation();
-    abstract protected void processSpecialCaseAfterAnimation();
 
+    /**
+     *  subclasses should add specific behavior before the enter animation occur in this method
+     */
+    abstract protected void processSpecialCaseEnterAnimation();
+
+    /**
+     *  subclasses should add specific behavior after the exit animation end in this method
+     */
+    abstract protected void processSpecialCaseExitAnimation();
+
+    /**
+     *  Animates all the animated views previously added
+     */
     private void runEnterAnimation() {
         for (AnimatedView animatedView : animatedViews) {
             animatedView.animateIn();
@@ -79,20 +104,20 @@ public abstract class AnimatedActivity extends Activity {
     }
 
     /**
-     * The exit animation is basically a reverse of the enter animation, except that if
-     * the orientation has changed we simply scale the picture back into the center of
-     * the screen.
+     *  Animated all the animated views previously added in reverse and finish the activity
      */
     protected void runExitAnimation() {
+        // Prevent the user to cancel the animation by pressing the back button repeatedly
         mCloseInProgress = true;
         for (AnimatedView animatedView : animatedViews) {
             animatedView.animateOut();
         }
 
+        // start a timer to finish the activity when the animation is done
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                processSpecialCaseAfterAnimation();
+                processSpecialCaseExitAnimation();
                 finish();
             }
         }, Constants.ANIMATION_DURATION);

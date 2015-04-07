@@ -1,13 +1,19 @@
-package com.aloisandco.beautifuleasysummer.utils;
+package com.aloisandco.beautifuleasysummer.View;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.ListView;
+
+import com.aloisandco.beautifuleasysummer.Utils.UI.ScreenUtils;
 
 /**
  * Created by quentinmetzler on 23/03/15.
+ */
+
+/**
+ * Custom ListView which makes the view going over the top
+ * more and more transparent and disabled
  */
 public class FadingTopListView extends ListView {
 

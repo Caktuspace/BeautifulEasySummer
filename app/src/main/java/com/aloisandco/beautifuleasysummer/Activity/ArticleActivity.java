@@ -1,4 +1,4 @@
-package com.aloisandco.beautifuleasysummer.Article;
+package com.aloisandco.beautifuleasysummer.Activity;
 
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -12,15 +12,14 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.aloisandco.beautifuleasysummer.AnimType;
-import com.aloisandco.beautifuleasysummer.AnimatedActivity;
-import com.aloisandco.beautifuleasysummer.AnimatedView;
+import com.aloisandco.beautifuleasysummer.Enum.AnimType;
+import com.aloisandco.beautifuleasysummer.View.AnimatedView;
 import com.aloisandco.beautifuleasysummer.R;
-import com.aloisandco.beautifuleasysummer.utils.ActivityTransitionManager;
-import com.aloisandco.beautifuleasysummer.utils.Constants;
-import com.aloisandco.beautifuleasysummer.utils.FavoriteManager;
-import com.aloisandco.beautifuleasysummer.utils.FontManager;
-import com.aloisandco.beautifuleasysummer.utils.HtmlTagHandler;
+import com.aloisandco.beautifuleasysummer.Utils.Manager.ActivityTransitionManager;
+import com.aloisandco.beautifuleasysummer.Utils.Constants;
+import com.aloisandco.beautifuleasysummer.Utils.Manager.FavoriteManager;
+import com.aloisandco.beautifuleasysummer.Utils.Manager.FontManager;
+import com.aloisandco.beautifuleasysummer.Utils.HTML.HtmlTagHandler;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -56,6 +55,10 @@ public class ArticleActivity extends AnimatedActivity {
         handleCheckBoxBehavior();
     }
 
+    /**
+     * Init the title and the content of the webview from the article passed by the bundle
+     * @param bundle the bundle containing the article id
+     */
     public void initTitleAndWebview(Bundle bundle) {
         mArticleId = bundle.getInt(Constants.PACKAGE_NAME + ".itemResourceId");
         TypedArray itemArray = getResources().obtainTypedArray(mArticleId);
@@ -73,6 +76,10 @@ public class ArticleActivity extends AnimatedActivity {
         webSettings.setDefaultFontSize(18);
     }
 
+    /**
+     * Init the Interstitial ad and register a listener to know when it's closed
+     * so when can animate the finish of the activity
+     */
     public void initInterstitialAd() {
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getResources().getString(R.string.banner_ad_unit_id));
@@ -91,6 +98,9 @@ public class ArticleActivity extends AnimatedActivity {
         });
     }
 
+    /**
+     * Add and remove article from the favorite when the sun is pressed
+     */
     public void handleCheckBoxBehavior() {
         mCheckBox = (CheckBox) findViewById(R.id.favorite);
         mCheckBox.setChecked(FavoriteManager.isArticleFavorite(mArticleId, this));
@@ -114,6 +124,9 @@ public class ArticleActivity extends AnimatedActivity {
         });
     }
 
+    /**
+     * Add animated views to the superview so that it can animate them
+     */
     @Override
     public void addAnimatedViews() {
         AnimatedView backgroundAnimatedView = new AnimatedView(findViewById(R.id.tropical_background), 0, 0, AnimType.ALPHA, 2);
@@ -137,22 +150,31 @@ public class ArticleActivity extends AnimatedActivity {
 
     }
 
+    /**
+     * Make the moving view disappear from the previous activity
+     */
     @Override
-    protected void processSpecialCaseBeforeAnimation() {
+    protected void processSpecialCaseEnterAnimation() {
         View view = ActivityTransitionManager.getInstance().getMenuListItemView();
         if (view != null) {
             view.setAlpha(0);
         }
     }
 
+    /**
+     * Make the moving view reappear in the previous activity
+     */
     @Override
-    protected void processSpecialCaseAfterAnimation() {
+    protected void processSpecialCaseExitAnimation() {
         View view = ActivityTransitionManager.getInstance().getMenuListItemView();
         if (view != null) {
             view.setAlpha(1);
         }
     }
 
+    /**
+     * Ask the server a new ad to be displayed when the user finish reading an article
+     */
     private void requestNewInterstitial() {
         final AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice("157ADC68E31F59407ADA80B42A0F1D73")
@@ -167,8 +189,7 @@ public class ArticleActivity extends AnimatedActivity {
     }
 
     /**
-     * Overriding this method allows us to run our exit animation first, then exiting
-     * the activity when it is complete.
+     * Show the interstitial ad if it is loaded else directly close the activity
      */
     @Override
     public void onBackPressed() {

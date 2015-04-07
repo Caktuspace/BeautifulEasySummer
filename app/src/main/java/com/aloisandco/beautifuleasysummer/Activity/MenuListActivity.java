@@ -1,4 +1,4 @@
-package com.aloisandco.beautifuleasysummer.MenuList;
+package com.aloisandco.beautifuleasysummer.Activity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -17,16 +16,15 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.aloisandco.beautifuleasysummer.AnimType;
-import com.aloisandco.beautifuleasysummer.AnimatedActivity;
-import com.aloisandco.beautifuleasysummer.AnimatedView;
-import com.aloisandco.beautifuleasysummer.Article.ArticleActivity;
+import com.aloisandco.beautifuleasysummer.Enum.AnimType;
+import com.aloisandco.beautifuleasysummer.View.AnimatedView;
+import com.aloisandco.beautifuleasysummer.Adapter.MenuListAdapter;
 import com.aloisandco.beautifuleasysummer.R;
-import com.aloisandco.beautifuleasysummer.utils.ActivityTransitionManager;
-import com.aloisandco.beautifuleasysummer.utils.Constants;
-import com.aloisandco.beautifuleasysummer.utils.FavoriteManager;
-import com.aloisandco.beautifuleasysummer.utils.FontManager;
-import com.aloisandco.beautifuleasysummer.utils.ScreenUtils;
+import com.aloisandco.beautifuleasysummer.Utils.Manager.ActivityTransitionManager;
+import com.aloisandco.beautifuleasysummer.Utils.Constants;
+import com.aloisandco.beautifuleasysummer.Utils.Manager.FavoriteManager;
+import com.aloisandco.beautifuleasysummer.Utils.Manager.FontManager;
+import com.aloisandco.beautifuleasysummer.Utils.UI.ScreenUtils;
 
 import java.util.ArrayList;
 
@@ -61,23 +59,33 @@ public class MenuListActivity extends AnimatedActivity {
         super.onResume();
         mListView.setEnabled(true);
         if (mLastClickedView != null) {
+            // An article was removed of the favorite in the next activity and we are in the
+            // Favorite category
             if (!FavoriteManager.isArticleFavorite(mLastClickedResourceId, this)) {
+                // We had it back to the model so we can animate its deletion
                 FavoriteManager.addArticleToFavoriteAtPosition(mLastClickedResourceId, mLastClickedIndex, this);
                 mAdapter.deleteCell(mLastClickedView, mLastClickedResourceId);
             }
             mLastClickedView = null;
         } else {
             if (mAdapter != null) {
+                // Refresh the state of the suns
                 mAdapter.notifyDataSetChanged();
             }
         }
     }
 
+    /**
+     * Init the title with our custom font
+     */
     private void initFont() {
         FontManager fontManager = FontManager.getInstance(getAssets());
         mTitleTextView.setTypeface(fontManager.ralewayMediumFont);
     }
 
+    /**
+     * Set the image and text of our title and icon associated
+     */
     private void initTitleAndIcon() {
         Bundle bundle = getIntent().getExtras();
         Bitmap icon = BitmapFactory.decodeResource(getResources(), bundle.getInt(Constants.PACKAGE_NAME + ".iconId"));
@@ -87,20 +95,29 @@ public class MenuListActivity extends AnimatedActivity {
         mTitleTextView.setText(title);
     }
 
-    private void animateAddFavoriteApparition() {
+    /**
+     * Replace the listView by a text helping to add content
+     */
+    private void replaceListViewByPlaceholderText() {
         mListView.setVisibility(View.GONE);
         TextView addFavoriteTextView = (TextView) findViewById(R.id.add_favorite);
         addFavoriteTextView.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Init listView listener so we can detect when a row is touch so we can go to the next activity
+     */
     private void initListView() {
         Bundle bundle = getIntent().getExtras();
         final int menuListArrayResourceId = bundle.getInt(Constants.PACKAGE_NAME + ".menuListArray");
 
         if (menuListArrayResourceId == 0 && FavoriteManager.getNumberOfFavoriteArticle(this) == 0) {
-            animateAddFavoriteApparition();
+            // if no content and we are in the favorite category, display placeholder
+            replaceListViewByPlaceholderText();
         } else {
             if (menuListArrayResourceId == 0) {
+                // if we are in the favorite category, we register to get notified when the last
+                // favorite is removed
                 LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
                         new IntentFilter(Constants.NO_MORE_FAVORITES));
             }
@@ -115,11 +132,15 @@ public class MenuListActivity extends AnimatedActivity {
 
                     int resourceId;
                     if (menuListArrayResourceId == 0) {
+                        // get the article id of the favorite item at the index touched
                         resourceId = FavoriteManager.getArticleAtPosition(position, MenuListActivity.this);
+                        // Register the view of the item touch so we can animate it if it gets
+                        // removed from the favorite
                         mLastClickedView = view;
                         mLastClickedResourceId = resourceId;
                         mLastClickedIndex = position;
                     } else {
+                        // get the article id from the category array
                         TypedArray menuListArray = getResources().obtainTypedArray(menuListArrayResourceId);
                         resourceId = menuListArray.getResourceId(position, 0);
                         menuListArray.recycle();
@@ -135,6 +156,8 @@ public class MenuListActivity extends AnimatedActivity {
                     checkBox.getLocationOnScreen(checkboxScreenLocation);
                     Intent intent = new Intent(MenuListActivity.this, ArticleActivity.class);
 
+                    // Initialize the views that will be move and scale
+                    // during the change of activity
                     ArrayList<AnimatedView> dataList = new ArrayList<>();
                     AnimatedView dividerAnimatedView = new AnimatedView(viewScreenLocation[1] + view.getHeight(),
                             viewScreenLocation[0] + ScreenUtils.valueToDpi(getResources(), 20),
@@ -166,14 +189,17 @@ public class MenuListActivity extends AnimatedActivity {
     }
 
     // Our handler for received Intents. This will be called whenever an Intent
-    // with an action named "custom-event-name" is broadcasted.
+    // with the action of the last favorite removed is broadcasted.
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            animateAddFavoriteApparition();
+            replaceListViewByPlaceholderText();
         }
     };
 
+    /**
+     * Add animated views to the superview so that it can animate them
+     */
     @Override
     public void addAnimatedViews() {
         AnimatedView backgroundAnimatedView = new AnimatedView(findViewById(R.id.tropical_background), 0, 0, AnimType.ALPHA, 2);
@@ -197,22 +223,31 @@ public class MenuListActivity extends AnimatedActivity {
         animatedViews.add(addFavoriteAnimatedView);
     }
 
+    /**
+     * Make the moving view disappear from the previous activity
+     */
     @Override
-    protected void processSpecialCaseBeforeAnimation() {
+    protected void processSpecialCaseEnterAnimation() {
         View view = ActivityTransitionManager.getInstance().getMenuItemView();
         if (view != null) {
             view.setAlpha(0);
         }
     }
 
+    /**
+     * Make the moving view reappear in the previous activity
+     */
     @Override
-    protected void processSpecialCaseAfterAnimation() {
+    protected void processSpecialCaseExitAnimation() {
         View view = ActivityTransitionManager.getInstance().getMenuItemView();
         if (view != null) {
             view.setAlpha(1);
         }
     }
 
+    /**
+     * Unregister from the last favorite notification before destroying the activity
+     */
     @Override
     protected void onDestroy() {
         // Unregister since the activity is about to be closed.

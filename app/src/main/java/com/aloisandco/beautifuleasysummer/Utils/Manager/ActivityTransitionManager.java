@@ -1,9 +1,14 @@
-package com.aloisandco.beautifuleasysummer.utils;
+package com.aloisandco.beautifuleasysummer.Utils.Manager;
 
 import android.view.View;
 
 /**
  * Created by quentinmetzler on 22/03/15.
+ */
+
+/**
+ * Singleton used to store view which will need to be hidden when transiting from one activity
+ * to another so that we don't see the view duplicated when animated
  */
 public class ActivityTransitionManager {
     private static ActivityTransitionManager ourInstance = new ActivityTransitionManager();

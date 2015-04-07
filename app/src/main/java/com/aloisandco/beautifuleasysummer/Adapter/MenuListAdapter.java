@@ -1,4 +1,4 @@
-package com.aloisandco.beautifuleasysummer.MenuList;
+package com.aloisandco.beautifuleasysummer.Adapter;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,10 +17,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aloisandco.beautifuleasysummer.R;
-import com.aloisandco.beautifuleasysummer.utils.Constants;
-import com.aloisandco.beautifuleasysummer.utils.FavoriteManager;
-import com.aloisandco.beautifuleasysummer.utils.FontManager;
-import com.aloisandco.beautifuleasysummer.utils.HtmlTagHandler;
+import com.aloisandco.beautifuleasysummer.Utils.Constants;
+import com.aloisandco.beautifuleasysummer.Utils.Manager.FavoriteManager;
+import com.aloisandco.beautifuleasysummer.Utils.Manager.FontManager;
+import com.aloisandco.beautifuleasysummer.Utils.HTML.HtmlTagHandler;
 
 /**
  * Created by quentinmetzler on 22/03/15.
@@ -60,7 +60,13 @@ public class MenuListAdapter extends BaseAdapter {
         return 0;
     }
 
-    // create a new ImageView for each item referenced by the Adapter
+    /**
+     * Create if necessary and initialize the row with the content of the article list array
+     * @param position the position of the item to initialize
+     * @param convertView the view which is recycled
+     * @param parent the listView it is for
+     * @return
+     */
     @Override
     public View getView(int position, final View convertView, ViewGroup parent) {
         final LinearLayout linearLayout;
@@ -85,6 +91,7 @@ public class MenuListAdapter extends BaseAdapter {
 
         vh = (ViewHolder)linearLayout.getTag();
         vh.text.setText(Html.fromHtml(string, null, new HtmlTagHandler()));
+        // Checkbox will remove and add favorites
         vh.checkBox.setOnCheckedChangeListener(null);
         vh.checkBox.setChecked(FavoriteManager.isArticleFavorite(articleId, mContext));
         vh.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -105,6 +112,11 @@ public class MenuListAdapter extends BaseAdapter {
         return linearLayout;
     }
 
+    /**
+     * Remove a cell with an animation
+     * @param v the cell to remove
+     * @param articleId the article id to remove from the favorite
+     */
     public void deleteCell(final View v, final int articleId) {
         v.setHasTransientState(true);
         Animation.AnimationListener al = new Animation.AnimationListener() {
@@ -138,6 +150,11 @@ public class MenuListAdapter extends BaseAdapter {
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
     }
 
+    /**
+     * Animate the collapsing of a view
+     * @param v the view to collapse
+     * @param al the animation listener to call when it's done
+     */
     private void collapse(final View v, Animation.AnimationListener al) {
         final int initialHeight = v.getMeasuredHeight();
 
@@ -166,12 +183,19 @@ public class MenuListAdapter extends BaseAdapter {
         v.startAnimation(anim);
     }
 
+    /**
+     * the cell data model
+     */
     private class ViewHolder {
         public boolean needInflate;
         public TextView text;
         public CheckBox checkBox;
     }
 
+    /**
+     * initialize a cell data model from a view
+     * @param view the view containing the graphical elements of a cell
+     */
     private void setViewHolder(View view) {
         ViewHolder vh = new ViewHolder();
         FontManager fontManager = FontManager.getInstance(mContext.getAssets());

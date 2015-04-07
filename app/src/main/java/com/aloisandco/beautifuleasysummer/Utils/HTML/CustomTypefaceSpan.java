@@ -1,10 +1,14 @@
-package com.aloisandco.beautifuleasysummer.utils;
+package com.aloisandco.beautifuleasysummer.Utils.HTML;
 
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.TextPaint;
 import android.text.style.MetricAffectingSpan;
 
+/**
+ * Custom span use to be able to set multiple custom font from the assets
+ * on a single TextView
+ */
 public class CustomTypefaceSpan extends MetricAffectingSpan
 {
     private final Typeface typeface;

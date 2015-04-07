@@ -1,9 +1,7 @@
-package com.aloisandco.beautifuleasysummer.utils;
+package com.aloisandco.beautifuleasysummer.Utils.UI;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
-import android.util.DisplayMetrics;
 import android.view.Window;
 
 /**
@@ -21,6 +19,12 @@ public class ScreenUtils {
         return rectangle.top;
     }
 
+    /**
+     * Convert a value to a Dpi one
+     * @param resources The resource of the phone containing the screen density
+     * @param value the value we want in Dpi
+     * @return the value converted in Dpi for the current phone
+     */
     static  public int valueToDpi(Resources resources, int value) {
         final float scale = resources.getDisplayMetrics().density;
         return (int) (value * scale + 0.5f);

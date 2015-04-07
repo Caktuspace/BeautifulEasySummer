@@ -1,4 +1,4 @@
-package com.aloisandco.beautifuleasysummer.Menu;
+package com.aloisandco.beautifuleasysummer.Activity;
 
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -17,17 +17,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.aloisandco.beautifuleasysummer.AnimType;
-import com.aloisandco.beautifuleasysummer.AnimatedActivity;
-import com.aloisandco.beautifuleasysummer.AnimatedView;
-import com.aloisandco.beautifuleasysummer.MenuList.MenuListActivity;
+import com.aloisandco.beautifuleasysummer.Enum.AnimType;
+import com.aloisandco.beautifuleasysummer.View.AnimatedView;
+import com.aloisandco.beautifuleasysummer.Adapter.MenuAdapter;
 import com.aloisandco.beautifuleasysummer.R;
-import com.aloisandco.beautifuleasysummer.utils.ActivityTransitionManager;
-import com.aloisandco.beautifuleasysummer.utils.BitmapCacheUtils;
-import com.aloisandco.beautifuleasysummer.utils.Constants;
-import com.aloisandco.beautifuleasysummer.utils.FontManager;
-import com.aloisandco.beautifuleasysummer.utils.HtmlTagHandler;
-import com.aloisandco.beautifuleasysummer.utils.ScreenUtils;
+import com.aloisandco.beautifuleasysummer.Utils.Manager.BitmapCacheManager;
+import com.aloisandco.beautifuleasysummer.Utils.Manager.ActivityTransitionManager;
+import com.aloisandco.beautifuleasysummer.Utils.Constants;
+import com.aloisandco.beautifuleasysummer.Utils.Manager.FontManager;
+import com.aloisandco.beautifuleasysummer.Utils.HTML.HtmlTagHandler;
+import com.aloisandco.beautifuleasysummer.Utils.UI.ScreenUtils;
 
 import java.util.ArrayList;
 
@@ -42,6 +41,10 @@ public class MenuActivity extends AnimatedActivity {
         initGridView();
     }
 
+    /**
+     * init the gridView Listeners to prevent it from moving and to know when an
+     * item is touched so we can go to the next activity
+     */
     private  void initGridView() {
         mGridView = (GridView) findViewById(R.id.gridview);
         redrawGridView();
@@ -58,9 +61,14 @@ public class MenuActivity extends AnimatedActivity {
         });
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                // Prevent user from opening another activity during the animation
                 mGridView.setEnabled(false);
+                // Must do this as we can't pass view through intent
+                // This will be used to make the animating view disappear and reappear so we don't
+                // see it duplicate
                 ActivityTransitionManager.getInstance().setMenuItemView(v);
 
+                // get the resource id containing the info for the next activity
                 TypedArray menuArray = getResources().obtainTypedArray(R.array.menu);
                 TypedArray itemArray = getResources().obtainTypedArray(menuArray.getResourceId(position, 0));
                 menuArray.recycle();
@@ -72,7 +80,7 @@ public class MenuActivity extends AnimatedActivity {
                 textView.getLocationOnScreen(textScreenLocation);
                 Intent intent = new Intent(MenuActivity.this, MenuListActivity.class);
 
-
+                // Initialize the animated view with the previous state so we can animate them later
                 ArrayList<AnimatedView> dataList = new ArrayList<>();
                 AnimatedView iconAnimatedView = new AnimatedView(iconScreenLocation[1],
                         iconScreenLocation[0],
@@ -87,6 +95,7 @@ public class MenuActivity extends AnimatedActivity {
                 dataList.add(iconAnimatedView);
                 dataList.add(textAnimatedView);
 
+                // Start the next activity
                 intent.
                         putExtra(Constants.PACKAGE_NAME + ".iconId", itemArray.getResourceId(0, 0)).
                         putExtra(Constants.PACKAGE_NAME + ".text", textView.getText()).
@@ -95,11 +104,17 @@ public class MenuActivity extends AnimatedActivity {
 
                 itemArray.recycle();
                 startActivity(intent);
+                // Cancel the default animation as we are providing our own
                 overridePendingTransition(0, 0);
             }
         });
     }
 
+    /**
+     * Recalculate the dimension of each row of the gridView so that it redimension itself to be
+     * contained within the screen without the need to be scrolled.
+     * Must do that instead of gridLayout to keep the touch listener and the touch feedback.
+     */
     private void redrawGridView() {
         final RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.relativeGridHeight);
         ViewTreeObserver observer = relativeLayout.getViewTreeObserver();
@@ -131,6 +146,9 @@ public class MenuActivity extends AnimatedActivity {
         redrawGridView();
     }
 
+    /**
+     * init the font to use the custom one with the Light and Bold one.
+     */
     private void initFont() {
         FontManager fontManager = FontManager.getInstance(getAssets());
         TextView conseilsText = (TextView) findViewById(R.id.conseils);
@@ -138,6 +156,9 @@ public class MenuActivity extends AnimatedActivity {
         conseilsText.setText(Html.fromHtml(getResources().getString(R.string.conseils_pour_lete).toUpperCase(), null, new HtmlTagHandler()));
     }
 
+    /**
+     * Add animated views to the superview so that it can animate them
+     */
     @Override
     protected void addAnimatedViews() {
         View leftLineView = findViewById(R.id.logo_left_line);
@@ -152,17 +173,22 @@ public class MenuActivity extends AnimatedActivity {
         animatedViews.add(rightLineAnimatedView);
     }
 
+    /**
+     * Make the background and the feet disappear of the screen as if we were going through
+     * the hole
+     */
     @Override
-    protected void processSpecialCaseBeforeAnimation() {
+    protected void processSpecialCaseEnterAnimation() {
         final Bundle bundle = getIntent().getExtras();
         final ImageView backgroundView = (ImageView) findViewById(R.id.background);
         final ImageView feetView = (ImageView) findViewById(R.id.FeetView);
 
-        Bitmap bitmap = BitmapCacheUtils.getBitmap(bundle.getInt(Constants.PACKAGE_NAME + ".resourceId"));
+        Bitmap bitmap = BitmapCacheManager.getBitmap(bundle.getInt(Constants.PACKAGE_NAME + ".resourceId"));
         backgroundView.setImageBitmap(bitmap);
         backgroundView.setVisibility(View.VISIBLE);
         feetView.setVisibility(View.VISIBLE);
         ViewTreeObserver viewTreeObserver = backgroundView.getViewTreeObserver();
+        // We need to wait for the background to have calculated its size
         viewTreeObserver.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
@@ -173,6 +199,7 @@ public class MenuActivity extends AnimatedActivity {
                 logoImageView.getLocationOnScreen(screenLocation);
                 int prevLogoWidth = bundle.getInt(Constants.PACKAGE_NAME + ".logoWidth");
                 int prevLogoHeight = bundle.getInt(Constants.PACKAGE_NAME + ".logoHeight");
+                // Make the background scale up a lot from the center of the logo view as pivot
                 backgroundView.setPivotX(screenLocation[0] + logoImageView.getWidth() / 2 * (logoImageView.getWidth() / prevLogoWidth));
                 backgroundView.setPivotY(screenLocation[1] + logoImageView.getHeight() / 2 * (logoImageView.getHeight() / prevLogoHeight));
                 backgroundView.animate().setDuration(Constants.ANIMATION_DURATION).
@@ -186,6 +213,7 @@ public class MenuActivity extends AnimatedActivity {
                     }
                 });
 
+                // Make the feet scale up a lot from the center of the logo view as pivot
                 feetView.animate().setDuration(Constants.ANIMATION_DURATION / 2).
                         scaleX(2 - (logoImageView.getWidth() / prevLogoWidth)).scaleY(2 - (logoImageView.getHeight() / prevLogoHeight)).
                         translationX(0).translationY(feetView.getHeight()).
@@ -201,10 +229,16 @@ public class MenuActivity extends AnimatedActivity {
         });
     }
 
+    /**
+     * Nothing to do here as we don't need to animate the exit of this animation
+     */
     @Override
-    protected void processSpecialCaseAfterAnimation() {
+    protected void processSpecialCaseExitAnimation() {
     }
 
+    /**
+     * Move the app in background if the user wants to leave it
+     */
     private Boolean exit = false;
     @Override
     public void onBackPressed() {

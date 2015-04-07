@@ -67,7 +67,7 @@
                 android:visibility="gone"
                 android:layout_margin="20dp"
                 android:gravity="center"/>
-        <com.aloisandco.beautifuleasysummer.utils.FadingTopListView
+        <com.aloisandco.beautifuleasysummer.View.FadingTopListView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:requiresFadingEdge="vertical"

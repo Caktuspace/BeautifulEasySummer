@@ -1,4 +1,4 @@
-package com.aloisandco.beautifuleasysummer.utils;
+package com.aloisandco.beautifuleasysummer.Utils.UI;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

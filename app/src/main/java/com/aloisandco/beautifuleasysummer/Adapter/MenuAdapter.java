@@ -1,4 +1,4 @@
-package com.aloisandco.beautifuleasysummer.Menu;
+package com.aloisandco.beautifuleasysummer.Adapter;
 
 import android.app.Activity;
 import android.content.res.TypedArray;
@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aloisandco.beautifuleasysummer.R;
-import com.aloisandco.beautifuleasysummer.utils.FontManager;
+import com.aloisandco.beautifuleasysummer.Utils.Manager.FontManager;
 
 /**
  * Created by quentinmetzler on 19/03/15.
@@ -37,9 +37,15 @@ public class MenuAdapter extends BaseAdapter {
         return 0;
     }
 
-    // create a new ImageView for each item referenced by the Adapter
+    /**
+     * Create if necessary and initialize the row with the content of the array
+     * @param position the position of the item to initialize
+     * @param convertView the view which is recycled
+     * @param parent the listView it is for
+     * @return
+     */
     public View getView(int position, View convertView, ViewGroup parent) {
-        LinearLayout linearLayout = null;
+        LinearLayout linearLayout;
         TypedArray itemArray = mContext.getResources().obtainTypedArray(mMenuArray.getResourceId(position, 0));
 
         int resourceId =  itemArray.getResourceId(0, 0);

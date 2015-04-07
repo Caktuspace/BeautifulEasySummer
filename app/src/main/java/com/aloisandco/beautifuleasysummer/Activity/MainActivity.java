@@ -1,4 +1,4 @@
-package com.aloisandco.beautifuleasysummer;
+package com.aloisandco.beautifuleasysummer.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,13 +9,12 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.webkit.WebView;
 import android.widget.ImageView;
 
-import com.aloisandco.beautifuleasysummer.Article.ArticleActivity;
-import com.aloisandco.beautifuleasysummer.Menu.MenuActivity;
-import com.aloisandco.beautifuleasysummer.utils.BitmapCacheUtils;
-import com.aloisandco.beautifuleasysummer.utils.Constants;
-import com.aloisandco.beautifuleasysummer.utils.FontManager;
-import com.aloisandco.beautifuleasysummer.utils.ImageViewUtils;
-import com.aloisandco.beautifuleasysummer.utils.ScreenUtils;
+import com.aloisandco.beautifuleasysummer.View.AnimatedView;
+import com.aloisandco.beautifuleasysummer.R;
+import com.aloisandco.beautifuleasysummer.Utils.Manager.BitmapCacheManager;
+import com.aloisandco.beautifuleasysummer.Utils.Constants;
+import com.aloisandco.beautifuleasysummer.Utils.Manager.FontManager;
+import com.aloisandco.beautifuleasysummer.Utils.UI.ImageViewUtils;
 
 import java.util.ArrayList;
 
@@ -27,6 +26,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Instantiate all the custom font in the singleton
         FontManager.getInstance(getAssets());
         // load a webview because the first one is always slow
         WebView webView = new WebView(this);
@@ -48,6 +48,9 @@ public class MainActivity extends Activity {
         }
     }
 
+    /**
+     * Create a hole in the background bitmap were the logo stand
+     */
     private void createHoleInBackgroundView() {
         ImageView backgroundView = (ImageView) findViewById(R.id.background);
         ImageView circleView = (ImageView) findViewById(R.id.circle);
@@ -55,9 +58,12 @@ public class MainActivity extends Activity {
         Bitmap backgroundBitmap = ImageViewUtils.createCircleInImageViewFromSizeOfOtherImageView(backgroundView, circleView, getWindow());
         // Set the new bitmap with the hole as the new background bitmap
         backgroundView.setImageBitmap(backgroundBitmap);
-        BitmapCacheUtils.setBitmap(R.id.background, backgroundBitmap);
+        BitmapCacheManager.setBitmap(R.id.background, backgroundBitmap);
     }
 
+    /**
+     * Rotate the logo of 360 degrees and then launch the next activity
+     */
     private void animateLogoInCircle() {
         ImageView logoView = (ImageView) findViewById(R.id.logo);
         ImageView circleView = (ImageView) findViewById(R.id.circle);

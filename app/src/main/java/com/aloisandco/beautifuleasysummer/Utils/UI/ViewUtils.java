@@ -1,6 +1,5 @@
-package com.aloisandco.beautifuleasysummer.utils;
+package com.aloisandco.beautifuleasysummer.Utils.UI;
 
-import android.graphics.Rect;
 import android.view.View;
 import android.view.Window;
 

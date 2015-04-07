@@ -1,9 +1,11 @@
-package com.aloisandco.beautifuleasysummer.utils;
+package com.aloisandco.beautifuleasysummer.Utils.Manager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.aloisandco.beautifuleasysummer.Utils.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,8 +13,17 @@ import org.json.JSONException;
 /**
  * Created by quentinmetzler on 30/03/15.
  */
+
+/**
+ * Handle the favorite data model
+ */
 public class FavoriteManager {
 
+    /**
+     * Add an article at the end of the favorite list
+     * @param articleId the article to add to the favorite
+     * @param context the context where the user preferences are stored
+     */
     public static void addArticleToFavorite(int articleId, Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         try {
@@ -29,6 +40,12 @@ public class FavoriteManager {
         }
     }
 
+    /**
+     * Add an article at a custom index in the favorite list
+     * @param articleId the article to add to the favorite
+     * @param position the position where we want this article to be added in the favorite list
+     * @param context the context where the user preferences are stored
+     */
     public static void addArticleToFavoriteAtPosition(int articleId, int position, Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         try {
@@ -58,6 +75,12 @@ public class FavoriteManager {
         }
     }
 
+    /**
+     * Check whether the article is a favorite
+     * @param articleId the article we want to know if it's a favorite
+     * @param context the context where the user preferences are stored
+     * @return if the article is a favorite
+     */
     public static boolean isArticleFavorite(int articleId, Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         try {
@@ -69,6 +92,12 @@ public class FavoriteManager {
         }
     }
 
+    /**
+     * Get the article stored at a certain position on the favorite list
+     * @param position the position of the favorite article we want
+     * @param context the context where the user preferences are stored
+     * @return the article stored at a certain position on the favorite list
+     */
     public static int getArticleAtPosition(int position, Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         try {
@@ -83,6 +112,11 @@ public class FavoriteManager {
         }
     }
 
+    /**
+     * Get the number of article set as favorite
+     * @param context the context where the user preferences are stored
+     * @return the number of article set as favorite
+     */
     public static int getNumberOfFavoriteArticle(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         try {
@@ -94,6 +128,12 @@ public class FavoriteManager {
         }
     }
 
+    /**
+     * Get the position of an article in the favorite list
+     * @param articleId the article we want to know the position
+     * @param context the context where the user preferences are stored
+     * @return the position of an article in the favorite list or -1 if it's not a favorite
+     */
     public static int getPositionOfArticle(int articleId, Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         try {
@@ -112,6 +152,11 @@ public class FavoriteManager {
         }
     }
 
+    /**
+     * Remove an article from the favorite list
+     * @param articleId the article we want to remove from the favorite
+     * @param context the context where the user preferences are stored
+     */
     public static void removeArticleFromFavorite(int articleId, Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         try {

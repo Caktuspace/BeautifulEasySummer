@@ -1,11 +1,12 @@
-package com.aloisandco.beautifuleasysummer;
+package com.aloisandco.beautifuleasysummer.View;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 
-import com.aloisandco.beautifuleasysummer.utils.Constants;
+import com.aloisandco.beautifuleasysummer.Enum.AnimType;
+import com.aloisandco.beautifuleasysummer.Utils.Constants;
 
 /**
  * Created by quentinmetzler on 03/04/15.
@@ -34,7 +35,15 @@ public class AnimatedView implements Parcelable {
 
     private String TAG = "AnimatedView";
 
-    // Constructor
+    /**
+     * Initialize a view with the previous state
+     * @param prevTop the top position before changing activity
+     * @param prevLeft the left position before changing activity
+     * @param prevWidth the width before changing activity
+     * @param prevHeight the height before changing activity
+     * @param nextResourceId the id in the next layout
+     * @param animationStep the number of step before finishing the animation
+     */
     public AnimatedView(int prevTop, int prevLeft, int prevWidth, int prevHeight, int nextResourceId, int animationStep){
         this.prevTop = prevTop;
         this.prevLeft = prevLeft;
@@ -44,6 +53,14 @@ public class AnimatedView implements Parcelable {
         this.nbAnimationStep = animationStep;
     }
 
+    /**
+     * Initialize a view to be animated in the current activity
+     * @param view the view to be animated
+     * @param pivot the pivot around which the scale will be made
+     * @param scale the scale to apply at the beginning of the animation
+     * @param animType the animation type we want to perform
+     * @param nbAnimationStep the number of step before finishing the animation
+     */
     public AnimatedView(View view, int pivot, int scale, AnimType animType, int nbAnimationStep) {
         switch (animType) {
             case RESIZE_WIDTH:
@@ -60,7 +77,10 @@ public class AnimatedView implements Parcelable {
         this.nbAnimationStep = nbAnimationStep;
     }
 
-    // Parcelling part
+    /**
+     * Create an animatedView from a parcel
+     * @param in the parcel containing the animated view
+     */
     public AnimatedView(Parcel in){
         this.prevTop = in.readInt();
         this.prevLeft = in.readInt();
@@ -70,7 +90,12 @@ public class AnimatedView implements Parcelable {
         this.nbAnimationStep = in.readInt();
     }
 
-
+    /**
+     * Store an animatedView inside a Parcel
+     * @param dest the parcel which will contain the animatedView
+     * @param flags Additional flags about how the object should be written.
+     *              May be 0 or PARCELABLE_WRITE_RETURN_VALUE.
+     */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         Log.v(TAG, "writeToParcel..." + flags);
@@ -87,38 +112,45 @@ public class AnimatedView implements Parcelable {
         return 0;
     }
 
+    /**
+     * Animate the view in
+     */
     public void animateIn() {
         switch (animType) {
             case ALPHA:
+                // Make the view appear
                 view.setAlpha(0);
                 view.animate().setDuration(Constants.ANIMATION_DURATION / nbAnimationStep).
                         alpha(1).setStartDelay(startDelay).setInterpolator(Constants.ACC_DEC_INTERPOLATOR);
                 break;
             case MOVE_AND_SCALE:
+                // Scale and move the view to the previous state
                 view.setPivotX(pivotX);
                 view.setPivotY(pivotY);
                 view.setScaleX(scaleWidth);
                 view.setScaleY(scaleHeight);
                 view.setTranslationX(deltaLeft);
                 view.setTranslationY(deltaTop);
-                // Animate scale and translation to go from thumbnail to full size
+                // Animate scale and transition to the current state
                 view.animate().setDuration(Constants.ANIMATION_DURATION / nbAnimationStep).
                         scaleX(1).scaleY(1).
                         translationX(0).translationY(0).
                         setStartDelay(startDelay).setInterpolator(Constants.ACC_DEC_INTERPOLATOR);
                 break;
             case RESIZE_WIDTH:
+                // Scale the view down
                 view.setPivotX(pivotX);
                 view.setScaleX(scaleWidth);
-                // Animate scale and translation to go from thumbnail to full size
+                // Animate scale up
                 view.animate().setDuration(Constants.ANIMATION_DURATION / nbAnimationStep).
                         scaleX(1).
                         setStartDelay(startDelay).setInterpolator(Constants.ACC_DEC_INTERPOLATOR);
                 break;
             case RESIZE_HEIGHT:
+                // Scale the view down
                 view.setPivotY(pivotY);
                 view.setScaleY(scaleHeight);
-                // Animate scale and translation to go from thumbnail to full size
+                // Animate scale up
                 view.animate().setDuration(Constants.ANIMATION_DURATION / nbAnimationStep).
                         scaleY(1).
                         setStartDelay(startDelay).setInterpolator(Constants.ACC_DEC_INTERPOLATOR);
@@ -128,6 +160,9 @@ public class AnimatedView implements Parcelable {
         }
     }
 
+    /**
+     * Animate the view out (in reverse of in)
+     */
     public void animateOut() {
         switch (animType) {
             case ALPHA:

@@ -1,4 +1,4 @@
-package com.aloisandco.beautifuleasysummer.utils;
+package com.aloisandco.beautifuleasysummer.Utils.Manager;
 
 import android.graphics.Bitmap;
 
@@ -7,7 +7,12 @@ import java.util.HashMap;
 /**
  * Created by quentinmetzler on 16/03/15.
  */
-public class BitmapCacheUtils {
+
+/**
+ * Use to store the background bitmap with a hole so that we can have it to animate it
+ * in the second activity
+ */
+public class BitmapCacheManager {
     static HashMap<Integer, Bitmap> sBitmapResourceMap = new HashMap<Integer, Bitmap>();
 
     /**

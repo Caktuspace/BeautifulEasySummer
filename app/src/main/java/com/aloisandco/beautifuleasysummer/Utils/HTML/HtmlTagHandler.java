@@ -1,12 +1,13 @@
-package com.aloisandco.beautifuleasysummer.utils;
+package com.aloisandco.beautifuleasysummer.Utils.HTML;
 
 import android.text.Editable;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.style.BulletSpan;
 import android.text.style.LeadingMarginSpan;
-import android.text.style.TypefaceSpan;
 import android.util.Log;
+
+import com.aloisandco.beautifuleasysummer.Utils.Manager.FontManager;
 
 import org.xml.sax.XMLReader;
 
@@ -14,6 +15,12 @@ import java.util.Vector;
 
 /**
  * Created by quentinmetzler on 23/03/15.
+ */
+
+/**
+ * A class which allow to handle more html tag when loading html
+ * in a TextView. Full list is ul, ol, li, dd and bold which is a custom
+ * tag to change to font of the text inside for a custom one
  */
 public class HtmlTagHandler implements Html.TagHandler {
     private int mListItemCount = 0;

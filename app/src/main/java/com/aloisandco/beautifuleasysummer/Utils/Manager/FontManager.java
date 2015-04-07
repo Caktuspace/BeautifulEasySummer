@@ -1,10 +1,14 @@
-package com.aloisandco.beautifuleasysummer.utils;
+package com.aloisandco.beautifuleasysummer.Utils.Manager;
 
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 
 /**
  * Created by quentinmetzler on 18/03/15.
+ */
+
+/**
+ * Singleton responsible for creating and storing all the custom font we need in the application
  */
 public class FontManager {
 
