@@ -81,6 +81,8 @@ public class MenuListActivity extends AnimatedActivity {
     private void initFont() {
         FontManager fontManager = FontManager.getInstance(getAssets());
         mTitleTextView.setTypeface(fontManager.ralewayMediumFont);
+        TextView addFavoriteTextView = (TextView) findViewById(R.id.add_favorite);
+        addFavoriteTextView.setTypeface(fontManager.ralewayMediumFont);
     }
 
     /**
