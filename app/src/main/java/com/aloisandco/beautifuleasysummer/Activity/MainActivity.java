@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
         // Instantiate all the custom font in the singleton
         FontManager.getInstance(getAssets());
         // load a webview because the first one is always slow
-        WebView webView = new WebView(this);
+        WebView webView = (WebView) findViewById(R.id.webview);
         webView.loadUrl(getString(R.string.salade_tropicale_html));
 
         final ImageView circleView = (ImageView) findViewById(R.id.circle);

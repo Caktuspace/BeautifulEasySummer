@@ -200,12 +200,12 @@ public class MenuActivity extends AnimatedActivity {
                 int prevLogoWidth = bundle.getInt(Constants.PACKAGE_NAME + ".logoWidth");
                 int prevLogoHeight = bundle.getInt(Constants.PACKAGE_NAME + ".logoHeight");
                 // Make the background scale up a lot from the center of the logo view as pivot
-                backgroundView.setPivotX(screenLocation[0] + logoImageView.getWidth() / 2 * (logoImageView.getWidth() / prevLogoWidth));
-                backgroundView.setPivotY(screenLocation[1] + logoImageView.getHeight() / 2 * (logoImageView.getHeight() / prevLogoHeight));
+                backgroundView.setPivotX(screenLocation[0] + prevLogoWidth / 2 );
+                backgroundView.setPivotY(screenLocation[1] + prevLogoHeight / 2);
                 backgroundView.animate().setDuration(Constants.ANIMATION_DURATION).
-                        scaleX(7 - (logoImageView.getWidth() / prevLogoWidth)).scaleY(7 - (logoImageView.getHeight() / prevLogoHeight)).
-                        translationX(backgroundView.getWidth() / 2 - (screenLocation[0] + logoImageView.getWidth() * (logoImageView.getWidth() / prevLogoWidth) / 2)).
-                        translationY(backgroundView.getHeight() / 2 - (screenLocation[1] + logoImageView.getHeight() * (logoImageView.getHeight() / prevLogoHeight) / 2)).
+                        scaleX(5).scaleY(5).
+                        translationX(backgroundView.getWidth() / 2 - (screenLocation[0] + prevLogoWidth / 2)).
+                        translationY(backgroundView.getHeight() / 2 - (screenLocation[1] + prevLogoHeight / 2)).
                         setInterpolator(Constants.ACC_DEC_INTERPOLATOR).withEndAction(new Runnable() {
                     @Override
                     public void run() {
@@ -215,7 +215,7 @@ public class MenuActivity extends AnimatedActivity {
 
                 // Make the feet scale up a lot from the center of the logo view as pivot
                 feetView.animate().setDuration(Constants.ANIMATION_DURATION / 2).
-                        scaleX(2 - (logoImageView.getWidth() / prevLogoWidth)).scaleY(2 - (logoImageView.getHeight() / prevLogoHeight)).
+                        scaleX(2).scaleY(2).
                         translationX(0).translationY(feetView.getHeight()).
                         setInterpolator(Constants.ACC_DEC_INTERPOLATOR).withEndAction(new Runnable() {
                     @Override
