@@ -165,17 +165,17 @@ public class MenuListActivity extends AnimatedActivity {
                             viewScreenLocation[0] + ScreenUtils.valueToDpi(getResources(), 20),
                             view.getWidth() - ScreenUtils.valueToDpi(getResources(), 40),
                             ScreenUtils.valueToDpi(getResources(), 1),
-                            R.id.divider, 2);
+                            R.id.divider, 2, 0);
                     AnimatedView textAnimatedView = new AnimatedView(textScreenLocation[1],
                             textScreenLocation[0],
                             textView.getWidth(),
                             textView.getHeight(),
-                            R.id.title, 2);
+                            R.id.title, 2, 0);
                     AnimatedView checkboxAnimatedView = new AnimatedView(checkboxScreenLocation[1],
                             checkboxScreenLocation[0],
                             checkBox.getWidth(),
                             checkBox.getHeight(),
-                            R.id.favorite, 2);
+                            R.id.favorite, 2, 0);
                     dataList.add(dividerAnimatedView);
                     dataList.add(textAnimatedView);
                     dataList.add(checkboxAnimatedView);
@@ -230,9 +230,14 @@ public class MenuListActivity extends AnimatedActivity {
      */
     @Override
     protected void processSpecialCaseEnterAnimation() {
-        View view = ActivityTransitionManager.getInstance().getMenuItemView();
+        final View view = ActivityTransitionManager.getInstance().getMenuItemView();
         if (view != null) {
-            view.setAlpha(0);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    view.setAlpha(0);
+                }
+            });
         }
     }
 
@@ -241,9 +246,14 @@ public class MenuListActivity extends AnimatedActivity {
      */
     @Override
     protected void processSpecialCaseExitAnimation() {
-        View view = ActivityTransitionManager.getInstance().getMenuItemView();
+        final View view = ActivityTransitionManager.getInstance().getMenuItemView();
         if (view != null) {
-            view.setAlpha(1);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    view.setAlpha(1);
+                }
+            });
         }
     }
 

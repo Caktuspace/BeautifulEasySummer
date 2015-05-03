@@ -86,12 +86,12 @@ public class MenuActivity extends AnimatedActivity {
                         iconScreenLocation[0],
                         imageView.getWidth(),
                         imageView.getHeight(),
-                        R.id.icon, 2);
+                        R.id.icon, 2, 0);
                 AnimatedView textAnimatedView = new AnimatedView(textScreenLocation[1],
                         textScreenLocation[0],
                         textView.getWidth(),
                         textView.getHeight(),
-                        R.id.title, 2);
+                        R.id.title, 2, 0);
                 dataList.add(iconAnimatedView);
                 dataList.add(textAnimatedView);
 
@@ -163,10 +163,10 @@ public class MenuActivity extends AnimatedActivity {
     protected void addAnimatedViews() {
         View leftLineView = findViewById(R.id.logo_left_line);
         AnimatedView leftLineAnimatedView = new AnimatedView(leftLineView, leftLineView.getWidth(), 0, AnimType.RESIZE_WIDTH, 2);
-        leftLineAnimatedView.setStartDelay(Constants.ANIMATION_DURATION);
+        leftLineAnimatedView.setStartDelay(Constants.ANIMATION_DURATION + 500);
         leftLineAnimatedView.setEndDelay(0);
         AnimatedView rightLineAnimatedView = new AnimatedView(findViewById(R.id.logo_right_line), 0, 0, AnimType.RESIZE_WIDTH, 2);
-        rightLineAnimatedView.setStartDelay(Constants.ANIMATION_DURATION);
+        rightLineAnimatedView.setStartDelay(Constants.ANIMATION_DURATION + 500);
         rightLineAnimatedView.setEndDelay(0);
 
         animatedViews.add(leftLineAnimatedView);
@@ -203,7 +203,7 @@ public class MenuActivity extends AnimatedActivity {
                 backgroundView.setPivotX(screenLocation[0] + prevLogoWidth / 2 );
                 backgroundView.setPivotY(screenLocation[1] + prevLogoHeight / 2);
                 backgroundView.animate().setDuration(Constants.ANIMATION_DURATION).
-                        scaleX(5).scaleY(5).
+                        scaleX(5).scaleY(5).setStartDelay(500).
                         translationX(backgroundView.getWidth() / 2 - (screenLocation[0] + prevLogoWidth / 2)).
                         translationY(backgroundView.getHeight() / 2 - (screenLocation[1] + prevLogoHeight / 2)).
                         setInterpolator(Constants.ACC_DEC_INTERPOLATOR).withEndAction(new Runnable() {
@@ -215,7 +215,7 @@ public class MenuActivity extends AnimatedActivity {
 
                 // Make the feet scale up a lot from the center of the logo view as pivot
                 feetView.animate().setDuration(Constants.ANIMATION_DURATION / 2).
-                        scaleX(2).scaleY(2).
+                        scaleX(2).scaleY(2).setStartDelay(500).
                         translationX(0).translationY(feetView.getHeight()).
                         setInterpolator(Constants.ACC_DEC_INTERPOLATOR).withEndAction(new Runnable() {
                     @Override

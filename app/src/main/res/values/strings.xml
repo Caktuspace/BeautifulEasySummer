@@ -24,22 +24,76 @@
     <string name="smoothies_gourmands"><![CDATA[Recettes de <bold>smoothies gourmands</bold>]]></string>
     <string name="detox_water"><![CDATA[Comment faire sa <bold>detox water</bold>]]></string>
 
-    <string name="salade_tropicale_html">file:///android_asset/html/fr/salade_tropicale.html</string>
-    <string name="cocktails_raffraichissants_html">file:///android_asset/html/fr/cocktails_raffraichissants.html</string>
-    <string name="dessert_du_soleil_html">file:///android_asset/html/fr/dessert_du_soleil.html</string>
-    <string name="top_en_maillot_html">file:///android_asset/html/fr/top_en_maillot.html</string>
-    <string name="apero_reussi_html">file:///android_asset/html/fr/apero_reussi.html</string>
-    <string name="fruits_exotiques_html">file:///android_asset/html/fr/fruits_exotiques.html</string>
-    <string name="smoothies_gourmands_html">file:///android_asset/html/fr/smoothies_gourmands.html</string>
-    <string name="detox_water_html">file:///android_asset/html/fr/detox_water.html</string>
+    <string name="salade_tropicale_html">file:///android_asset/html/fr/gourmandise/salade_tropicale.html</string>
+    <string name="cocktails_raffraichissants_html">file:///android_asset/html/fr/gourmandise/cocktails_raffraichissants.html</string>
+    <string name="dessert_du_soleil_html">file:///android_asset/html/fr/gourmandise/dessert_du_soleil.html</string>
+    <string name="top_en_maillot_html">file:///android_asset/html/fr/gourmandise/top_en_maillot.html</string>
+    <string name="apero_reussi_html">file:///android_asset/html/fr/gourmandise/apero_reussi.html</string>
+    <string name="fruits_exotiques_html">file:///android_asset/html/fr/gourmandise/fruits_exotiques.html</string>
+    <string name="smoothies_gourmands_html">file:///android_asset/html/fr/gourmandise/smoothies_gourmands.html</string>
+    <string name="detox_water_html">file:///android_asset/html/fr/gourmandise/detox_water.html</string>
 
     <string name="teint_de_peche"><![CDATA[Teint de <bold>pêche</bold>]]></string>
     <string name="regard_de_lete"><![CDATA[Le <bold>regard</bold> de l\'été 2015]]></string>
     <string name="bouche_a_croquer"><![CDATA[Une <bold>bouche</bold> à croquer]]></string>
     <string name="vernis_de_lete"><![CDATA[Les couleurs tendances des <bold>vernis</bold> de l\'été]]></string>
 
-    <string name="teint_de_peche_html">file:///android_asset/html/fr/teint_de_peche.html</string>
-    <string name="regard_de_lete_html">file:///android_asset/html/fr/regard_de_lete.html</string>
-    <string name="bouche_a_croquer_html">file:///android_asset/html/fr/bouche_a_croquer.html</string>
-    <string name="vernis_de_lete_html">file:///android_asset/html/fr/vernis_de_lete.html</string>
+    <string name="teint_de_peche_html">file:///android_asset/html/fr/beaute/teint_de_peche.html</string>
+    <string name="regard_de_lete_html">file:///android_asset/html/fr/beaute/regard_de_lete.html</string>
+    <string name="bouche_a_croquer_html">file:///android_asset/html/fr/beaute/bouche_a_croquer.html</string>
+    <string name="vernis_de_lete_html">file:///android_asset/html/fr/beaute/vernis_de_lete.html</string>
+
+    <string name="entretenir_cheveux"><![CDATA[Comment <bold>entretenir</bold> ses <bold>cheveux</bold>]]></string>
+    <string name="coupes_a_la_mode"><![CDATA[Les <bold>coupes</bold> à la <bold>mode</bold>]]></string>
+    <string name="nature_soin_cheveux"><![CDATA[La nature <bold>prend soin</bold> de tes <bold>cheveux</bold>]]></string>
+    <string name="cheveux_plages"><![CDATA[Les <bold>cheveux</bold> à la <bold>plage</bold>]]></string>
+    <string name="eclaircir_naturel"><![CDATA[<bold>Éclaircir</bold> ses <bold>cheveux</bold> naturellement]]></string>
+    <string name="couleur_du_moment"><![CDATA[<bold>Couleurs</bold> du moment]]></string>
+    <string name="coiffures_de_lete"><![CDATA[<bold>Coiffures</bold> de l’été]]></string>
+    <string name="effet_plage"><![CDATA[Cheveux bouclés <bold>effet plage</bold>]]></string>
+    <string name="chapeaux_tendances"><![CDATA[<bold>Chapeaux</bold> tendances 2015]]></string>
+
+    <string name="entretenir_cheveux_html">file:///android_asset/html/fr/coiffure/entretenir_cheveux.html</string>
+    <string name="coupes_a_la_mode_html">file:///android_asset/html/fr/coiffure/coupes_a_la_mode.html</string>
+    <string name="nature_soin_cheveux_html">file:///android_asset/html/fr/coiffure/nature_soin_cheveux.html</string>
+    <string name="cheveux_plages_html">file:///android_asset/html/fr/coiffure/cheveux_plages.html</string>
+    <string name="eclaircir_naturel_html">file:///android_asset/html/fr/coiffure/eclaircir_naturel.html</string>
+    <string name="couleur_du_moment_html">file:///android_asset/html/fr/coiffure/couleur_du_moment.html</string>
+    <string name="coiffures_de_lete_html">file:///android_asset/html/fr/coiffure/coiffures_de_lete.html</string>
+    <string name="effet_plage_html">file:///android_asset/html/fr/coiffure/effet_plage.html</string>
+    <string name="chapeaux_tendances_html">file:///android_asset/html/fr/coiffure/chapeaux_tendances.html</string>
+
+    <string name="couleur_mode"><![CDATA[<bold>Couleurs</bold> à la mode cet été]]></string>
+    <string name="textures_moment"><![CDATA[<bold>Textures</bold> du moment]]></string>
+    <string name="voyage_tropical"><![CDATA[Voyage <bold>Tropical</bold>]]></string>
+    <string name="kimono"><![CDATA[Le <bold>Kimono</bold>]]></string>
+    <string name="accessoires"><![CDATA[Les <bold>accessoires</bold> du moment]]></string>
+    <string name="sac_a_main"><![CDATA[<bold>Sac à main</bold>]]></string>
+    <string name="chaussures"><![CDATA[<bold>Chaussures</bold>]]></string>
+
+    <string name="couleur_mode_html">file:///android_asset/html/fr/mode/couleur_mode.html</string>
+    <string name="textures_moment_html">file:///android_asset/html/fr/mode/textures_moment.html</string>
+    <string name="voyage_tropical_html">file:///android_asset/html/fr/mode/voyage_tropical.html</string>
+    <string name="kimono_html">file:///android_asset/html/fr/mode/kimono.html</string>
+    <string name="accessoires_html">file:///android_asset/html/fr/mode/accessoires.html</string>
+    <string name="sac_a_main_html">file:///android_asset/html/fr/mode/sac_a_main.html</string>
+    <string name="chaussures_html">file:///android_asset/html/fr/mode/chaussures.html</string>
+
+    <string name="expos"><![CDATA[<bold>Expos</bold> à ne pas louper]]></string>
+    <string name="bijoux"><![CDATA[<bold>Bijoux</bold> DIY]]></string>
+    <string name="activites_insolites"><![CDATA[Activités <bold>insolites</bold>]]></string>
+    <string name="danses"><![CDATA[<bold>Danses</bold> pour un été hot]]></string>
+    <string name="sports_solo"><![CDATA[Nouveaux sports <bold>solo</bold>]]></string>
+    <string name="sports_multi"><![CDATA[Nouveaux sports <bold>à plusieurs</bold>]]></string>
+    <string name="nuits_de_reves"><![CDATA[Nuits de <bold>rêve</bold]]></string>
+    <string name="cuisine_moleculaire"><![CDATA[Cuisine <bold>moléculaire</bold>]]></string>
+
+    <string name="expos_html">file:///android_asset/html/fr/activite/expos.html</string>
+    <string name="bijoux_html">file:///android_asset/html/fr/activite/bijoux.html</string>
+    <string name="activites_insolites_html">file:///android_asset/html/fr/activite/activites_insolites.html</string>
+    <string name="danses_html">file:///android_asset/html/fr/activite/danses.html</string>
+    <string name="sports_solo_html">file:///android_asset/html/fr/activite/sports_solo.html</string>
+    <string name="sports_multi_html">file:///android_asset/html/fr/activite/sports_multi.html</string>
+    <string name="nuits_de_reves_html">file:///android_asset/html/fr/activite/nuits_de_reves.html</string>
+    <string name="cuisine_moleculaire_html">file:///android_asset/html/fr/activite/cuisine_moleculaire.html</string>
 </resources>

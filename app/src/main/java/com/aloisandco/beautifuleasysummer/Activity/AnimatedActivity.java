@@ -59,9 +59,6 @@ public abstract class AnimatedActivity extends Activity {
                         // Calculate difference between previous size and current one
                         animatedView.setScaleWidth((float) animatedView.getPrevWidth() / newView.getWidth());
                         animatedView.setScaleHeight((float) animatedView.getPrevHeight() / newView.getHeight());
-                        animatedView.setPivotX(0);
-                        animatedView.setPivotY(0);
-                        animatedView.setStartDelay(0);
                         animatedView.setEndDelay(animationStep == 0 ? 0 : (Constants.ANIMATION_DURATION - (Constants.ANIMATION_DURATION / animationStep)));
                         animatedView.setView(newView);
                         animatedView.setAnimType(AnimType.MOVE_AND_SCALE);

@@ -44,13 +44,14 @@ public class AnimatedView implements Parcelable {
      * @param nextResourceId the id in the next layout
      * @param animationStep the number of step before finishing the animation
      */
-    public AnimatedView(int prevTop, int prevLeft, int prevWidth, int prevHeight, int nextResourceId, int animationStep){
+    public AnimatedView(int prevTop, int prevLeft, int prevWidth, int prevHeight, int nextResourceId, int animationStep, int startDelay){
         this.prevTop = prevTop;
         this.prevLeft = prevLeft;
         this.prevWidth = prevWidth;
         this.prevHeight = prevHeight;
         this.nextResourceId = nextResourceId;
         this.nbAnimationStep = animationStep;
+        this.startDelay = startDelay;
     }
 
     /**
@@ -88,6 +89,7 @@ public class AnimatedView implements Parcelable {
         this.prevHeight = in.readInt();
         this.nextResourceId = in.readInt();
         this.nbAnimationStep = in.readInt();
+        this.startDelay = in.readInt();
     }
 
     /**
@@ -105,6 +107,7 @@ public class AnimatedView implements Parcelable {
         dest.writeInt(prevHeight);
         dest.writeInt(nextResourceId);
         dest.writeInt(nbAnimationStep);
+        dest.writeInt(startDelay);
     }
 
     @Override

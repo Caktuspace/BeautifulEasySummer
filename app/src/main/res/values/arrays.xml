@@ -57,10 +57,34 @@
         <item>@array/detox_water</item>
     </array>
     <array name="mode_list">
+        <item>@array/couleur_mode</item>
+        <item>@array/textures_moment</item>
+        <item>@array/voyage_tropical</item>
+        <item>@array/kimono</item>
+        <item>@array/accessoires</item>
+        <item>@array/sac_a_main</item>
+        <item>@array/chaussures</item>
     </array>
     <array name="activite_list">
+        <item>@array/expos</item>
+        <item>@array/bijoux</item>
+        <item>@array/activites_insolites</item>
+        <item>@array/danses</item>
+        <item>@array/sports_solo</item>
+        <item>@array/sports_multi</item>
+        <item>@array/nuits_de_reves</item>
+        <item>@array/cuisine_moleculaire</item>
     </array>
     <array name="coiffure_list">
+        <item>@array/entretenir_cheveux</item>
+        <item>@array/coupes_a_la_mode</item>
+        <item>@array/nature_soin_cheveux</item>
+        <item>@array/cheveux_plages</item>
+        <item>@array/eclaircir_naturel</item>
+        <item>@array/couleur_du_moment</item>
+        <item>@array/coiffures_de_lete</item>
+        <item>@array/effet_plage</item>
+        <item>@array/chapeaux_tendances</item>
     </array>
 
     <array name="salade_tropicale">
@@ -111,5 +135,104 @@
     <array name="vernis_de_lete">
         <item>@string/vernis_de_lete</item>
         <item>@string/vernis_de_lete_html</item>
+    </array>
+
+    <array name="entretenir_cheveux">
+        <item>@string/entretenir_cheveux</item>
+        <item>@string/entretenir_cheveux_html</item>
+    </array>
+    <array name="coupes_a_la_mode">
+        <item>@string/coupes_a_la_mode</item>
+        <item>@string/coupes_a_la_mode_html</item>
+    </array>
+    <array name="nature_soin_cheveux">
+        <item>@string/nature_soin_cheveux</item>
+        <item>@string/nature_soin_cheveux_html</item>
+    </array>
+    <array name="cheveux_plages">
+        <item>@string/cheveux_plages</item>
+        <item>@string/cheveux_plages_html</item>
+    </array>
+    <array name="eclaircir_naturel">
+        <item>@string/eclaircir_naturel</item>
+        <item>@string/eclaircir_naturel_html</item>
+    </array>
+    <array name="couleur_du_moment">
+        <item>@string/couleur_du_moment</item>
+        <item>@string/couleur_du_moment_html</item>
+    </array>
+    <array name="coiffures_de_lete">
+        <item>@string/coiffures_de_lete</item>
+        <item>@string/coiffures_de_lete_html</item>
+    </array>
+    <array name="effet_plage">
+        <item>@string/effet_plage</item>
+        <item>@string/effet_plage_html</item>
+    </array>
+    <array name="chapeaux_tendances">
+        <item>@string/chapeaux_tendances</item>
+        <item>@string/chapeaux_tendances_html</item>
+    </array>
+
+    <array name="couleur_mode">
+        <item>@string/couleur_mode</item>
+        <item>@string/couleur_mode_html</item>
+    </array>
+    <array name="textures_moment">
+        <item>@string/textures_moment</item>
+        <item>@string/textures_moment_html</item>
+    </array>
+    <array name="voyage_tropical">
+        <item>@string/voyage_tropical</item>
+        <item>@string/voyage_tropical_html</item>
+    </array>
+    <array name="kimono">
+        <item>@string/kimono</item>
+        <item>@string/kimono_html</item>
+    </array>
+    <array name="accessoires">
+        <item>@string/accessoires</item>
+        <item>@string/accessoires_html</item>
+    </array>
+    <array name="sac_a_main">
+        <item>@string/sac_a_main</item>
+        <item>@string/sac_a_main_html</item>
+    </array>
+    <array name="chaussures">
+        <item>@string/chaussures</item>
+        <item>@string/chaussures_html</item>
+    </array>
+
+    <array name="expos">
+        <item>@string/expos</item>
+        <item>@string/expos_html</item>
+    </array>
+    <array name="bijoux">
+        <item>@string/bijoux</item>
+        <item>@string/bijoux_html</item>
+    </array>
+    <array name="activites_insolites">
+        <item>@string/activites_insolites</item>
+        <item>@string/activites_insolites_html</item>
+    </array>
+    <array name="danses">
+        <item>@string/danses</item>
+        <item>@string/danses_html</item>
+    </array>
+    <array name="sports_solo">
+        <item>@string/sports_solo</item>
+        <item>@string/sports_solo_html</item>
+    </array>
+    <array name="sports_multi">
+        <item>@string/sports_multi</item>
+        <item>@string/sports_multi_html</item>
+    </array>
+    <array name="nuits_de_reves">
+        <item>@string/nuits_de_reves</item>
+        <item>@string/nuits_de_reves_html</item>
+    </array>
+    <array name="cuisine_moleculaire">
+        <item>@string/cuisine_moleculaire</item>
+        <item>@string/cuisine_moleculaire_html</item>
     </array>
 </resources>

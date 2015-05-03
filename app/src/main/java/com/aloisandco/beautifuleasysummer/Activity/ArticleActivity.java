@@ -68,11 +68,12 @@ public class ArticleActivity extends AnimatedActivity {
 
         FontManager fontManager = FontManager.getInstance(getAssets());
         mTitleTextView.setTypeface(fontManager.ralewayLightFont);
-        mTitleTextView.setText(Html.fromHtml(title.toUpperCase(), null, new HtmlTagHandler()));
+        mTitleTextView.setText(Html.fromHtml(title, null, new HtmlTagHandler()));
 
         mArticleView.loadUrl(articleUrl);
         mArticleView.setBackgroundColor(Color.TRANSPARENT);
         final WebSettings webSettings = mArticleView.getSettings();
+        webSettings.setDefaultTextEncodingName("utf-8");
         webSettings.setDefaultFontSize(18);
     }
 
@@ -155,9 +156,14 @@ public class ArticleActivity extends AnimatedActivity {
      */
     @Override
     protected void processSpecialCaseEnterAnimation() {
-        View view = ActivityTransitionManager.getInstance().getMenuListItemView();
+        final View view = ActivityTransitionManager.getInstance().getMenuListItemView();
         if (view != null) {
-            view.setAlpha(0);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    view.setAlpha(0);
+                }
+            });
         }
     }
 
@@ -166,9 +172,14 @@ public class ArticleActivity extends AnimatedActivity {
      */
     @Override
     protected void processSpecialCaseExitAnimation() {
-        View view = ActivityTransitionManager.getInstance().getMenuListItemView();
+        final View view = ActivityTransitionManager.getInstance().getMenuListItemView();
         if (view != null) {
-            view.setAlpha(1);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    view.setAlpha(1);
+                }
+            });
         }
     }
 

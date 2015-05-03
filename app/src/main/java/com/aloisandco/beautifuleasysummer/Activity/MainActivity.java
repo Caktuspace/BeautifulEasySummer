@@ -82,7 +82,7 @@ public class MainActivity extends Activity {
                         screenLocation[0],
                         logoView.getWidth(),
                         logoView.getHeight(),
-                        R.id.logo, 1);
+                        R.id.logo, 1, 500);
                 dataList.add(logoAnimatedView);
                 intent.
                         putExtra(Constants.PACKAGE_NAME + ".resourceId", R.id.background).
