@@ -19,6 +19,7 @@ public class SoundManager {
     private SoundManager(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         mp = MediaPlayer.create(context, R.raw.son_bes);
+        mp.setLooping(true);
         mp.start();
         float log1=(float)(Math.log(100-50)/Math.log(100));
         mp.setVolume(1-log1, 1-log1);
@@ -48,6 +49,21 @@ public class SoundManager {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean(Constants.SHARED_PREFERENCES_SOUND, playing);
         editor.apply();
+    }
+
+    public void pauseSound() {
+        if (playing) {
+            mp.pause();
+            playing = !playing;
+        }
+    }
+
+    public void resumeSound(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        if (!playing && prefs.getBoolean(Constants.SHARED_PREFERENCES_SOUND, true)) {
+            mp.start();
+            playing = !playing;
+        }
     }
 
     public Boolean isPlaying() {

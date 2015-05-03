@@ -42,7 +42,14 @@ public abstract class AnimatedActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        mSoundButton.setBackgroundResource(SoundManager.getInstance(AnimatedActivity.this).isPlaying() ? R.drawable.beautifultheme_btn_sound : R.drawable.beautifultheme_btn_no_sound);
+        SoundManager.getInstance(this).resumeSound(this);
+        mSoundButton.setBackgroundResource(SoundManager.getInstance(this).isPlaying() ? R.drawable.beautifultheme_btn_sound : R.drawable.beautifultheme_btn_no_sound);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SoundManager.getInstance(this).pauseSound();
     }
 
     private void initSoundButton() {

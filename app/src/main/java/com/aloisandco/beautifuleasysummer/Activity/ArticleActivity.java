@@ -158,17 +158,12 @@ public class ArticleActivity extends AnimatedActivity {
         tropicalBackgroundAnimatedView.setStartDelay(0);
         tropicalBackgroundAnimatedView.setEndDelay(Constants.ANIMATION_DURATION / 2);
 
-        AnimatedView backButtonAnimatedView = new AnimatedView(findViewById(R.id.back_button), 0, 0, AnimType.ALPHA, 2);
-        backButtonAnimatedView.setStartDelay(0);
-        backButtonAnimatedView.setEndDelay(Constants.ANIMATION_DURATION / 2);
-
         AnimatedView articleAnimatedView = new AnimatedView(findViewById(R.id.articleView), 0, 0, AnimType.RESIZE_HEIGHT, 2);
         articleAnimatedView.setStartDelay(Constants.ANIMATION_DURATION / 2);
         articleAnimatedView.setEndDelay(0);
 
         animatedViews.add(frameAnimatedView);
         animatedViews.add(tropicalBackgroundAnimatedView);
-        animatedViews.add(backButtonAnimatedView);
         animatedViews.add(articleAnimatedView);
 
         // request interstitial after ANIMATION_DURATION
