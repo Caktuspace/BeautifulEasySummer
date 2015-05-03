@@ -71,6 +71,7 @@
         android:layout_marginLeft="-15dp"
         android:scaleType="fitXY"
         android:layout_alignParentBottom="true"
+        android:onClick="backButtonPressed"
         android:background="@drawable/beautifultheme_btn_back"/>
     <ImageButton
         android:id="@+id/sound_button"
@@ -81,5 +82,5 @@
         android:scaleType="fitXY"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:background="@drawable/beautifultheme_btn_sound"/>
+        android:drawable="@drawable/beautifultheme_btn_sound"/>
 </RelativeLayout>

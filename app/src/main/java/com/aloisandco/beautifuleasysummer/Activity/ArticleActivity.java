@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -37,7 +38,6 @@ public class ArticleActivity extends AnimatedActivity {
     private TextView mTitleTextView;
     private WebView mArticleView;
     private CheckBox mCheckBox;
-    private ImageButton mBackButton;
 
     int mArticleId;
     int mFavoritePosition = -1;
@@ -49,13 +49,11 @@ public class ArticleActivity extends AnimatedActivity {
         mTitleTextView = (TextView) findViewById(R.id.title);
         mArticleView = (WebView) findViewById(R.id.articleView);
         mCheckBox = (CheckBox) findViewById(R.id.checkbox);
-        mBackButton = (ImageButton) findViewById(R.id.back_button);
 
         Bundle bundle = getIntent().getExtras();
 
         initTitleAndWebview(bundle);
         initInterstitialAd();
-        initBackButton();
 
         handleCheckBoxBehavior();
     }
@@ -100,21 +98,6 @@ public class ArticleActivity extends AnimatedActivity {
                         runExitAnimation();
                     }
                 }, 500);
-            }
-        });
-    }
-
-    /**
-     * Return to the previous screen when touched
-     */
-    private void initBackButton() {
-        mBackButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == (MotionEvent.ACTION_UP)) {
-                    onBackPressed();
-                }
-                return true;
             }
         });
     }

@@ -1,7 +1,6 @@
 package com.aloisandco.beautifuleasysummer.Activity;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -52,6 +51,13 @@ public abstract class AnimatedActivity extends Activity {
         SoundManager.getInstance(this).pauseSound();
     }
 
+    /**
+     * Return to the previous screen when touched
+     */
+    public void backButtonPressed(View view) {
+        onBackPressed();
+    }
+
     private void initSoundButton() {
         mSoundButton.setBackgroundResource(SoundManager.getInstance(this).isPlaying()?R.drawable.beautifultheme_btn_sound:R.drawable.beautifultheme_btn_no_sound);
         mSoundButton.setOnTouchListener(new View.OnTouchListener() {
@@ -61,7 +67,7 @@ public abstract class AnimatedActivity extends Activity {
                     SoundManager.getInstance(AnimatedActivity.this).changeSoundState(AnimatedActivity.this);
                     mSoundButton.setBackgroundResource(SoundManager.getInstance(AnimatedActivity.this).isPlaying() ? R.drawable.beautifultheme_btn_sound : R.drawable.beautifultheme_btn_no_sound);
                 }
-                return true;
+                return false;
             }
         });
     }

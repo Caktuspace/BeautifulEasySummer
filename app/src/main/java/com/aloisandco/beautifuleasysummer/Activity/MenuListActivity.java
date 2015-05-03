@@ -12,6 +12,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -38,7 +39,6 @@ public class MenuListActivity extends AnimatedActivity {
     private TextView mTitleTextView;
     private ListView mListView;
     private MenuListAdapter mAdapter;
-    private ImageButton mBackButton;
     private View mLastClickedView;
     private int mLastClickedResourceId;
     private int mLastClickedIndex;
@@ -50,13 +50,11 @@ public class MenuListActivity extends AnimatedActivity {
         mIconImageView = (ImageView) findViewById(R.id.icon);
         mTitleTextView = (TextView) findViewById(R.id.title);
         mListView = (ListView) findViewById(R.id.listView);
-        mBackButton = (ImageButton) findViewById(R.id.back_button);
 
         initFont();
 
         initTitleAndIcon();
         initListView();
-        initBackButton();
     }
 
     @Override
@@ -100,21 +98,6 @@ public class MenuListActivity extends AnimatedActivity {
 
         mIconImageView.setImageBitmap(icon);
         mTitleTextView.setText(title);
-    }
-
-    /**
-     * Return to the previous screen when touched
-     */
-    private void initBackButton() {
-        mBackButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == (MotionEvent.ACTION_UP)) {
-                    onBackPressed();
-                }
-                return true;
-            }
-        });
     }
 
     /**
