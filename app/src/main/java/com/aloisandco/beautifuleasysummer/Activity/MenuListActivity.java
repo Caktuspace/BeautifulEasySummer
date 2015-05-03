@@ -9,9 +9,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -36,6 +38,7 @@ public class MenuListActivity extends AnimatedActivity {
     private TextView mTitleTextView;
     private ListView mListView;
     private MenuListAdapter mAdapter;
+    private ImageButton mBackButton;
     private View mLastClickedView;
     private int mLastClickedResourceId;
     private int mLastClickedIndex;
@@ -47,11 +50,13 @@ public class MenuListActivity extends AnimatedActivity {
         mIconImageView = (ImageView) findViewById(R.id.icon);
         mTitleTextView = (TextView) findViewById(R.id.title);
         mListView = (ListView) findViewById(R.id.listView);
+        mBackButton = (ImageButton) findViewById(R.id.back_button);
 
         initFont();
 
         initTitleAndIcon();
         initListView();
+        initBackButton();
     }
 
     @Override
@@ -95,6 +100,21 @@ public class MenuListActivity extends AnimatedActivity {
 
         mIconImageView.setImageBitmap(icon);
         mTitleTextView.setText(title);
+    }
+
+    /**
+     * Return to the previous screen when touched
+     */
+    private void initBackButton() {
+        mBackButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == (MotionEvent.ACTION_UP)) {
+                    onBackPressed();
+                }
+                return true;
+            }
+        });
     }
 
     /**
@@ -204,9 +224,17 @@ public class MenuListActivity extends AnimatedActivity {
      */
     @Override
     public void addAnimatedViews() {
-        AnimatedView backgroundAnimatedView = new AnimatedView(findViewById(R.id.tropical_background), 0, 0, AnimType.ALPHA, 2);
-        backgroundAnimatedView.setStartDelay(0);
-        backgroundAnimatedView.setEndDelay(Constants.ANIMATION_DURATION / 2);
+        AnimatedView frameAnimatedView = new AnimatedView(findViewById(R.id.picture_frame), 0, 0, AnimType.ALPHA, 2);
+        frameAnimatedView.setStartDelay(0);
+        frameAnimatedView.setEndDelay(Constants.ANIMATION_DURATION / 2);
+
+        AnimatedView tropicalBackgroundAnimatedView = new AnimatedView(findViewById(R.id.tropical_background), 0, 0, AnimType.ALPHA, 2);
+        tropicalBackgroundAnimatedView.setStartDelay(0);
+        tropicalBackgroundAnimatedView.setEndDelay(Constants.ANIMATION_DURATION / 2);
+
+        AnimatedView backButtonAnimatedView = new AnimatedView(findViewById(R.id.back_button), 0, 0, AnimType.ALPHA, 2);
+        backButtonAnimatedView.setStartDelay(0);
+        backButtonAnimatedView.setEndDelay(Constants.ANIMATION_DURATION / 2);
 
         AnimatedView listAnimatedView = new AnimatedView(findViewById(R.id.listView), 0, 0, AnimType.RESIZE_HEIGHT, 2);
         listAnimatedView.setStartDelay(Constants.ANIMATION_DURATION / 2);
@@ -219,7 +247,9 @@ public class MenuListActivity extends AnimatedActivity {
         dividerAnimatedView.setStartDelay(0);
         dividerAnimatedView.setEndDelay(Constants.ANIMATION_DURATION / 2);
 
-        animatedViews.add(backgroundAnimatedView);
+        animatedViews.add(frameAnimatedView);
+        animatedViews.add(tropicalBackgroundAnimatedView);
+        animatedViews.add(backButtonAnimatedView);
         animatedViews.add(listAnimatedView);
         animatedViews.add(dividerAnimatedView);
         animatedViews.add(addFavoriteAnimatedView);

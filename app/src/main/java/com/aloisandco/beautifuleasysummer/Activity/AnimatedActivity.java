@@ -1,11 +1,16 @@
 package com.aloisandco.beautifuleasysummer.Activity;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.ImageButton;
 
 import com.aloisandco.beautifuleasysummer.Enum.AnimType;
+import com.aloisandco.beautifuleasysummer.R;
+import com.aloisandco.beautifuleasysummer.Utils.Manager.SoundManager;
 import com.aloisandco.beautifuleasysummer.View.AnimatedView;
 import com.aloisandco.beautifuleasysummer.Utils.Constants;
 
@@ -18,6 +23,7 @@ import java.util.TimerTask;
  */
 public abstract class AnimatedActivity extends Activity {
     protected Boolean mCloseInProgress;
+    protected ImageButton mSoundButton;
     protected ArrayList<AnimatedView> animatedViews = new ArrayList<>();
 
     protected void onCreate(Bundle savedInstanceState, int layoutId, int animationStep) {
@@ -25,9 +31,32 @@ public abstract class AnimatedActivity extends Activity {
         setContentView(layoutId);
         // We are not in the closing animation
         mCloseInProgress = false;
+        mSoundButton = (ImageButton) findViewById(R.id.sound_button);
+        initSoundButton();
+
         if (savedInstanceState == null) {
             initAnimatedViews(getIntent().getExtras(), animationStep);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSoundButton.setBackgroundResource(SoundManager.getInstance(AnimatedActivity.this).isPlaying() ? R.drawable.beautifultheme_btn_sound : R.drawable.beautifultheme_btn_no_sound);
+    }
+
+    private void initSoundButton() {
+        mSoundButton.setBackgroundResource(SoundManager.getInstance(this).isPlaying()?R.drawable.beautifultheme_btn_sound:R.drawable.beautifultheme_btn_no_sound);
+        mSoundButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == (MotionEvent.ACTION_UP)) {
+                    SoundManager.getInstance(AnimatedActivity.this).changeSoundState(AnimatedActivity.this);
+                    mSoundButton.setBackgroundResource(SoundManager.getInstance(AnimatedActivity.this).isPlaying() ? R.drawable.beautifultheme_btn_sound : R.drawable.beautifultheme_btn_no_sound);
+                }
+                return true;
+            }
+        });
     }
 
     /**

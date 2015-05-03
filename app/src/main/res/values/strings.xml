@@ -22,7 +22,7 @@
     <string name="apero_reussi"><![CDATA[5 idées pour un <bold>Apéro réussi</bold>]]></string>
     <string name="fruits_exotiques"><![CDATA[Découverte de <bold>nouveaux fruits exotiques</bold> à tester]]></string>
     <string name="smoothies_gourmands"><![CDATA[Recettes de <bold>smoothies gourmands</bold>]]></string>
-    <string name="detox_water"><![CDATA[Comment faire sa <bold>detox water</bold>]]></string>
+    <string name="detox_water"><![CDATA[Comment faire sa <bold>detox water</bold> ?]]></string>
 
     <string name="salade_tropicale_html">file:///android_asset/html/fr/gourmandise/salade_tropicale.html</string>
     <string name="cocktails_raffraichissants_html">file:///android_asset/html/fr/gourmandise/cocktails_raffraichissants.html</string>
@@ -43,15 +43,15 @@
     <string name="bouche_a_croquer_html">file:///android_asset/html/fr/beaute/bouche_a_croquer.html</string>
     <string name="vernis_de_lete_html">file:///android_asset/html/fr/beaute/vernis_de_lete.html</string>
 
-    <string name="entretenir_cheveux"><![CDATA[Comment <bold>entretenir</bold> ses <bold>cheveux</bold>]]></string>
+    <string name="entretenir_cheveux"><![CDATA[Comment <bold>entretenir</bold> ses <bold>cheveux</bold> ?]]></string>
     <string name="coupes_a_la_mode"><![CDATA[Les <bold>coupes</bold> à la <bold>mode</bold>]]></string>
     <string name="nature_soin_cheveux"><![CDATA[La nature <bold>prend soin</bold> de tes <bold>cheveux</bold>]]></string>
     <string name="cheveux_plages"><![CDATA[Les <bold>cheveux</bold> à la <bold>plage</bold>]]></string>
-    <string name="eclaircir_naturel"><![CDATA[<bold>Éclaircir</bold> ses <bold>cheveux</bold> naturellement]]></string>
-    <string name="couleur_du_moment"><![CDATA[<bold>Couleurs</bold> du moment]]></string>
-    <string name="coiffures_de_lete"><![CDATA[<bold>Coiffures</bold> de l’été]]></string>
+    <string name="eclaircir_naturel"><![CDATA[Comment <bold>Éclaircir</bold> ses <bold>cheveux</bold> naturellement ?]]></string>
+    <string name="couleur_du_moment"><![CDATA[Les <bold>Couleurs</bold> du moment]]></string>
+    <string name="coiffures_de_lete"><![CDATA[Les <bold>Coiffures</bold> de l’été]]></string>
     <string name="effet_plage"><![CDATA[Cheveux bouclés <bold>effet plage</bold>]]></string>
-    <string name="chapeaux_tendances"><![CDATA[<bold>Chapeaux</bold> tendances 2015]]></string>
+    <string name="chapeaux_tendances"><![CDATA[Les <bold>Chapeaux</bold> tendances 2015]]></string>
 
     <string name="entretenir_cheveux_html">file:///android_asset/html/fr/coiffure/entretenir_cheveux.html</string>
     <string name="coupes_a_la_mode_html">file:///android_asset/html/fr/coiffure/coupes_a_la_mode.html</string>
@@ -63,13 +63,13 @@
     <string name="effet_plage_html">file:///android_asset/html/fr/coiffure/effet_plage.html</string>
     <string name="chapeaux_tendances_html">file:///android_asset/html/fr/coiffure/chapeaux_tendances.html</string>
 
-    <string name="couleur_mode"><![CDATA[<bold>Couleurs</bold> à la mode cet été]]></string>
-    <string name="textures_moment"><![CDATA[<bold>Textures</bold> du moment]]></string>
+    <string name="couleur_mode"><![CDATA[Les <bold>Couleurs</bold> à la mode cet été]]></string>
+    <string name="textures_moment"><![CDATA[Les <bold>Textures</bold> du moment]]></string>
     <string name="voyage_tropical"><![CDATA[Voyage <bold>Tropical</bold>]]></string>
     <string name="kimono"><![CDATA[Le <bold>Kimono</bold>]]></string>
     <string name="accessoires"><![CDATA[Les <bold>accessoires</bold> du moment]]></string>
-    <string name="sac_a_main"><![CDATA[<bold>Sac à main</bold>]]></string>
-    <string name="chaussures"><![CDATA[<bold>Chaussures</bold>]]></string>
+    <string name="sac_a_main"><![CDATA[Les <bold>Sacs à main</bold>]]></string>
+    <string name="chaussures"><![CDATA[Les <bold>Chaussures</bold>]]></string>
 
     <string name="couleur_mode_html">file:///android_asset/html/fr/mode/couleur_mode.html</string>
     <string name="textures_moment_html">file:///android_asset/html/fr/mode/textures_moment.html</string>
@@ -79,10 +79,10 @@
     <string name="sac_a_main_html">file:///android_asset/html/fr/mode/sac_a_main.html</string>
     <string name="chaussures_html">file:///android_asset/html/fr/mode/chaussures.html</string>
 
-    <string name="expos"><![CDATA[<bold>Expos</bold> à ne pas louper]]></string>
-    <string name="bijoux"><![CDATA[<bold>Bijoux</bold> DIY]]></string>
+    <string name="expos"><![CDATA[Les <bold>Expos</bold> à ne pas louper]]></string>
+    <string name="bijoux"><![CDATA[Les <bold>Bijoux</bold> DIY]]></string>
     <string name="activites_insolites"><![CDATA[Activités <bold>insolites</bold>]]></string>
-    <string name="danses"><![CDATA[<bold>Danses</bold> pour un été hot]]></string>
+    <string name="danses"><![CDATA[Les <bold>Danses</bold> pour un été hot]]></string>
     <string name="sports_solo"><![CDATA[Nouveaux sports <bold>solo</bold>]]></string>
     <string name="sports_multi"><![CDATA[Nouveaux sports <bold>à plusieurs</bold>]]></string>
     <string name="nuits_de_reves"><![CDATA[Nuits de <bold>rêve</bold]]></string>

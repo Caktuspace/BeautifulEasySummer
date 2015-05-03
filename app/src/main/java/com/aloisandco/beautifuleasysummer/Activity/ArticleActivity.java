@@ -5,11 +5,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
+import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.aloisandco.beautifuleasysummer.Enum.AnimType;
@@ -35,6 +37,7 @@ public class ArticleActivity extends AnimatedActivity {
     private TextView mTitleTextView;
     private WebView mArticleView;
     private CheckBox mCheckBox;
+    private ImageButton mBackButton;
 
     int mArticleId;
     int mFavoritePosition = -1;
@@ -46,11 +49,13 @@ public class ArticleActivity extends AnimatedActivity {
         mTitleTextView = (TextView) findViewById(R.id.title);
         mArticleView = (WebView) findViewById(R.id.articleView);
         mCheckBox = (CheckBox) findViewById(R.id.checkbox);
+        mBackButton = (ImageButton) findViewById(R.id.back_button);
 
         Bundle bundle = getIntent().getExtras();
 
         initTitleAndWebview(bundle);
         initInterstitialAd();
+        initBackButton();
 
         handleCheckBoxBehavior();
     }
@@ -100,6 +105,21 @@ public class ArticleActivity extends AnimatedActivity {
     }
 
     /**
+     * Return to the previous screen when touched
+     */
+    private void initBackButton() {
+        mBackButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == (MotionEvent.ACTION_UP)) {
+                    onBackPressed();
+                }
+                return true;
+            }
+        });
+    }
+
+    /**
      * Add and remove article from the favorite when the sun is pressed
      */
     public void handleCheckBoxBehavior() {
@@ -130,15 +150,25 @@ public class ArticleActivity extends AnimatedActivity {
      */
     @Override
     public void addAnimatedViews() {
-        AnimatedView backgroundAnimatedView = new AnimatedView(findViewById(R.id.tropical_background), 0, 0, AnimType.ALPHA, 2);
-        backgroundAnimatedView.setStartDelay(0);
-        backgroundAnimatedView.setEndDelay(Constants.ANIMATION_DURATION / 2);
+        AnimatedView frameAnimatedView = new AnimatedView(findViewById(R.id.picture_frame), 0, 0, AnimType.ALPHA, 2);
+        frameAnimatedView.setStartDelay(0);
+        frameAnimatedView.setEndDelay(Constants.ANIMATION_DURATION / 2);
+
+        AnimatedView tropicalBackgroundAnimatedView = new AnimatedView(findViewById(R.id.tropical_background), 0, 0, AnimType.ALPHA, 2);
+        tropicalBackgroundAnimatedView.setStartDelay(0);
+        tropicalBackgroundAnimatedView.setEndDelay(Constants.ANIMATION_DURATION / 2);
+
+        AnimatedView backButtonAnimatedView = new AnimatedView(findViewById(R.id.back_button), 0, 0, AnimType.ALPHA, 2);
+        backButtonAnimatedView.setStartDelay(0);
+        backButtonAnimatedView.setEndDelay(Constants.ANIMATION_DURATION / 2);
 
         AnimatedView articleAnimatedView = new AnimatedView(findViewById(R.id.articleView), 0, 0, AnimType.RESIZE_HEIGHT, 2);
         articleAnimatedView.setStartDelay(Constants.ANIMATION_DURATION / 2);
         articleAnimatedView.setEndDelay(0);
 
-        animatedViews.add(backgroundAnimatedView);
+        animatedViews.add(frameAnimatedView);
+        animatedViews.add(tropicalBackgroundAnimatedView);
+        animatedViews.add(backButtonAnimatedView);
         animatedViews.add(articleAnimatedView);
 
         // request interstitial after ANIMATION_DURATION
