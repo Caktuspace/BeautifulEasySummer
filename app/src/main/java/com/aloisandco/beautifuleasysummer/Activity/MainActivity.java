@@ -9,12 +9,15 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.webkit.WebView;
 import android.widget.ImageView;
 
+import com.aloisandco.beautifuleasysummer.Utils.Manager.AnalyticsManager;
 import com.aloisandco.beautifuleasysummer.View.AnimatedView;
 import com.aloisandco.beautifuleasysummer.R;
 import com.aloisandco.beautifuleasysummer.Utils.Manager.BitmapCacheManager;
 import com.aloisandco.beautifuleasysummer.Utils.Constants;
 import com.aloisandco.beautifuleasysummer.Utils.Manager.FontManager;
 import com.aloisandco.beautifuleasysummer.Utils.UI.ImageViewUtils;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.util.ArrayList;
 
@@ -31,6 +34,10 @@ public class MainActivity extends Activity {
         // load a webview because the first one is always slow
         WebView webView = (WebView) findViewById(R.id.webview);
         webView.loadUrl(getString(R.string.salade_tropicale_html));
+
+        Tracker t = AnalyticsManager.getTracker(AnalyticsManager.TrackerName.APP_TRACKER, this);
+// Enable Advertising Features.
+        t.enableAdvertisingIdCollection(true);
 
         final ImageView circleView = (ImageView) findViewById(R.id.circle);
         if (savedInstanceState == null) {

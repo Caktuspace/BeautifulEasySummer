@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.aloisandco.beautifuleasysummer.Enum.AnimType;
+import com.aloisandco.beautifuleasysummer.Utils.Manager.AnalyticsManager;
 import com.aloisandco.beautifuleasysummer.View.AnimatedView;
 import com.aloisandco.beautifuleasysummer.R;
 import com.aloisandco.beautifuleasysummer.Utils.Manager.ActivityTransitionManager;
@@ -26,6 +27,8 @@ import com.aloisandco.beautifuleasysummer.Utils.HTML.HtmlTagHandler;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -39,6 +42,7 @@ public class ArticleActivity extends AnimatedActivity {
     private WebView mArticleView;
     private CheckBox mCheckBox;
 
+    String title;
     int mArticleId;
     int mFavoritePosition = -1;
 
@@ -65,7 +69,7 @@ public class ArticleActivity extends AnimatedActivity {
     public void initTitleAndWebview(Bundle bundle) {
         mArticleId = bundle.getInt(Constants.PACKAGE_NAME + ".itemResourceId");
         TypedArray itemArray = getResources().obtainTypedArray(mArticleId);
-        String title = itemArray.getString(0);
+        title = itemArray.getString(0);
         String articleUrl = itemArray.getString(1);
         itemArray.recycle();
 
@@ -78,6 +82,11 @@ public class ArticleActivity extends AnimatedActivity {
         final WebSettings webSettings = mArticleView.getSettings();
         webSettings.setDefaultTextEncodingName("utf-8");
         webSettings.setDefaultFontSize(18);
+
+        Tracker tracker = AnalyticsManager.getTracker(AnalyticsManager.TrackerName.APP_TRACKER, this);
+        tracker.send(new HitBuilders.AppViewBuilder()
+                .setCustomDimension(1, title)
+                .build());
     }
 
     /**
@@ -119,9 +128,17 @@ public class ArticleActivity extends AnimatedActivity {
                     if (mFavoritePosition != -1) {
                         FavoriteManager.addArticleToFavoriteAtPosition(mArticleId, mFavoritePosition, ArticleActivity.this);
                     } else {
+                        Tracker tracker = AnalyticsManager.getTracker(AnalyticsManager.TrackerName.APP_TRACKER, ArticleActivity.this);
+                        tracker.send(new HitBuilders.AppViewBuilder()
+                                .setCustomDimension(2, title)
+                                .build());
                         FavoriteManager.addArticleToFavorite(mArticleId, ArticleActivity.this);
                     }
                 } else {
+                    Tracker tracker = AnalyticsManager.getTracker(AnalyticsManager.TrackerName.APP_TRACKER, ArticleActivity.this);
+                    tracker.send(new HitBuilders.AppViewBuilder()
+                            .setCustomDimension(3, title)
+                            .build());
                     FavoriteManager.removeArticleFromFavorite(mArticleId, ArticleActivity.this);
                 }
             }
@@ -196,7 +213,6 @@ public class ArticleActivity extends AnimatedActivity {
      */
     private void requestNewInterstitial() {
         final AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("157ADC68E31F59407ADA80B42A0F1D73")
                 .build();
 
         runOnUiThread(new Runnable() {

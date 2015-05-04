@@ -18,9 +18,12 @@ import android.widget.TextView;
 
 import com.aloisandco.beautifuleasysummer.R;
 import com.aloisandco.beautifuleasysummer.Utils.Constants;
+import com.aloisandco.beautifuleasysummer.Utils.Manager.AnalyticsManager;
 import com.aloisandco.beautifuleasysummer.Utils.Manager.FavoriteManager;
 import com.aloisandco.beautifuleasysummer.Utils.Manager.FontManager;
 import com.aloisandco.beautifuleasysummer.Utils.HTML.HtmlTagHandler;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 /**
  * Created by quentinmetzler on 22/03/15.
@@ -79,7 +82,7 @@ public class MenuListAdapter extends BaseAdapter {
         }
         TypedArray itemArray = mContext.getResources().obtainTypedArray(articleId);
 
-        String string =  itemArray.getString(0);
+        final String string =  itemArray.getString(0);
         itemArray.recycle();
 
         if (convertView == null || ((ViewHolder)convertView.getTag()).needInflate) {  // if it's not recycled, initialize some attributes
@@ -98,8 +101,16 @@ public class MenuListAdapter extends BaseAdapter {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    Tracker tracker = AnalyticsManager.getTracker(AnalyticsManager.TrackerName.APP_TRACKER, mContext);
+                    tracker.send(new HitBuilders.AppViewBuilder()
+                            .setCustomDimension(2, string)
+                            .build());
                     FavoriteManager.addArticleToFavorite(articleId, mContext);
                 } else {
+                    Tracker tracker = AnalyticsManager.getTracker(AnalyticsManager.TrackerName.APP_TRACKER, mContext);
+                    tracker.send(new HitBuilders.AppViewBuilder()
+                            .setCustomDimension(3, string)
+                            .build());
                     if (mIsFavorite) {
                         deleteCell(linearLayout, articleId);
                     } else {
