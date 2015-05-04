@@ -4,3 +4,9 @@
 /.idea/libraries
 .DS_Store
 /build
+
+*.apk
+
+*.iml
+
+app/app.iml
